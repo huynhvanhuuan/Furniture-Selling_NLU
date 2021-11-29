@@ -1,0 +1,144 @@
+.card {
+    border-radius: 10px;
+    background-color: #fff;
+    width: calc(25% - 3rem);
+    margin-left: 3rem;
+    margin-bottom: 1rem;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    transform: translateY(-3px);
+}
+
+.card-sale {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    border-radius: 2px;
+    padding: 0.5rem 1rem;
+    position: absolute;
+    top: 10px;
+    left: -1.1rem;
+}
+
+.card-sale::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 4px;
+    border-top: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-bottom: 8px solid orangered;
+    border-right: 8px solid transparent;
+    transform: rotate(45deg);
+}
+
+.card-sale .percent-sale {
+    color: var(--text-white);
+    font-size: 1.2rem;
+}
+
+.card-img {
+    width: 100%;
+}
+
+.card-img-item {
+    width: 100%;
+    height: 200px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.6rem;
+}
+
+.card-title p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-price {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.promotion-price {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    font-weight: bold;
+    padding-right: 1rem;
+}
+
+.original-price {
+    color: var(--text-grey);
+    font-size: 1.6rem;
+    text-decoration: line-through;
+}
+
+.card-detail {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-rate {
+    position: relative;
+    height: 3rem;
+}
+
+.card-rate ion-icon {
+    position: absolute;
+    font-size: 2rem;
+    color: var(--secondary-color);
+}
+
+.card-rate ion-icon:nth-child(2) {
+    opacity: 0.2;
+}
+
+.card-rate span {
+    position: absolute;
+    top: -2px;
+    left: 2.5rem;
+    font-size: 1.6rem;
+    color: var(--secondary-color);
+}
+
+.card-wistlist {
+    color: var(--primary-color);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.btn-add,
+.bnt-add:link,
+.btn-add:visited {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--text-white);
+    font-size: 2rem;
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50%);
+    transition: all 0.2s ease-in-out;
+}
+
+.card:hover .btn-add {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}

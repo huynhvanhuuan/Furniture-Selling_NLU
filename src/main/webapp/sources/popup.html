@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <title>Home</title>
+    <link rel="stylesheet" href="css/root.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/popup.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <button id="btnLogin">Login</button>
+    <button id="btnRegistration">Registration</button>
+    <div id="signin" class="modal">
+        <div class="modal-content">
+            <div class="left"></div>
+            <div class="right">
+                <img src="images/logo.jpg" alt="Logo"/>
+                <span class="close">&times;</span>
+                <h4 class="title">Welcome Back</h4>
+                <button id="signin-facebook"><i class="fab fa-facebook-f"></i> Sign in with Facebook</button>
+                <button id="signin-google"><i class="fab fa-google"></i></button>
+                <br>
+                <span class="d-flex justify-content-center pt-12 pb-16">Or</span>
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <label for="signin-email" class="form-label">Your email</label>
+                        <input type="text" id="signin-email" name="email" placeholder="ex: ankoi0310@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-password" class="form-label">Password</label>
+                        <span class="forgot-password">Forgot password?</span>
+                        <input type="password" id="signin-password" name="password">
+                        <span class="far fa-eye-slash show"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" id="signin-submit" value="Sign in">
+                    </div>
+                </form>
+                <div class="register">
+                    <span>New member? <a href="#" onclick="signup();">Register Now</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="signup" class="modal">
+        <div class="modal-content">
+            <div class="left"></div>
+            <div class="right">
+                <img src="images/logo.jpg" alt="Logo"/>
+                <span class="close">&times;</span>
+                <h4 class="title">Hello, Friend!!!</h4>
+                <button id="signup-facebook"><i class="fab fa-facebook-f"></i> Sign up with Facebook</button>
+                <button id="signup-google"><i class="fab fa-google"></i></button>
+                <br>
+                <span class="d-flex justify-content-center pt-12">Or</span>
+                <form action="" method="POST">
+                    <div class="form-group">
+                        <label for="signup-username" class="form-label">Username</label>
+                        <input type="text" id="signup-username" name="username" placeholder="ex: ankoi0310">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email" class="form-label">Your email</label>
+                        <input type="text" id="signup-email" name="email" placeholder="ex: ankoi0310@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password" class="form-label">Password</label>
+                        <input type="password" id="signup-password" name="password" placeholder="6+ characters">
+                        <span class="far fa-eye-slash show"></span>
+                    </div>
+                    <div class="form-check-group">
+                        <input type="checkbox" id="accept" name="accept">
+                        <span class="checkbox-content">By submitting this form you agree to our Terms and Conditions</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" id="signup-submit" value="Create Account">
+                    </div>
+                </form>
+                <div class="signin">
+                    <span>Already a member? <a href="#" onclick="return signin();">Sign in</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/popup.js"></script>
+</body>
+</html>
