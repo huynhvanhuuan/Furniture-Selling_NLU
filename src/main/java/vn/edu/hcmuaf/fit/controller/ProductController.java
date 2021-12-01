@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.entity.Product;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -15,6 +17,7 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println(request.getParameter("id"));
         String action = request.getPathInfo();
         if (action == null) {
             show(request, response);
@@ -55,7 +58,15 @@ public class ProductController extends HttpServlet {
     }
 
     private void show(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/product.jsp");
-        dispatcher.forward(request, response);
+        String id = request.getParameter("id");
+        if (id != null) {
+            Product product = new Product();
+            request.setAttribute("product", product);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/product-detail.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/product.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 }
