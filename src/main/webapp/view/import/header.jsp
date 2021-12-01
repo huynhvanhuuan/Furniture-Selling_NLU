@@ -24,7 +24,7 @@
                         <a href="#"><ion-icon name="heart-outline"></ion-icon></a>
                     </li>
                     <li class="header-item">
-                        <a href="#" ><ion-icon name="cart-outline"></ion-icon><span class="card-count">0</span></a>
+                        <a href="#" ><ion-icon name="cart-outline"></ion-icon><span class="cart-count">0</span></a>
                     </li>
                     <li class="header-item"><a href="#">Đăng nhập</a></li>
                     <li class="header-item"><a href="#">Đăng ký</a></li>
