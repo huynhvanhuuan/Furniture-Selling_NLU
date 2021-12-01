@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/base.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/header.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/footer.css" />
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/products.css" />
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/card.css" />
     <title>Home - Furniture Selling</title>
 </head>
 <body>
 <c:import url="import/header.jsp"/>
+<c:import url="import/footer.jsp"/>
+<c:import url="import/script.jsp"/>
 </body>
 </html>
