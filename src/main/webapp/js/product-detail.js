@@ -25,23 +25,18 @@ let quantity = document.querySelector('.quantity-count')
 
 btnMinus.onclick = () => {
     if (quantity.value > 1) {
-        quantity.setAttribute('value', +quantity.value - 1)
+        quantity.setAttribute('value', (quantity.value - 1) + '');
     }
 }
 
 btnAdd.onclick = () => {
-    quantity.setAttribute('value', +quantity.value + 1)
+    quantity.setAttribute('value', quantity.value + 1)
 }
 
 const btnAddCart = document.querySelector('.btn-add-to-cart')
 
 const cartCount = document.querySelector('.card-count')
 
-if (+cartCount.textContent < 1) cartCount.style.display = 'none'
-else cartCount.style.display = 'flex'
-
 btnAddCart.onclick = () => {
-    cartCount.innerHTML = +cartCount.textContent + 1
-    if (+cartCount.textContent < 1) cartCount.style.display = 'none'
-    else cartCount.style.display = 'flex'
+    cartCount.innerHTML = cartCount.value + quantity.value;
 }
