@@ -19,24 +19,28 @@ productImgs.forEach(img => {
     }
 })
 
-const btnAdd = document.querySelector('.btn-add')
-const btnMinus = document.querySelector('.btn-minus')
+let btnAdd = document.querySelector('.btn-add')
+let btnMinus = document.querySelector('.btn-minus')
 let quantity = document.querySelector('.quantity-count')
 
 btnMinus.onclick = () => {
     if (quantity.value > 1) {
-        quantity.setAttribute('value', (quantity.value - 1) + '');
+        quantity.setAttribute('value', +quantity.value - 1);
     }
 }
 
 btnAdd.onclick = () => {
-    quantity.setAttribute('value', quantity.value + 1)
+    quantity.setAttribute('value', +quantity.value + 1)
 }
 
-const btnAddCart = document.querySelector('.btn-add-to-cart')
+let btnAddCart = document.querySelector('.btn-add-to-cart')
 
-const cartCount = document.querySelector('.card-count')
+let cartCount = document.querySelector('.cart-count')
 
 btnAddCart.onclick = () => {
-    cartCount.innerHTML = cartCount.value + quantity.value;
+    if (+cartCount.textContent + +quantity.value > 99 || cartCount.textContent === "99+") {
+        cartCount.innerHTML = "99+";
+    } else {
+        cartCount.innerHTML = +cartCount.textContent + +quantity.value;
+    }
 }
