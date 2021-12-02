@@ -61,4 +61,14 @@
         <url-pattern>/about</url-pattern>
         <url-pattern>/about/</url-pattern>
     </servlet-mapping>
+
+    <!-- Admin mapping -->
+    <servlet>
+        <servlet-name>admin</servlet-name>
+        <servlet-class>vn.edu.hcmuaf.fit.controller.AdminController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>admin</servlet-name>
+        <url-pattern>/admin/</url-pattern>
+    </servlet-mapping>
 </web-app>
