@@ -17,28 +17,23 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getParameter("id"));
         String action = request.getPathInfo();
-        if (action == null) {
-            show(request, response);
-        } else {
-            switch (action) {
-                case "/create":
-                    create(request, response);
-                    break;
-                case "/update":
-                    update(request, response);
-                    break;
-                case "/submit":
-                    submit(request, response);
-                    break;
-                case "/delete":
-                    delete(request, response);
-                    break;
-                default:
-                    read(request, response);
-                    break;
-            }
+        switch (action) {
+            case "/create":
+                create(request, response);
+                break;
+            case "/update":
+                update(request, response);
+                break;
+            case "/submit":
+                submit(request, response);
+                break;
+            case "/delete":
+                delete(request, response);
+                break;
+            default:
+                read(request, response);
+                break;
         }
     }
 
@@ -55,18 +50,5 @@ public class ProductController extends HttpServlet {
     }
 
     private void read(HttpServletRequest request, HttpServletResponse response) {
-    }
-
-    private void show(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        if (id != null) {
-            Product product = new Product();
-            request.setAttribute("product", product);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/product-detail.jsp");
-            dispatcher.forward(request, response);
-        } else {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/view/product.jsp");
-            dispatcher.forward(request, response);
-        }
     }
 }

@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: Huỳnh Văn Hữu Ân
-  Date: 11/29/2021
-  Time: 6:53 PM
+  Date: 12/2/2021
+  Time: 9:48 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>500 Internal Server Error</title>
 </head>
 <body>
 

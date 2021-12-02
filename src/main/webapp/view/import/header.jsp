@@ -10,6 +10,7 @@
                 <ul class="navigation-list">
                     <li class="navigation-item"><a href="<%=request.getContextPath()%>/home">Trang chủ</a></li>
                     <li class="navigation-item"><a href="<%=request.getContextPath()%>/product">Sản phẩm</a></li>
+                    <li class="navigation-item"><a href="<%=request.getContextPath()%>/contact">Liên hệ</a></li>
                     <li class="navigation-item"><a href="#">Mới</a></li>
                     <li class="navigation-item"><a href="#">Khuyến mãi</a></li>
                     <li class="navigation-item"><a href="#">Blog</a></li>
@@ -26,8 +27,8 @@
                     <li class="header-item">
                         <a href="#" ><ion-icon name="cart-outline"></ion-icon><span class="cart-count">0</span></a>
                     </li>
-                    <li class="header-item"><a href="#">Đăng nhập</a></li>
-                    <li class="header-item"><a href="#">Đăng ký</a></li>
+                    <li class="header-item"><a href="<%=request.getContextPath()%>/signin">Đăng nhập</a></li>
+                    <li class="header-item"><a href="<%=request.getContextPath()%>/signup">Đăng ký</a></li>
                 </ul>
             </div>
         </div>

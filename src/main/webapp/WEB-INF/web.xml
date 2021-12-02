@@ -6,10 +6,23 @@
     <welcome-file-list>
         <welcome-file>view/index.jsp</welcome-file>
     </welcome-file-list>
+
+    <!-- Handle 404 error-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/view/404.jsp</location>
+    </error-page>
+
+    <!-- Handle 500 error-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/view/500.jsp</location>
+    </error-page>
+    
     <!-- Home mapping -->
     <servlet>
         <servlet-name>home</servlet-name>
-        <servlet-class>vn.edu.hcmuaf.fit.controller.ProductController</servlet-class>
+        <servlet-class>vn.edu.hcmuaf.fit.controller.HomeController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>home</servlet-name>
@@ -19,11 +32,33 @@
     <!-- Product mapping -->
     <servlet>
         <servlet-name>product</servlet-name>
-        <servlet-class>vn.edu.hcmuaf.fit.controller.ProductController</servlet-class>
+        <servlet-class>vn.edu.hcmuaf.fit.controller.HomeController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>product</servlet-name>
-        <url-pattern>/product/</url-pattern>
         <url-pattern>/product</url-pattern>
+        <url-pattern>/product/</url-pattern>
+    </servlet-mapping>
+
+    <!-- Contact mapping -->
+    <servlet>
+        <servlet-name>contact</servlet-name>
+        <servlet-class>vn.edu.hcmuaf.fit.controller.HomeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>contact</servlet-name>
+        <url-pattern>/contact</url-pattern>
+        <url-pattern>/contact/</url-pattern>
+    </servlet-mapping>
+
+    <!-- About mapping -->
+    <servlet>
+        <servlet-name>about</servlet-name>
+        <servlet-class>vn.edu.hcmuaf.fit.controller.HomeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>about</servlet-name>
+        <url-pattern>/about</url-pattern>
+        <url-pattern>/about/</url-pattern>
     </servlet-mapping>
 </web-app>
