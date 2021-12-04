@@ -49,6 +49,8 @@ public class ProductController extends HttpServlet {
     private void delete(HttpServletRequest request, HttpServletResponse response) {
     }
 
-    private void read(HttpServletRequest request, HttpServletResponse response) {
+    private void read(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("title", "PRODUCT <i class='fas fa-box-open text-success'></i>");
+        request.getRequestDispatcher("/view/product/list.jsp").forward(request, response);
     }
 }

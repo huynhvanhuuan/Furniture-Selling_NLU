@@ -2,16 +2,15 @@
 <%--
   Created by IntelliJ IDEA.
   User: Huỳnh Văn Hữu Ân
-  Date: 11/29/2021
-  Time: 6:54 PM
+  Date: 12/4/2021
+  Time: 11:14 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <c:import url="../import/admin/head.jsp"/>
-    <title>AdminLTE 3 | Dashboard</title>
+    <title>Admin | Product Image</title>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

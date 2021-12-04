@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <c:import url="import/signin/head.jsp"/>
+    <c:import url="../import/admin/head.jsp"/>
     <title>AdminLTE 3 | Log in</title>
 </head>
 <body class="hold-transition login-page">
@@ -22,17 +22,42 @@
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>
-            <form action="<%=request.getContextPath()%>/admin/submit" method="POST">
+            <form class="needs-validation" action="<%=request.getContextPath()%>/admin/submit" method="POST" novalidate>
+
                 <div class="input-group mb-3">
-                    <input type="email" class="form-control" placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
-                        </div>
-                    </div>
+                    <c:choose>
+                        <c:when test="${sessionScope.get('email') == null}">
+                            <input type="email" name="email" class="form-control" placeholder="Email">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:when test="${sessionScope.get('email') != null}">
+                            <input type="email" name="email" class="form-control is-invalid" placeholder="Email">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                <c:out value="${sessionScope.get('email')}"/>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <input type="email" name="email" class="form-control is-valid" placeholder="Email">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                            <div class="valid-feedback">Valid!</div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password">
+                    <input type="password" name="password" class="form-control" placeholder="Password">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -73,6 +98,6 @@
     </div>
 </div>
 <!-- /.login-box -->
-<c:import url="import/signin/script.jsp"/>
+<c:import url="../import/admin/script.jsp"/>
 </body>
 </html>
