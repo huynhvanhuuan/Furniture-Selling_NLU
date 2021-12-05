@@ -72,4 +72,18 @@
         <url-pattern>/admin</url-pattern>
         <url-pattern>/admin/</url-pattern>
     </servlet-mapping>
+
+    <!-- Database configuration -->
+    <context-param>
+        <param-name>uid</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pwd</param-name>
+        <param-value/>
+    </context-param>
+    <context-param>
+        <param-name>database</param-name>
+        <param-value>furniture_selling</param-value>
+    </context-param>
 </web-app>
