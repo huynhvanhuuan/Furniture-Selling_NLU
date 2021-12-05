@@ -1,6 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
-import vn.edu.hcmuaf.fit.entity.Product;
+import vn.edu.hcmuaf.fit.model.Product;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

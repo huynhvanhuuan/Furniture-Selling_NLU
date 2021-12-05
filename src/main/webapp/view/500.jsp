@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Huỳnh Văn Hữu Ân
@@ -11,6 +12,7 @@
     <title>500 Internal Server Error</title>
 </head>
 <body>
-
+    <c:out value="${pageContext.exception.message}"/>
+    <c:out value="${param.ex}"/>
 </body>
 </html>
