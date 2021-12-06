@@ -1,12 +1,8 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.database.DbContext;
-import vn.edu.hcmuaf.fit.database.QUERY;
 import vn.edu.hcmuaf.fit.model.Product;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements IGeneralDAO<Product> {
@@ -41,12 +37,12 @@ public class ProductDAO implements IGeneralDAO<Product> {
     }
 
     @Override
-    public void save(Product item) {
-
+    public boolean save(Product item) {
+        return false;
     }
 
     @Override
-    public void delete(int id) {
-
+    public boolean delete(int id) {
+        return false;
     }
 }

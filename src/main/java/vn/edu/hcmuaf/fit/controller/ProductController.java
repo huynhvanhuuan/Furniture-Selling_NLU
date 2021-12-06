@@ -61,7 +61,7 @@ public class ProductController extends HttpServlet {
 
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /* Set title */
-        request.setAttribute("title", "PRODUCT <i class='fas fa-box-open text-success'></i>");
+        request.setAttribute("title", "PRODUCT MANAGEMENT");
 
         /* Database */
         List<Product> products = dao.getList();

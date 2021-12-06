@@ -32,30 +32,37 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">DataTable with default features</h3>
-                            </div>
-                            <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
+                                <table id="category" class="table table-bordered table-striped">
                                     <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Name</th>
-                                        <th></th>
+                                    <tr class="text-center">
+                                        <th class="align-middle">No.</th>
+                                        <th class="align-middle">SKU</th>
+                                        <th class="align-middle">NAME</th>
+                                        <th>
+                                            <span class="d-none">ACTIONS</span>
+                                            <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#create-modal">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-<%--                                        <c:forEach items="${categories}" var="category">--%>
-<%--                                            <td>${category.id}</td>--%>
-<%--                                            <td>${category.name}</td>--%>
-<%--                                            <td></td>--%>
-<%--                                        </c:forEach>--%>
-                                    </tr>
+                                    <jsp:useBean id="categories" scope="request" type="java.util.List"/>
+                                    <c:forEach items="${categories}" var="category" varStatus="i">
+                                        <tr>
+                                            <td class="text-center align-middle"><c:out value="${i.index + 1}"/></td>
+                                            <td class="text-center align-middle"><c:out value="${category.sku}"/></td>
+                                            <td class="align-middle"><c:out value="${category.name}"/></td>
+                                            <td class="d-flex justify-content-center">
+                                                <input type="hidden" name="id" value="<c:out value="${category.id}"/>"/>
+                                                <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
+                                                        data-target="#update-modal"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-danger d-block w-100 ml-1 delete" data-toggle="modal"
+                                                        data-target="#delete-modal"><i class="fas fa-trash-alt"></i></button>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -64,6 +71,91 @@
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
+            <%-- Create modal --%>
+            <div class="modal fade" id="create-modal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content card card-success">
+                        <div class="modal-header card-header">
+                            <h5 class="modal-title font-weight-bolder">Create</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <form action="<%=request.getContextPath()%>/category/create" method="POST" id="create" novalidate="novalidate">
+                            <div class="modal-body card-body">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" placeholder="Enter category"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-outline-success">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <%-- Update modal --%>
+            <div class="modal fade" id="update-modal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content card card-warning">
+                        <div class="modal-header card-header">
+                            <h5 class="modal-title font-weight-bolder">Update</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <form action="<%=request.getContextPath()%>/category/update" method="POST" id="update" novalidate="novalidate">
+                            <input type="hidden" name="id"/>
+                            <div class="modal-body card-body">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" placeholder="Enter category"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-outline-warning">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <%-- Delete modal --%>
+            <div class="modal fade" id="delete-modal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content card card-danger">
+                        <div class="modal-header card-header">
+                            <h5 class="modal-title font-weight-bolder">Alert</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <form action="<%=request.getContextPath()%>/category/delete" method="POST">
+                            <input type="hidden" name="id"/>
+                            <div class="modal-body card-body">
+                                <div class="form-group">
+                                    <span>Are you sure you want to delete?</span>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-outline-danger">Sure</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
         </section>
         <!-- /.content -->
     </div>
@@ -80,18 +172,79 @@
 <!-- Page specific script -->
 <script>
     jQuery(function () {
-        jQuery("#example1").DataTable({
+        jQuery("#category").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        jQuery('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            "columnDefs": [{
+                "targets"  : 3,
+                "orderable": false,
+                "width": "15%"
+            }]
+        }).buttons().container().appendTo('#category_wrapper .col-md-6:eq(0)');
+        <%--$.validator.setDefaults({--%>
+        <%--    submitHandler: function () {--%>
+        <%--        window.location.href = "<%=request.getContextPath()%>/category/submit";--%>
+        <%--    }--%>
+        <%--});--%>
+        jQuery('#create').validate({
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            messages: {
+                name: "Please enter category name"
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                jQuery(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                jQuery(element).removeClass('is-invalid');
+            }
+        });
+        jQuery('#update').validate({
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            messages: {
+                name: "Please enter category name"
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                jQuery(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                jQuery(element).removeClass('is-invalid');
+            }
+        });
+        jQuery('.delete').on('click', function() {
+           let id = jQuery(this).parent().find('input[name = "id"]').val();
+           jQuery('#delete-modal input[name = "id"]').val(id);
+        });
+        jQuery('.update').on('click', function() {
+            let id = jQuery(this).parent().find('input[name = "id"]').val();
+            $.ajax({
+                type: "GET",
+                url: '<%=request.getContextPath()%>/category/get',
+                data: { id: id },
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    jQuery('#update-modal input[name = "id"]').val(data.id);
+                    jQuery('#update-modal input[name = "name"]').val(data.name);
+                }
+            })
         });
     });
 </script>

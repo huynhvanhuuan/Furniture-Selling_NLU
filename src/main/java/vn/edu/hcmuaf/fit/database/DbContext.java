@@ -21,7 +21,6 @@ public class DbContext {
             e.printStackTrace();
             return false;
         }
-
         return connection != null;
     }
 
@@ -61,8 +60,8 @@ public class DbContext {
 
     public ResultSet executeQuery(String query) {
         try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            return statement.executeQuery();
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

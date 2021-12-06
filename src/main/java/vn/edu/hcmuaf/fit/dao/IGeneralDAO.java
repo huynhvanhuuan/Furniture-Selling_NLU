@@ -5,6 +5,6 @@ import java.util.List;
 public interface IGeneralDAO<T> {
     List<T> getList();
     T get(int id);
-    void save(T item);
-    void delete(int id);
+    boolean save(T item);
+    boolean delete(int id);
 }

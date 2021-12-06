@@ -42,17 +42,37 @@
                 <li class="nav-item">
                     <a href="<%=request.getContextPath()%>/product/list" class="nav-link">
                         <i class="nav-icon fas fa-box-open"></i>
-                        <p>
-                            Product
-                        </p>
+                        <p>Product</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="<%=request.getContextPath()%>/category/list" class="nav-link">
-                        <i class="nav-icon fas fa-box-open"></i>
-                        <p>
-                            Category
-                        </p>
+                        <i class="nav-icon fas fa-tags"></i>
+                        <p>Category</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<%=request.getContextPath()%>/material/list" class="nav-link">
+                        <i class="nav-icon fas fa-bezier-curve"></i>
+                        <p>Material</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<%=request.getContextPath()%>/size/list" class="nav-link">
+                        <i class="nav-icon fas fa-expand-arrows-alt"></i>
+                        <p>Size</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<%=request.getContextPath()%>/trademark/list" class="nav-link">
+                        <i class="nav-icon fas fa-trademark"></i>
+                        <p>Trademark</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<%=request.getContextPath()%>/invoice/list" class="nav-link">
+                        <i class="nav-icon fas fa-file-invoice"></i>
+                        <p>Invoice</p>
                     </a>
                 </li>
             </ul>

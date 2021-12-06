@@ -15,6 +15,9 @@
 <script src="<%=request.getContextPath()%>/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<%=request.getContextPath()%>/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<%=request.getContextPath()%>/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- jquery-validation -->
+<script src="<%=request.getContextPath()%>/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="<%=request.getContextPath()%>/plugins/jquery-validation/additional-methods.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<%=request.getContextPath()%>/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
