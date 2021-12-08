@@ -30,27 +30,29 @@ public class CategoryDAO implements IGeneralDAO<Category> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return categories;
         }
         return categories;
     }
 
     @Override
     public Category get(int id) {
-        Category category = new Category();
+        Category category = null;
         ResultSet rs = context.executeQuery(String.format(QUERY.CATEGORY.GET_ITEM_BY_ID, id));
         try {
             if (!rs.isBeforeFirst() && rs.getRow() == 0) {
                 return null;
             }
             if (rs.next()) {
-                category.setId(id);
+                String sku = rs.getString("sku");
                 String name = rs.getString("name");
+                category = new Category(id, sku, name);
+                category.setSku(sku);
                 category.setName(name);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return category;
+            return null;
         }
         return category;
     }

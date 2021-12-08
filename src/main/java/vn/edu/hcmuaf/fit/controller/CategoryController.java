@@ -23,7 +23,7 @@ public class CategoryController extends HttpServlet {
             DbContext context = (DbContext) getServletContext().getAttribute("context");
             if (!context.isConnected()) {
                 if (!context.openConnection()) {
-                    throw new IOException("Could");
+                    throw new IOException("Could not open connection");
                 }
             }
             dao = new CategoryDAO(context);
@@ -52,9 +52,6 @@ public class CategoryController extends HttpServlet {
             case "/get":
                 get(request, response);
                 break;
-            case "/submit":
-                submit(request, response);
-                break;
             case "/delete":
                 delete(request, response);
                 break;
@@ -66,9 +63,8 @@ public class CategoryController extends HttpServlet {
 
     private void create(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
-        Category category = new Category();
-        category.setName(name);
-        dao.save(category);
+        String sku = request.getParameter("sku");
+        dao.save(new Category(0, sku, name));
         response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
     }
 
@@ -90,9 +86,6 @@ public class CategoryController extends HttpServlet {
         out.close();
     }
 
-    private void submit(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    }
-
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         dao.delete(id);
@@ -101,7 +94,7 @@ public class CategoryController extends HttpServlet {
 
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /* Set title */
-        request.setAttribute("title", "CATEGORY MANAGEMENT");
+        request.setAttribute("title", "QUẢN LÝ THỂ LOẠI");
 
         /* Database */
         List<Category> categories = dao.getList();

@@ -10,7 +10,7 @@
 <html>
 <head>
     <c:import url="../import/admin/data/head.jsp"/>
-    <title>Admin | Category</title>
+    <title>Quản lý | Thể loại</title>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -36,12 +36,13 @@
                                 <table id="category" class="table table-bordered table-striped">
                                     <thead>
                                     <tr class="text-center">
-                                        <th class="align-middle">No.</th>
-                                        <th class="align-middle">SKU</th>
-                                        <th class="align-middle">NAME</th>
+                                        <th class="align-middle">STT</th>
+                                        <th class="align-middle">Mã thể loại</th>
+                                        <th class="align-middle">Tên thể loại</th>
                                         <th>
-                                            <span class="d-none">ACTIONS</span>
-                                            <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#create-modal">
+                                            <span class="d-none">Tác vụ</span>
+                                            <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#create-modal"
+                                                    title="Thêm">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </th>
@@ -57,9 +58,9 @@
                                             <td class="d-flex justify-content-center">
                                                 <input type="hidden" name="id" value="<c:out value="${category.id}"/>"/>
                                                 <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
-                                                        data-target="#update-modal"><i class="fas fa-edit"></i></button>
+                                                        data-target="#update-modal" title="Cập nhật"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-danger d-block w-100 ml-1 delete" data-toggle="modal"
-                                                        data-target="#delete-modal"><i class="fas fa-trash-alt"></i></button>
+                                                        data-target="#delete-modal" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -76,7 +77,7 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content card card-success">
                         <div class="modal-header card-header">
-                            <h5 class="modal-title font-weight-bolder">Create</h5>
+                            <h5 class="modal-title font-weight-bolder">Tạo mới</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -84,13 +85,17 @@
                         <form action="<%=request.getContextPath()%>/category/create" method="POST" id="create" novalidate="novalidate">
                             <div class="modal-body card-body">
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Enter category"/>
+                                    <label>Mã thể loại (In hoa)</label>
+                                    <input type="text" name="sku" class="form-control" style="text-transform:uppercase" placeholder="VD: G, GH, GHE"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tên thể loại</label>
+                                    <input type="text" name="name" class="form-control" placeholder="VD: Ghế"/>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-outline-success">Save changes</button>
+                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
                             </div>
                         </form>
                     </div>
@@ -104,7 +109,7 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content card card-warning">
                         <div class="modal-header card-header">
-                            <h5 class="modal-title font-weight-bolder">Update</h5>
+                            <h5 class="modal-title font-weight-bolder">Cập nhật</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -113,13 +118,17 @@
                             <input type="hidden" name="id"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Enter category"/>
+                                    <label>Mã thể loại (In hoa)</label>
+                                    <input type="text" name="sku" class="form-control" style="text-transform:uppercase" placeholder="VD: G, GH, GHE"/>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tên thể loại</label>
+                                    <input type="text" name="name" class="form-control" placeholder="VD: Ghế"/>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-outline-warning">Save changes</button>
+                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
                             </div>
                         </form>
                     </div>
@@ -133,7 +142,7 @@
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content card card-danger">
                         <div class="modal-header card-header">
-                            <h5 class="modal-title font-weight-bolder">Alert</h5>
+                            <h5 class="modal-title font-weight-bolder">Cảnh báo</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -142,12 +151,12 @@
                             <input type="hidden" name="id"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
-                                    <span>Are you sure you want to delete?</span>
+                                    <span>Bạn có chắc muốn xóa sản phẩm này?</span>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-outline-danger">Sure</button>
+                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary font-weight-bolder">Đồng ý</button>
                             </div>
                         </form>
                     </div>
@@ -188,12 +197,16 @@
         <%--});--%>
         jQuery('#create').validate({
             rules: {
+                sku: {
+                    required: true
+                },
                 name: {
                     required: true
                 }
             },
             messages: {
-                name: "Please enter category name"
+                sku: "Vui lòng nhập mã định danh",
+                name: "Vui lòng nhập loại sản phẩm"
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {
@@ -209,12 +222,16 @@
         });
         jQuery('#update').validate({
             rules: {
+                sku: {
+                    required: true
+                },
                 name: {
                     required: true
                 }
             },
             messages: {
-                name: "Please enter category name"
+                sku: "Vui lòng nhập mã định danh",
+                name: "Vui lòng nhập loại sản phẩm"
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {
@@ -242,6 +259,7 @@
                 contentType: "application/json",
                 success: function (data) {
                     jQuery('#update-modal input[name = "id"]').val(data.id);
+                    jQuery('#update-modal input[name = "sku"]').val(data.sku);
                     jQuery('#update-modal input[name = "name"]').val(data.name);
                 }
             })
