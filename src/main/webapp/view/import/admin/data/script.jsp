@@ -2,6 +2,8 @@
 <script src="<%=request.getContextPath()%>/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="<%=request.getContextPath()%>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="<%=request.getContextPath()%>/plugins/select2/js/select2.full.min.js"></script>
 <!-- DataTables & Plugins -->
 <script src="<%=request.getContextPath()%>/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<%=request.getContextPath()%>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
