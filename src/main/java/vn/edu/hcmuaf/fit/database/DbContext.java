@@ -68,6 +68,21 @@ public class DbContext {
         }
     }
 
+    public int getLastestId(String tableName) {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from " + tableName + " order by id DESC limit 1");
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
     public String getConnectionString() {
         return _connection.getConnectionString();
     }

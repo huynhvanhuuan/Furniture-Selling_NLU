@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.database.DbContext;
 import vn.edu.hcmuaf.fit.database.QUERY;
+import vn.edu.hcmuaf.fit.dto.Address;
 import vn.edu.hcmuaf.fit.model.Trademark;
 
 import java.sql.ResultSet;
@@ -11,9 +12,11 @@ import java.util.List;
 
 public class TrademarkDAO implements IGeneralDAO<Trademark> {
     private DbContext context;
+    private AddressDAO addressDAO;
 
     public TrademarkDAO(DbContext context) {
         this.context = context;
+        addressDAO = new AddressDAO(context);
     }
 
     @Override
@@ -24,9 +27,9 @@ public class TrademarkDAO implements IGeneralDAO<Trademark> {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
-                String address = rs.getString("address");
                 String website = rs.getString("website");
-                Trademark trademark = new Trademark(id, name, address, website);
+                List<Address> addresses = addressDAO.getListByTrademarkId(id);
+                Trademark trademark = new Trademark(id, name, website, addresses);
                 trademarks.add(trademark);
             }
         } catch (SQLException e) {
@@ -41,13 +44,25 @@ public class TrademarkDAO implements IGeneralDAO<Trademark> {
         return null;
     }
 
+    public int getLastestId() {
+        return context.getLastestId("trademark");
+    }
+
     @Override
     public boolean save(Trademark item) {
-        return false;
+        if (item.getId() == 0) {
+            return context.executeUpdate(String.format(QUERY.TRADEMARK.CREATE, item.getName(), item.getWebsite()));
+        } else {
+            return context.executeUpdate(String.format(QUERY.TRADEMARK.UPDATE, item.getName(), item.getWebsite(), item.getId()));
+        }
+    }
+
+    public boolean addAddress(int idTrademark, int idAddress) {
+        return context.executeUpdate(String.format(QUERY.TRADEMARK_ADDRESS.CREATE, idTrademark, idAddress));
     }
 
     @Override
     public boolean delete(int id) {
-        return false;
+        return context.executeUpdate(String.format(QUERY.TRADEMARK.DELETE, id));
     }
 }

@@ -43,7 +43,23 @@ public class WardDAO implements IGeneralDAO<Ward> {
 
     @Override
     public Ward get(int id) {
-        return null;
+        Ward ward = null;
+        ResultSet rs = context.executeQuery(String.format(QUERY.WARD.GET_ITEM_BY_ID, id));
+        try {
+            if (!rs.isBeforeFirst() && rs.getRow() == 0) {
+                return null;
+            }
+            if (rs.next()) {
+                String name = rs.getString("name");
+                String prefix = rs.getString("prefix");
+                int districtId = rs.getInt("district_id");
+                ward = new Ward(id, name, prefix, districtDAO.get(districtId));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return ward;
     }
 
     @Override

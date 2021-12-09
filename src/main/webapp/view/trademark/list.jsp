@@ -1,3 +1,5 @@
+<%@ page import="vn.edu.hcmuaf.fit.dto.Address" %>
+<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -55,7 +57,13 @@
                                         <tr>
                                             <td class="text-center align-middle"><c:out value="${i.index + 1}"/></td>
                                             <td class="align-middle"><c:out value="${trademark.name}"/></td>
-                                            <td class="align-middle"><c:out value="${trademark.address}"/></td>
+                                            <td class="align-middle">
+                                                <ul>
+                                                    <c:forEach items="${trademark.addresses}" var="address">
+                                                        <li><c:out value="${address.path}"/></li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </td>
                                             <td class="align-middle"><c:out value="${trademark.website}"/></td>
                                             <td class="d-flex justify-content-center">
                                                 <input type="hidden" name="id" value="<c:out value="${trademark.id}"/>"/>
@@ -90,7 +98,7 @@
                                     <label>Tên thương hiệu</label>
                                     <input type="text" name="name" class="form-control" placeholder="VD: LTW"/>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group address">
                                     <fieldset style="border: 1px solid #ced4da; padding: 0 8px 8px;">
                                         <style>
                                             legend {
@@ -144,10 +152,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <input type="hidden" name="address"/>
                                         <label class="mb-0 mt-3">Hiển thị: <span id="address"></span></label>
                                     </fieldset>
                                 </div>
+                                <button type="button" class="btn btn-default"><i class="fab fa-plus"></i></button> <span>Add more address</span>
                                 <div class="form-group">
                                     <label>Website</label>
                                     <input type="text" name="website" class="form-control" placeholder="VD: https://ltw.com/"/>

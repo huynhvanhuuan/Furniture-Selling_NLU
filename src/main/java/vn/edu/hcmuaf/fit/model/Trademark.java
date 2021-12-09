@@ -1,21 +1,30 @@
 package vn.edu.hcmuaf.fit.model;
 
+import vn.edu.hcmuaf.fit.dto.Address;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class Trademark implements Serializable {
     private int id;
     private String name;
-    private String address;
     private String website;
+    private List<Address> addresses;
 
     public Trademark() {
     }
 
-    public Trademark(int id, String name, String address, String website) {
+    public Trademark(int id, String name, String website) {
         this.id = id;
         this.name = name;
-        this.address = address;
         this.website = website;
+    }
+
+    public Trademark(int id, String name, String website, List<Address> addresses) {
+        this.id = id;
+        this.name = name;
+        this.website = website;
+        this.addresses = addresses;
     }
 
     public int getId() {
@@ -34,19 +43,19 @@ public class Trademark implements Serializable {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getWebsite() {
         return website;
     }
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }

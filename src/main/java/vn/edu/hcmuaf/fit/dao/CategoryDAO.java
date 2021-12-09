@@ -60,9 +60,9 @@ public class CategoryDAO implements IGeneralDAO<Category> {
     @Override
     public boolean save(Category item) {
         if (item.getId() == 0) {
-            return context.executeUpdate(String.format(QUERY.CATEGORY.CREATE, item.getName()));
+            return context.executeUpdate(String.format(QUERY.CATEGORY.CREATE, item.getSku(), item.getName()));
         } else {
-            return context.executeUpdate(String.format(QUERY.CATEGORY.UPDATE, item.getName(), item.getId()));
+            return context.executeUpdate(String.format(QUERY.CATEGORY.UPDATE, item.getSku(), item.getName(), item.getId()));
         }
     }
 

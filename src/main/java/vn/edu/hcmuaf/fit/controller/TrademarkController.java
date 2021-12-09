@@ -1,11 +1,9 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.dao.DistrictDAO;
-import vn.edu.hcmuaf.fit.dao.ProvinceDAO;
-import vn.edu.hcmuaf.fit.dao.TrademarkDAO;
-import vn.edu.hcmuaf.fit.dao.WardDAO;
+import vn.edu.hcmuaf.fit.dao.*;
 import vn.edu.hcmuaf.fit.database.DbContext;
+import vn.edu.hcmuaf.fit.dto.Address;
 import vn.edu.hcmuaf.fit.model.District;
 import vn.edu.hcmuaf.fit.model.Province;
 import vn.edu.hcmuaf.fit.model.Trademark;
@@ -16,12 +14,14 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.List;
 
 @WebServlet(name = "TrademarkController", value = "/trademark/*")
 public class TrademarkController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TrademarkDAO trademarkDAO;
+    private AddressDAO addressDAO;
     private ProvinceDAO provinceDAO;
     private DistrictDAO districtDAO;
     private WardDAO wardDAO;
@@ -36,6 +36,7 @@ public class TrademarkController extends HttpServlet {
                 }
             }
             trademarkDAO = new TrademarkDAO(context);
+            addressDAO = new AddressDAO(context);
             provinceDAO = new ProvinceDAO(context);
             districtDAO = new DistrictDAO(context);
             wardDAO = new WardDAO(context);
@@ -75,18 +76,23 @@ public class TrademarkController extends HttpServlet {
 
     private void create(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
-        String address = request.getParameter("address");
+        int wardId = Integer.parseInt(request.getParameter("ward"));
+        String street = request.getParameter("street");
+        String number = request.getParameter("number");
         String website = request.getParameter("website");
-        trademarkDAO.save(new Trademark(0, name, address, website));
+        trademarkDAO.save(new Trademark(0, name, website));
+        int lastestIdTrademark = trademarkDAO.getLastestId();
+        addressDAO.save(new Address(0, number, street, wardDAO.get(wardId)));
+        int lastestIdAddress = addressDAO.getLastestId();
+        trademarkDAO.addAddress(lastestIdTrademark, lastestIdAddress);
         response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
-        String address = request.getParameter("address");
         String website = request.getParameter("website");
-        trademarkDAO.save(new Trademark(id, name, address, website));
+        //trademarkDAO.save(new Trademark(id, name, website));
         response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
     }
 
