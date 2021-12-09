@@ -323,6 +323,10 @@
                 address.district = null;
                 address.ward = null;
                 showAddress();
+                district$.valid();
+                ward$.valid();
+                street$.valid();
+                number$.valid();
             }
         })
     }
@@ -357,6 +361,8 @@
                     });
                 }
                 ward$.valid();
+                street$.valid();
+                number$.valid();
                 showAddress();
             }
         })
