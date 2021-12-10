@@ -1,10 +1,12 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
+import vn.edu.hcmuaf.fit.dao.AddressDAO;
 import vn.edu.hcmuaf.fit.dao.CategoryDAO;
 import vn.edu.hcmuaf.fit.dao.DistrictDAO;
 import vn.edu.hcmuaf.fit.dao.WardDAO;
 import vn.edu.hcmuaf.fit.database.DbContext;
+import vn.edu.hcmuaf.fit.dto.Address;
 import vn.edu.hcmuaf.fit.model.District;
 import vn.edu.hcmuaf.fit.model.Ward;
 
@@ -13,6 +15,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "APIController", value = "/api/*")
@@ -20,6 +23,7 @@ public class APIController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private DistrictDAO districtDAO;
     private WardDAO wardDAO;
+    private AddressDAO addressDAO;
 
     @Override
     public void init() throws ServletException {
@@ -32,6 +36,7 @@ public class APIController extends HttpServlet {
             }
             districtDAO = new DistrictDAO(context);
             wardDAO = new WardDAO(context);
+            addressDAO = new AddressDAO(context);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +51,6 @@ public class APIController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json");
         String action = request.getPathInfo();
         switch (action) {
             case "/province":
@@ -55,10 +59,14 @@ public class APIController extends HttpServlet {
             case "/district":
                 getWardList(request, response);
                 break;
+            case "/address":
+                address(request, response);
+                break;
         }
     }
 
     private void getDistrictList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
         List<District> districts = districtDAO.getListByProvinceId(id);
         PrintWriter out = response.getWriter();
@@ -67,10 +75,29 @@ public class APIController extends HttpServlet {
     }
 
     private void getWardList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
         List<Ward> wards = wardDAO.getListByDistrictId(id);
         PrintWriter out = response.getWriter();
         out.println(new Gson().toJson(wards));
         out.close();
+    }
+
+    private void address(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        switch (action) {
+            case "create":
+                createAddress(request, response);
+                break;
+        }
+    }
+
+    private void createAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int wardId = Integer.parseInt(request.getParameter("wardId"));
+        String street = request.getParameter("street") ;
+        String number = request.getParameter("number");
+        Address address = new Address(0, number, street, wardDAO.get(wardId));
+        addressDAO.save(address);
+        //TrademarkController.addressIds.add(addressDAO.getLastestId());
     }
 }

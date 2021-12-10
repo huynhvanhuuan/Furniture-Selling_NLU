@@ -67,6 +67,10 @@
                                             <td class="align-middle"><c:out value="${trademark.website}"/></td>
                                             <td class="d-flex justify-content-center">
                                                 <input type="hidden" name="id" value="<c:out value="${trademark.id}"/>"/>
+                                                <button class="btn btn-primary d-block w-100 mr-1" data-toggle="modal" data-target="#add-address-modal"
+                                                        title="Thêm địa chỉ" onclick="addAddress()">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
                                                 <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
                                                         data-target="#update-modal" title="Cập nhật"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-danger d-block w-100 ml-1 delete" data-toggle="modal"
@@ -98,64 +102,13 @@
                                     <label>Tên thương hiệu</label>
                                     <input type="text" name="name" class="form-control" placeholder="VD: LTW"/>
                                 </div>
-                                <div class="form-group address">
-                                    <fieldset style="border: 1px solid #ced4da; padding: 0 8px 8px;">
-                                        <style>
-                                            legend {
-                                                width:auto;
-                                                font-size: 1rem;
-                                                border-radius: 0.25rem;
-                                                font-weight: bolder;
-                                            }
-                                        </style>
-                                        <legend>
-                                            <span>Địa chỉ</span>
-                                        </legend>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <select class="select2bs4" name="province" style="width: 100%;">
-                                                        <option value="">Tỉnh / Thành phố</option>
-                                                        <jsp:useBean id="provinces" scope="request" type="java.util.List"/>
-                                                        <c:forEach items="${provinces}" var="province">
-                                                            <option value="<c:out value="${province.id}"/>">
-                                                                <c:out value="${province.prefix}"/> <c:out value="${province.name}"/>
-                                                            </option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <select class="select2bs4" name="district" style="width: 100%;">
-                                                        <option value="">Quận / Huyện</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <select class="select2bs4" name="ward" style="width: 100%;">
-                                                        <option value="">Phường / Xã</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <input type="text" name="street" class="form-control" placeholder="Đường. VD: Đường số 1"/>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <input type="text" name="number" class="form-control" placeholder="Số nhà, lô, kios,..."/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <label class="mb-0 mt-3">Hiển thị: <span id="address"></span></label>
-                                    </fieldset>
+                                <div class="form-group">
+                                    <label>Địa chỉ</label><br>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#add-address-modal"
+                                            onclick="addAddress()">
+                                        <span>Thêm địa chỉ</span> <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
-                                <button type="button" class="btn btn-default"><i class="fab fa-plus"></i></button> <span>Add more address</span>
                                 <div class="form-group">
                                     <label>Website</label>
                                     <input type="text" name="website" class="form-control" placeholder="VD: https://ltw.com/"/>
@@ -164,6 +117,141 @@
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
                                 <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- Add address modal -->
+            <div class="modal fade" id="add-address-modal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content card card-success">
+                        <div class="modal-header card-header">
+                            <h5 class="modal-title font-weight-bolder">Thêm địa chỉ</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <form id="add-address" novalidate="novalidate">
+                            <div class="modal-body card-body">
+                                <div class="form-group address">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="select2bs4" name="province" style="width: 100%;">
+                                                    <option value="">Tỉnh / Thành phố</option>
+                                                    <jsp:useBean id="provinces" scope="request" type="java.util.List"/>
+                                                    <c:forEach items="${provinces}" var="province">
+                                                        <option value="<c:out value="${province.id}"/>">
+                                                            <c:out value="${province.prefix}"/> <c:out value="${province.name}"/>
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="select2bs4" name="district" style="width: 100%;">
+                                                    <option value="">Quận / Huyện</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="select2bs4" name="ward" style="width: 100%;">
+                                                    <option value="">Phường / Xã</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <input type="text" name="street" class="form-control" placeholder="Đường. VD: Đường số 1"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <input type="text" name="number" class="form-control" placeholder="Số nhà, lô, kios,..."/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label class="mb-0 mt-3">Hiển thị: <span id="add-address-title"></span></label>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" id="add">Thêm</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- Update address modal -->
+            <div class="modal fade" id="update-address-modal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content card card-success">
+                        <div class="modal-header card-header">
+                            <h5 class="modal-title font-weight-bolder">Thêm địa chỉ</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <form action="<%=request.getContextPath()%>/trademark/update-address" method="POST" id="update-address" novalidate="novalidate">
+                            <div class="modal-body card-body">
+                                <div class="form-group address">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="select2bs4" name="province-update" style="width: 100%;">
+                                                    <option value="">Tỉnh / Thành phố</option>
+                                                    <c:forEach items="${provinces}" var="province">
+                                                        <option value="<c:out value="${province.id}"/>">
+                                                            <c:out value="${province.prefix}"/> <c:out value="${province.name}"/>
+                                                        </option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="select2bs4" name="district-update" style="width: 100%;">
+                                                    <option value="">Quận / Huyện</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <select class="select2bs4" name="ward-update" style="width: 100%;">
+                                                    <option value="">Phường / Xã</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <input type="text" name="street-update" class="form-control" placeholder="Đường. VD: Đường số 1"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <input type="text" name="number-update" class="form-control" placeholder="Số nhà, lô, kios,..."/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label class="mb-0 mt-3">Hiển thị: <span id="update-address-title"></span></label>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
+                                <button type="submit" class="btn btn-primary font-weight-bolder">Thêm</button>
                             </div>
                         </form>
                     </div>
@@ -194,7 +282,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
-                                                <select class="select2bs4" name="province-update" onchange="getDistrictList(this);" style="width: 100%;">
+                                                <select class="select2bs4" name="province" onchange="getDistrictList(this);" style="width: 100%;">
                                                     <option value="0">Tỉnh / Thành phố</option>
                                                     <c:forEach items="${provinces}" var="province">
                                                         <option value="<c:out value="${province.id}"/>">
@@ -206,14 +294,14 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <select class="select2bs4" name="district-update" onchange="getWardList(this);" style="width: 100%;">
+                                                <select class="select2bs4" name="district" onchange="getWardList(this);" style="width: 100%;">
                                                     <option value="0">Quận / Huyện</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <select class="select2bs4" name="ward-update" style="width: 100%;">
+                                                <select class="select2bs4" name="ward" style="width: 100%;">
                                                     <option value="0">Phường / Xã</option>
                                                 </select>
                                             </div>
@@ -221,10 +309,10 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-4">
-                                            <input type="text" name="street-update" class="form-control" placeholder="Đường"/>
+                                            <input type="text" name="street" class="form-control" placeholder="Đường"/>
                                         </div>
                                         <div class="col-2">
-                                            <input type="text" name="number-update" class="form-control" placeholder="Số nhà, kios, lô,..."/>
+                                            <input type="text" name="number" class="form-control" placeholder="Số nhà, kios, lô,..."/>
                                         </div>
                                     </div>
                                 </div>
@@ -293,13 +381,23 @@
     const street$ = jQuery('input[name = "street"]');
     const number$ = jQuery('input[name = "number"]');
 
-    let address = {
-        number: null,
-        street: null,
-        ward: null,
-        district: null,
-        province: null,
-    };
+    let address;
+    let addressTitle$;
+
+    function addAddress() {
+        address = {
+            number: null,
+            street: null,
+            ward: null,
+            district: null,
+            province: null,
+        }
+        addressTitle$ = jQuery('#add-address-title');
+    }
+
+    function updateAddress() {
+
+    }
 
     function showAddress() {
         let str;
@@ -314,7 +412,7 @@
             else str = address.street + ', ' + address.ward + ', ' + address.district + ', ' + address.province;
         else if (address.ward === "") str = address.number + ', ' + address.street + ', ' + address.district + ', ' + address.province;
         else str = address.number + ', ' + address.street + ', ' + address.ward + ', ' + address.district + ', ' + address.province;
-        jQuery('#address').text(str);
+        addressTitle$.text(str);
     }
 
     /* Get district list */
@@ -389,7 +487,7 @@
 
     /* Address mapping */
     province$.change(function() {
-        let province = province$.find('option:selected');
+        let province = jQuery(this).find('option:selected');
         if (province.val() === '') {
             address.province = null;
             address.district = null;
@@ -397,41 +495,41 @@
             province.val(0);
         } else if (address.province !== province.text()) {
             address.province = province.text();
-            province$.valid();
+            jQuery(this).valid();
             address.district = null;
             address.ward = null;
         }
         getDistrictList(this);
     })
     district$.change(function() {
-        let district = district$.find('option:selected');
+        let district = jQuery(this).find('option:selected');
         if (district.val() === '') {
             address.district = null;
             address.ward = null;
             district.val(0)
         } else if (address.district !== district.text()) {
             address.district = district.text();
-            district$.valid();
+            jQuery(this).valid();
         }
         getWardList(this);
     })
     ward$.change(function() {
-        let ward = ward$.find('option:selected');
+        let ward = jQuery(this).find('option:selected');
         if (ward.val() === '') {
             address.ward = null;
             ward.val(0);
         } else {
             address.ward = ward.text();
-            ward$.valid();
+            jQuery(this).valid();
         }
         showAddress();
     })
     street$.keyup(function() {
-        address.street = street$.val() !== "" ? street$.val() : null;
+        address.street = jQuery(this).val() !== "" ? jQuery(this).val() : null;
         showAddress();
     })
     number$.keyup(function() {
-        address.number = number$.val() !== "" ? number$.val() : null;
+        address.number = jQuery(this).val() !== "" ? jQuery(this).val() : null;
         showAddress();
     })
 
@@ -448,11 +546,13 @@
                 "width": "15%"
             }]
         }).buttons().container().appendTo('#trademark_wrapper .col-md-6:eq(0)');
-        jQuery('#create').validate({
+        // $.validator.setDefaults({
+        //     submitHandler: function () {
+        //         alert("Add successfully!!!");
+        //     }
+        // });
+        jQuery('#add-address').validate({
             rules: {
-                name: {
-                    required: true,
-                },
                 province: {
                     required: true,
                     min: '1'
@@ -473,12 +573,72 @@
                 }
             },
             messages: {
-                name: "Vui lòng nhập tên thương hiệu",
                 province: "Vui lòng chọn tỉnh, thành phố",
                 district: "Vui lòng chọn quận, huyện",
                 ward: "Vui lòng chọn phường, xã",
                 street: "Vui lòng nhập tên đường",
                 number: "Vui lòng nhập số nhà, lô, kios,.."
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                jQuery(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                jQuery(element).removeClass('is-invalid');
+            }
+        })
+        jQuery('#update-address').validate({
+            rules: {
+                province: {
+                    required: true,
+                    min: '1'
+                },
+                district: {
+                    required: true,
+                    min: '1'
+                },
+                ward: {
+                    required: true,
+                    min: '1'
+                },
+                street: {
+                    required: true
+                },
+                number: {
+                    required: true
+                }
+            },
+            messages: {
+                province: "Vui lòng chọn tỉnh, thành phố",
+                district: "Vui lòng chọn quận, huyện",
+                ward: "Vui lòng chọn phường, xã",
+                street: "Vui lòng nhập tên đường",
+                number: "Vui lòng nhập số nhà, lô, kios,.."
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                jQuery(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                jQuery(element).removeClass('is-invalid');
+            }
+        })
+        jQuery('#create').validate({
+            rules: {
+                name: {
+                    required: true,
+                }
+            },
+            messages: {
+                name: "Vui lòng nhập tên thương hiệu"
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {
@@ -496,31 +656,10 @@
             rules: {
                 name: {
                     required: true
-                },
-                province: {
-                    required: true,
-
-                },
-                district: {
-                    required: true
-                },
-                ward: {
-                    required: true
-                },
-                street: {
-                    required: true
-                },
-                number: {
-                    required: true
                 }
             },
             messages: {
-                name: "Vui lòng nhập tên thương hiệu",
-                province: "Vui lòng chọn tỉnh, thành phố",
-                district: "Vui lòng chọn quận, huyện",
-                ward: "Vui lòng chọn phường, xã",
-                street: "Vui lòng nhập tên đường",
-                number: "Vui lòng nhập số nhà, lô, kios,.."
+                name: "Vui lòng nhập tên thương hiệu"
             },
             errorElement: 'span',
             errorPlacement: function (error, element) {
@@ -534,6 +673,22 @@
                 jQuery(element).removeClass('is-invalid');
             }
         });
+        jQuery('#add').on('click', function() {
+            let wardId = jQuery(this).closest('#add-address').find('select[name = "ward"]').val();
+            let street = jQuery(this).closest('#add-address').find('input[name = "street"]').val();
+            let number = jQuery(this).closest('#add-address').find('input[name = "number"]').val();
+            if (jQuery('#add-address').valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: '<%=request.getContextPath()%>/api/address?action=create&wardId=' + wardId + '&street=' + street + '&number=' + number,
+                    data: {},
+                    contentType: "text/plain",
+                    success: function(data) {
+                        jQuery('#add-address-modal').toggle();
+                    }
+                });
+            }
+        })
         jQuery('.delete').on('click', function() {
             let id = jQuery(this).parent().find('input[name = "id"]').val();
             jQuery('#delete-modal input[name = "id"]').val(id);

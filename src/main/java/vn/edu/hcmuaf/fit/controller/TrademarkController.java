@@ -14,7 +14,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "TrademarkController", value = "/trademark/*")
@@ -22,6 +22,7 @@ public class TrademarkController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TrademarkDAO trademarkDAO;
     private AddressDAO addressDAO;
+    public static List<Integer> addressIds = new ArrayList<>();
     private ProvinceDAO provinceDAO;
     private DistrictDAO districtDAO;
     private WardDAO wardDAO;
@@ -76,16 +77,13 @@ public class TrademarkController extends HttpServlet {
 
     private void create(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
-        int wardId = Integer.parseInt(request.getParameter("ward"));
-        String street = request.getParameter("street");
-        String number = request.getParameter("number");
         String website = request.getParameter("website");
-        trademarkDAO.save(new Trademark(0, name, website));
-        int lastestIdTrademark = trademarkDAO.getLastestId();
-        addressDAO.save(new Address(0, number, street, wardDAO.get(wardId)));
-        int lastestIdAddress = addressDAO.getLastestId();
-        trademarkDAO.addAddress(lastestIdTrademark, lastestIdAddress);
-        response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
+        //trademarkDAO.save(new Trademark(0, name, website));
+        //int lastestIdTrademark = trademarkDAO.getLastestId();
+        //addressDAO.save(new Address(0, number, street, wardDAO.get(wardId)));
+        //int lastestIdAddress = addressDAO.getLastestId();
+        //trademarkDAO.addAddress(lastestIdTrademark, lastestIdAddress);
+        //response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
