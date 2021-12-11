@@ -36,6 +36,7 @@ public class QUERY {
         public static final String CREATE = "insert into trademark_address(trademark_id, address_id) values(%d, %d)";
         public static final String GET_LIST_ADDRESS_ID_BY_TRADEMARK_ID = "select address_id from trademark_address where trademark_id = %d";
         public static final String DELETE_BY_TRADEMARK_ID = "delete from trademark_address where trademark_id = %d";
+        public static final String DELETE_BY_ADDRESS_ID = "delete from trademark_address where address_id = %d";
     }
 
     /* USER */
@@ -58,6 +59,7 @@ public class QUERY {
         public static final String CREATE = "insert into address(number, street, ward_id, district_id, path) values('%s', '%s', %d, %d, '%s')";
         public static final String UPDATE = "update address set number = '%s', street = '%s', ward_id = %d, district_id = %d, path = '%s' where id = %d";
         public static final String DELETE = "delete from address where id = %d";
+        public static final String DELETE_BY_PATH = "delete from address where path = '%s'";
     }
 
     /* PROVINCE */

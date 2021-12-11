@@ -58,19 +58,26 @@
                                             <td class="text-center"><c:out value="${i.index + 1}"/></td>
                                             <td><c:out value="${trademark.name}"/></td>
                                             <td>
-                                                <ul>
+                                                <ul style="list-style-type: none; padding: 0">
                                                     <c:forEach items="${trademark.addresses}" var="address">
-                                                        <li><c:out value="${address.path}"/></li>
+                                                        <li>
+                                                            <a href="#" class="text-danger mr-2 address-remove" title="Xóa địa chỉ" onclick="removeAddress(<c:out value='${address.id}'/>)">
+                                                                <i class="fas fa-minus-square"></i>
+                                                            </a>
+                                                            <c:out value="${address.path}"/>
+                                                        </li>
                                                     </c:forEach>
+                                                    <li>
+                                                        <a href="" data-toggle="modal" data-target="#add-address-modal" title="Thêm địa chỉ" onclick="addAddress()">
+                                                            <i class="fas fa-plus-square"></i>
+                                                        </a>
+                                                        <input type="hidden" name="id" value="<c:out value="${trademark.id}"/>"/>
+                                                    </li>
                                                 </ul>
                                             </td>
                                             <td><c:out value="${trademark.website}"/></td>
                                             <td class="d-flex justify-content-center">
                                                 <input type="hidden" name="id" value="<c:out value="${trademark.id}"/>"/>
-                                                <button class="btn btn-primary d-block w-100 mr-1" data-toggle="modal" data-target="#add-address-modal"
-                                                        title="Thêm địa chỉ" onclick="addAddress()">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
                                                 <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
                                                         data-target="#update-modal" title="Cập nhật"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-danger d-block w-100 ml-1 delete" data-toggle="modal"
@@ -102,7 +109,7 @@
                                     <label>Tên thương hiệu</label>
                                     <input type="text" name="name" class="form-control" placeholder="VD: LTW"/>
                                 </div>
-                                <div class="form-group">
+                                <%--<div class="form-group">
                                     <label>Địa chỉ</label>&ensp;
                                     <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#add-address-modal"
                                             onclick="addAddress()">
@@ -111,7 +118,7 @@
                                     <input type="hidden" name="address-count" value="0"><br>
                                     <span class="address-error text-danger" style="display: none;">Vui lòng thêm ít nhất 1 địa chỉ</span>
                                     <ul class="add-address-list"></ul>
-                                </div>
+                                </div>--%>
                                 <div class="form-group">
                                     <label>Website</label>
                                     <input type="text" name="website" class="form-control" placeholder="VD: https://ltw.com/"/>
@@ -143,9 +150,9 @@
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Tên thương hiệu</label>
-                                    <input type="text" name="name-update" class="form-control" placeholder="VD: LTW"/>
+                                    <input type="text" name="name" class="form-control" placeholder="VD: LTW"/>
                                 </div>
-                                <div class="form-group">
+                                <%--<div class="form-group">
                                     <label>Địa chỉ</label>&ensp;
                                     <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#add-address-modal"
                                             onclick="addAddress()">
@@ -154,10 +161,10 @@
                                     <input type="hidden" name="address-count" value="0"><br>
                                     <span class="address-error text-danger" style="display: none;">Vui lòng thêm ít nhất 1 địa chỉ</span>
                                     <ul class="add-address-list"></ul>
-                                </div>
+                                </div>--%>
                                 <div class="form-group">
                                     <label>Website</label>
-                                    <input type="text" name="website-update" class="form-control" placeholder="VD: https://ltw.com/"/>
+                                    <input type="text" name="website" class="form-control" placeholder="VD: https://ltw.com/"/>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
@@ -387,6 +394,20 @@
         addressTitle$.text(getAddress());
     }
 
+    function removeAddress(id) {
+        $.ajax({
+            type: "DELETE",
+            url: '<%=request.getContextPath()%>/trademark/remove-address?id=' + id,
+            success: function() {
+                alert('Address removed successfully!');
+            }
+        })
+    }
+
+    jQuery('.address-remove').click(function () {
+        jQuery(this).parent().closest('li').remove();
+    })
+
     /* Get district list */
     function getDistrictList(select) {
         $.ajax({
@@ -613,14 +634,7 @@
         })
 
         /* Create trademark validation function */
-        const create$ = jQuery('#create');
-        create$.submit(function() {
-            if (jQuery(this).find('.add-address-list li').length === 0) {
-                jQuery(this).find('.address-error').show();
-                return false;
-            }
-        })
-        create$.validate({
+        jQuery('#create').validate({
             rules: {
                 name: {
                     required: true,
@@ -646,7 +660,7 @@
         jQuery('#update').validate({
             rules: {
                 name: {
-                    required: true
+                    required: true,
                 }
             },
             messages: {
@@ -705,13 +719,15 @@
                                 data: {},
                                 contentType: "text/plain",
                                 success: function() {
-                                    jQuery('.add-address-list').append('<li class="address">' +
-                                        '<input type="text" class="border-0 bg-transparent w-100" name="address" value="' + getAddress() + '" disabled>' +
-                                        '<i class="fas fa-minus-square" title="Remove address"></i>' +
-                                        '</li>');
                                     jQuery('#add-address-modal button.close').click();
-                                    let addressCount$ = jQuery('#create-modal input[name = "address-count"]');
-                                    let error$ = jQuery('#create .address-error');
+                                    let currentModel$ = jQuery('.modal.show');
+                                    currentModel$.find('.add-address-list').append('<li class="address">' +
+                                        '<input type="text" class="border-0 bg-transparent w-75" name="address" value="' + getAddress() + '" disabled>' +
+                                        '<a href="#" class="text-danger" onclick="removeAddress(jQuery(this).find(' + "'" + 'input' + "'" + ').val());">' +
+                                        '<i class="fas fa-minus-square" title="Remove address"></i></a>' +
+                                        '</li>');
+                                    let addressCount$ = currentModel$.find('input[name = "address-count"]');
+                                    let error$ = currentModel$.find('.address-error');
                                     let count = +addressCount$.val();
                                     addressCount$.val(++count);
                                     if (error$.hasClass('show')) {
@@ -741,11 +757,9 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function (data) {
-                    console.log(data);
                     jQuery('#update-modal input[name = "id"]').val(data.id);
-                    jQuery('#update-modal input[name = "name-update"]').val(data.name);
-                    //jQuery('#update-modal input[name = "address"]').val(data.name);
-                    jQuery('#update-modal input[name = "website-update"]').val(data.website);
+                    jQuery('#update-modal input[name = "name"]').val(data.name);
+                    jQuery('#update-modal input[name = "website"]').val(data.website);
                 }
             })
         });

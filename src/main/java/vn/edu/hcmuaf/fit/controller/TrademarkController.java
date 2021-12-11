@@ -69,6 +69,8 @@ public class TrademarkController extends HttpServlet {
             case "/delete":
                 delete(request, response);
                 break;
+            case "/remove-address":
+                doDelete(request, response);
             default:
                 list(request, response);
                 break;
@@ -79,11 +81,6 @@ public class TrademarkController extends HttpServlet {
         String name = request.getParameter("name");
         String website = request.getParameter("website");
         trademarkDAO.save(new Trademark(0, name, website));
-        int lastestIdTrademark = trademarkDAO.getLastestId();
-        for (int addressId : addressIds) {
-            addressDAO.addAddress(lastestIdTrademark, addressId);
-        }
-        addressIds.clear();
         response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
     }
 
@@ -106,9 +103,20 @@ public class TrademarkController extends HttpServlet {
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        addressDAO.removeAddress(id);
+        addressDAO.removeAllAddress(id);
         trademarkDAO.delete(id);
         response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        removeAddress(req, resp);
+    }
+
+    private void removeAddress(HttpServletRequest request, HttpServletResponse response) {
+        int addressId = Integer.parseInt(request.getParameter("id"));
+        addressDAO.removeTrademarkAddress(addressId);
+
     }
 
     private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

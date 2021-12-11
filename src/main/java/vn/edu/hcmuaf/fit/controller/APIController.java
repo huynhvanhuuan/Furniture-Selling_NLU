@@ -93,6 +93,9 @@ public class APIController extends HttpServlet {
             case "checkExistWithPath":
                 checkExistWithPath(request, response);
                 break;
+            case "delete":
+                deleteAddress(request, response);
+                break;
         }
     }
 
@@ -118,5 +121,10 @@ public class APIController extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println(new Gson().toJson(address));
         out.close();
+    }
+
+    private void deleteAddress(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        addressDAO.delete(id);
     }
 }

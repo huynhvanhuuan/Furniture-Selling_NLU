@@ -110,7 +110,7 @@ public class AddressDAO implements IGeneralDAO<Address> {
         return context.executeUpdate(String.format(QUERY.TRADEMARK_ADDRESS.CREATE, trademarkId, addressId));
     }
 
-    public boolean removeAddress(int trademarkId) {
+    public void removeAllAddress(int trademarkId) {
         List<Integer> addressIds = new ArrayList<>();
         ResultSet rs = context.executeQuery(String.format(QUERY.TRADEMARK_ADDRESS.GET_LIST_ADDRESS_ID_BY_TRADEMARK_ID, trademarkId));
         try {
@@ -120,17 +120,19 @@ public class AddressDAO implements IGeneralDAO<Address> {
             }
             context.executeUpdate(String.format(QUERY.TRADEMARK_ADDRESS.DELETE_BY_TRADEMARK_ID, trademarkId));
             for (int addressId : addressIds) {
-                context.executeUpdate(String.format(QUERY.ADDRESS.DELETE, addressId));
+                delete(addressId);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
-        return true;
+    }
+
+    public boolean removeTrademarkAddress(int id) {
+        return context.executeUpdate(String.format(QUERY.TRADEMARK_ADDRESS.DELETE_BY_ADDRESS_ID, id)) && delete(id);
     }
 
     @Override
     public boolean delete(int id) {
-        return false;
+        return context.executeUpdate(String.format(QUERY.ADDRESS.DELETE, id));
     }
 }
