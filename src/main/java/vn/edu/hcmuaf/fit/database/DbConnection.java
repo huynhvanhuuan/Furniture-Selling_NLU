@@ -13,7 +13,7 @@ public class DbConnection extends DbInfo implements IConnection {
     public Connection getConnection() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            return DriverManager.getConnection(getConnectionString());
+            return DriverManager.getConnection(getConnectionString(), getUid(), getPwd());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -22,7 +22,6 @@ public class DbConnection extends DbInfo implements IConnection {
 
     @Override
     public String getConnectionString() {
-        return String.format("jdbc:mysql://localhost/%s" +
-                "?user=%s&password=%s", getDatabase(), getUid(), getPwd());
+        return String.format("jdbc:mysql://localhost/%s?useUnicode=true&characterEncoding=utf-8", getDatabase());
     }
 }

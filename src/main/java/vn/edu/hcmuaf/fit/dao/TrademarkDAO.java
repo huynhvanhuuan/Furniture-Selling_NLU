@@ -41,7 +41,23 @@ public class TrademarkDAO implements IGeneralDAO<Trademark> {
 
     @Override
     public Trademark get(int id) {
-        return null;
+        Trademark trademark = null;
+        ResultSet rs = context.executeQuery(String.format(QUERY.TRADEMARK.GET_ITEM_BY_ID, id));
+        try {
+            if (!rs.isBeforeFirst() && rs.getRow() == 0) {
+                return null;
+            }
+            if (rs.next()) {
+                String name = rs.getString("name");
+                String website = rs.getString("website");
+                List<Address> addresses = addressDAO.getListByTrademarkId(id);
+                trademark = new Trademark(id, name, website, addresses);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return trademark;
     }
 
     public int getLastestId() {
@@ -55,10 +71,6 @@ public class TrademarkDAO implements IGeneralDAO<Trademark> {
         } else {
             return context.executeUpdate(String.format(QUERY.TRADEMARK.UPDATE, item.getName(), item.getWebsite(), item.getId()));
         }
-    }
-
-    public boolean addAddress(int idTrademark, int idAddress) {
-        return context.executeUpdate(String.format(QUERY.TRADEMARK_ADDRESS.CREATE, idTrademark, idAddress));
     }
 
     @Override

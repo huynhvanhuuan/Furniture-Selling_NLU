@@ -22,10 +22,10 @@ public class TrademarkController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private TrademarkDAO trademarkDAO;
     private AddressDAO addressDAO;
-    public static List<Integer> addressIds = new ArrayList<>();
     private ProvinceDAO provinceDAO;
     private DistrictDAO districtDAO;
     private WardDAO wardDAO;
+    public static List<Integer> addressIds = new ArrayList<>();
 
     @Override
     public void init() throws ServletException {
@@ -78,12 +78,13 @@ public class TrademarkController extends HttpServlet {
     private void create(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String name = request.getParameter("name");
         String website = request.getParameter("website");
-        //trademarkDAO.save(new Trademark(0, name, website));
-        //int lastestIdTrademark = trademarkDAO.getLastestId();
-        //addressDAO.save(new Address(0, number, street, wardDAO.get(wardId)));
-        //int lastestIdAddress = addressDAO.getLastestId();
-        //trademarkDAO.addAddress(lastestIdTrademark, lastestIdAddress);
-        //response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
+        trademarkDAO.save(new Trademark(0, name, website));
+        int lastestIdTrademark = trademarkDAO.getLastestId();
+        for (int addressId : addressIds) {
+            addressDAO.addAddress(lastestIdTrademark, addressId);
+        }
+        addressIds.clear();
+        response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -105,6 +106,7 @@ public class TrademarkController extends HttpServlet {
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
+        addressDAO.removeAddress(id);
         trademarkDAO.delete(id);
         response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
     }

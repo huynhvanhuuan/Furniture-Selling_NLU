@@ -25,15 +25,17 @@ public class QUERY {
     public static class TRADEMARK {
         public static final String GET_LIST = "select * from trademark";
         public static final String GET_ITEM_BY_ID = "select * from trademark where id = %d";
-        public static final String GET_ITEM_BY_NAME = "select * from trademark where name = N'%s'";
-        public static final String CREATE = "insert into trademark(name, website) values(N'%s', '%s')";
-        public static final String UPDATE = "update trademark set name = N'%s', website = '%s' where id = %d";
+        public static final String GET_ITEM_BY_NAME = "select * from trademark where name like '%s'";
+        public static final String CREATE = "insert into trademark(name, website) values('%s', '%s')";
+        public static final String UPDATE = "update trademark set name = '%s', website = '%s' where id = %d";
         public static final String DELETE = "delete from trademark where id = %d";
     }
 
     /* TRADEMARK - ADDRESS */
     public static class TRADEMARK_ADDRESS {
         public static final String CREATE = "insert into trademark_address(trademark_id, address_id) values(%d, %d)";
+        public static final String GET_LIST_ADDRESS_ID_BY_TRADEMARK_ID = "select address_id from trademark_address where trademark_id = %d";
+        public static final String DELETE_BY_TRADEMARK_ID = "delete from trademark_address where trademark_id = %d";
     }
 
     /* USER */
@@ -52,9 +54,10 @@ public class QUERY {
         public static final String GET_LIST_BY_USER_ID = "select a " +
                 "from address a inner join user_address ua " +
                 "on a.id = ua.address_id where user_id = %d";
-        public static final String CREATE = "insert into address(number, street, ward_id, path) values(N'%s', N'%s', %d, N'%s')";
-        public static final String UPDATE = "update address set number = N'%s', street = N'%s', ward_id = %d, path = N'%s' where id = %d";
-        public static final String DELETE = "";
+        public static final String GET_ITEM_BY_PATH = "select * from address where path = '%s'";
+        public static final String CREATE = "insert into address(number, street, ward_id, district_id, path) values('%s', '%s', %d, %d, '%s')";
+        public static final String UPDATE = "update address set number = '%s', street = '%s', ward_id = %d, district_id = %d, path = '%s' where id = %d";
+        public static final String DELETE = "delete from address where id = %d";
     }
 
     /* PROVINCE */

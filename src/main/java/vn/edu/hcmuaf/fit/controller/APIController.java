@@ -15,6 +15,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,15 +90,33 @@ public class APIController extends HttpServlet {
             case "create":
                 createAddress(request, response);
                 break;
+            case "checkExistWithPath":
+                checkExistWithPath(request, response);
+                break;
         }
     }
 
     private void createAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int wardId = Integer.parseInt(request.getParameter("wardId"));
-        String street = request.getParameter("street") ;
+        int districtId = Integer.parseInt(request.getParameter("districtId"));
+        String street = request.getParameter("street");
         String number = request.getParameter("number");
-        Address address = new Address(0, number, street, wardDAO.get(wardId));
-        addressDAO.save(address);
-        //TrademarkController.addressIds.add(addressDAO.getLastestId());
+        if (request.getParameter("wardId") == null) {
+            District district = districtDAO.get(districtId);
+            addressDAO.save(new Address(0, number, street, district));
+        } else {
+            int wardId = Integer.parseInt(request.getParameter("wardId"));
+            Ward ward = wardDAO.get(wardId);
+            addressDAO.save(new Address(0, number, street, ward, ward.getDistrict()));
+        }
+        TrademarkController.addressIds.add(addressDAO.getLastestId());
+    }
+
+    private void checkExistWithPath(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("application/json");
+        String path = request.getParameter("path");
+        Address address = addressDAO.getItemByPath(path);
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(address));
+        out.close();
     }
 }
