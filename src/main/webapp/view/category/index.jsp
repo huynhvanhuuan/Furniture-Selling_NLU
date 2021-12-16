@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <c:import url="../import/admin/data/head.jsp"/>
+    <c:import url="../import/admin/management/head.jsp"/>
     <title>Quản lý | Thể loại</title>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -177,7 +177,7 @@
     <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-<c:import url="../import/admin/data/script.jsp"/>
+<c:import url="../import/admin/management/script.jsp"/>
 <!-- Page specific script -->
 <script>
     jQuery(function () {
@@ -190,11 +190,6 @@
                 "width": "15%"
             }]
         }).buttons().container().appendTo('#category_wrapper .col-md-6:eq(0)');
-        <%--$.validator.setDefaults({--%>
-        <%--    submitHandler: function () {--%>
-        <%--        window.location.href = "<%=request.getContextPath()%>/category/submit";--%>
-        <%--    }--%>
-        <%--});--%>
         jQuery('#create').validate({
             rules: {
                 sku: {

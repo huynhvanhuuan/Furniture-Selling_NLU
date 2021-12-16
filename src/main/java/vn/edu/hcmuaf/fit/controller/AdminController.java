@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
+import vn.edu.hcmuaf.fit.model.User;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -7,7 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "AdminController", value = "/admin/*")
+@WebServlet(name = "AdminController", value = "/admin/dashboard")
 public class AdminController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -18,34 +20,27 @@ public class AdminController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getPathInfo();
-        if (action == null) {
-            getDashboard(request, response);
-        } else {
-            switch (action) {
-                case "/signin":
-                    getSignin(request, response);
-                    break;
-                case "/submit":
-                    signin(request, response);
-                    break;
-                case "/signout":
-                    signout(request, response);
-                    break;
-                default:
-                    getDashboard(request, response);
-                    break;
-            }
+        String action = request.getServletPath();
+        switch (action) {
+            case "/admin/signin":
+                getSignin(request, response);
+                break;
+            case "/admin/signout":
+                signout(request, response);
+                break;
+            default:
+                getDashboard(request, response);
         }
     }
 
     /* Show dashboard page */
     private void getDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        HttpSession session = request.getSession();
-//        if (session.isNew()) {
-//            response.sendRedirect(request.getServletPath() + request.getContextPath() + "/signin");
+//        if (session.isNew() || session.getAttribute("user_id") == null) {
+//            response.sendRedirect(request.getContextPath() + "/admin/signin");
 //        } else {
-            request.setAttribute("title", "Dashboard");
+            User user = new User();
+            request.setAttribute("title", "Chào mừng trở lại, " + user.getUsername());
             request.getRequestDispatcher("/view/admin/index.jsp").forward(request, response);
 //        }
     }

@@ -5,16 +5,10 @@ import java.util.Date;
 
 public class Product implements Serializable {
     private int id;
-    private String sku;
     private String name;
     private String description;
-    private String imageUrl;
-    private Material material;
-    private Size size;
-    private Category category;;
     private Trademark trademark;
-    private int unitPrice;
-    private int unitInStrock;
+    private Category category;
     private Date dateCreated;
     private Date lastUpdated;
     private boolean active;
@@ -22,19 +16,22 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(int id, String sku, String name, String description, String imageUrl, Material material, Size size, Category category,
-                   Trademark trademark, int unitPrice, int unitInStrock, Date dateCreated, Date lastUpdated, boolean active) {
+    public Product(int id, String name, String description, Trademark trademark, Category category, boolean active) {
         this.id = id;
-        this.sku = sku;
         this.name = name;
         this.description = description;
-        this.imageUrl = imageUrl;
-        this.material = material;
-        this.size = size;
+        this.trademark = trademark;
+        this.category = category;
+        this.active = active;
+    }
+
+    public Product(int id, String name, String description, Trademark trademark, Category category,
+                   Date dateCreated, Date lastUpdated, boolean active) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
         this.category = category;
         this.trademark = trademark;
-        this.unitPrice = unitPrice;
-        this.unitInStrock = unitInStrock;
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         this.active = active;
@@ -46,14 +43,6 @@ public class Product implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
     }
 
     public String getName() {
@@ -72,30 +61,6 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public Material getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(Material material) {
-        this.material = material;
-    }
-
-    public Size getSize() {
-        return size;
-    }
-
-    public void setSize(Size size) {
-        this.size = size;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -110,22 +75,6 @@ public class Product implements Serializable {
 
     public void setTrademark(Trademark trademark) {
         this.trademark = trademark;
-    }
-
-    public int getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(int unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public int getUnitInStrock() {
-        return unitInStrock;
-    }
-
-    public void setUnitInStrock(int unitInStrock) {
-        this.unitInStrock = unitInStrock;
     }
 
     public Date getDateCreated() {

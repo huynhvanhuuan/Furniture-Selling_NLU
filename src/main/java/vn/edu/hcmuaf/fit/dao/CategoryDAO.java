@@ -1,79 +1,84 @@
 package vn.edu.hcmuaf.fit.dao;
 
-import vn.edu.hcmuaf.fit.database.DbContext;
+import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
 import vn.edu.hcmuaf.fit.model.Category;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDAO implements IGeneralDAO<Category> {
-    private DbContext context;
+    private final IConnectionPool connectionPool;
+    private Connection connection;
 
-    public CategoryDAO(DbContext context) {
-        this.context = context;
+    public CategoryDAO(IConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
     }
 
     @Override
-    public List<Category> getList() {
+    public List<Category> getList() throws SQLException {
         List<Category> categories = new ArrayList<>();
-        ResultSet rs = context.executeQuery(QUERY.CATEGORY.GET_LIST);
-        try {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String sku = rs.getString("sku");
-                String name = rs.getString("name");
-                Category category = new Category(id, sku, name);
-                categories.add(category);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return categories;
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.GET_LIST);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String sku = rs.getString("sku");
+            String name = rs.getString("name");
+            Category category = new Category(id, sku, name);
+            categories.add(category);
         }
+        connectionPool.releaseConnection(connection);
         return categories;
     }
 
     @Override
-    public Category get(int id) {
+    public Category get(int id) throws SQLException {
         Category category = null;
-        ResultSet rs = context.executeQuery(String.format(QUERY.CATEGORY.GET_ITEM_BY_ID, id));
-        try {
-            if (!rs.isBeforeFirst() && rs.getRow() == 0) {
-                return null;
-            }
-            if (rs.next()) {
-                String sku = rs.getString("sku");
-                String name = rs.getString("name");
-                category = new Category(id, sku, name);
-                category.setSku(sku);
-                category.setName(name);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.GET_ITEM_BY_ID);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        if (!rs.isBeforeFirst() && rs.getRow() == 0) return null;
+        if (rs.next()) {
+            String sku = rs.getString("sku");
+            String name = rs.getString("name");
+            category = new Category(id, sku, name);
+            category.setSku(sku);
+            category.setName(name);
         }
+        connectionPool.releaseConnection(connection);
         return category;
     }
 
     @Override
-    public boolean save(Category item) {
+    public boolean save(Category item) throws SQLException {
+        connection = connectionPool.getConnection();
+        PreparedStatement statement;
         if (item.getId() == 0) {
-            return context.executeUpdate(String.format(QUERY.CATEGORY.CREATE, item.getSku(), item.getName()));
+            statement = connection.prepareStatement(QUERY.CATEGORY.CREATE);
         } else {
-            return context.executeUpdate(String.format(QUERY.CATEGORY.UPDATE, item.getSku(), item.getName(), item.getId()));
+            statement = connection.prepareStatement(QUERY.CATEGORY.UPDATE);
+            statement.setInt(3, item.getId());
         }
+        statement.setString(1, item.getSku());
+        statement.setString(2, item.getName());
+        int result = statement.executeUpdate();
+        connectionPool.releaseConnection(connection);
+        return result == 1;
     }
 
     @Override
-    public boolean delete(int id) {
-        return context.executeUpdate(String.format(QUERY.CATEGORY.DELETE, id));
-    }
-
-    public boolean exists(String name) {
-        ResultSet rs = context.executeQuery(String.format(QUERY.CATEGORY.GET_ITEM_BY_NAME, name));
-
-        return false;
+    public boolean delete(int id) throws SQLException {
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.DELETE);
+        statement.setInt(1, id);
+        int result = statement.executeUpdate();
+        connectionPool.releaseConnection(connection);
+        return result == 1;
     }
 }

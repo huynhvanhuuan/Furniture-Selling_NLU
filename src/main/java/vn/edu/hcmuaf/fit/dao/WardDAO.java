@@ -1,21 +1,24 @@
 package vn.edu.hcmuaf.fit.dao;
 
-import vn.edu.hcmuaf.fit.database.DbContext;
+import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
 import vn.edu.hcmuaf.fit.model.Ward;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WardDAO implements IGeneralDAO<Ward> {
-    private DbContext context;
+    private final IConnectionPool connectionPool;
+    private Connection connection;
     private DistrictDAO districtDAO;
 
-    public WardDAO(DbContext context) {
-        this.context = context;
-        districtDAO = new DistrictDAO(context);
+    public WardDAO(IConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+        districtDAO = new DistrictDAO(connectionPool);
     }
 
     @Override
@@ -23,42 +26,38 @@ public class WardDAO implements IGeneralDAO<Ward> {
         return null;
     }
 
-    public List<Ward> getListByDistrictId(int districtId) {
+    public List<Ward> getListByDistrictId(int districtId) throws SQLException {
         List<Ward> wards = new ArrayList<>();
-        ResultSet rs = context.executeQuery(String.format(QUERY.WARD.GET_LIST_BY_DISTRICT_ID, districtId));
-        try {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String prefix = rs.getString("prefix");
-                Ward ward = new Ward(id, name, prefix, districtDAO.get(districtId));
-                wards.add(ward);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return wards;
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY.WARD.GET_LIST_BY_DISTRICT_ID);
+        statement.setInt(1, districtId);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            String prefix = rs.getString("prefix");
+            Ward ward = new Ward(id, name, prefix, districtDAO.get(districtId));
+            wards.add(ward);
         }
+        connectionPool.releaseConnection(connection);
         return wards;
     }
 
     @Override
-    public Ward get(int id) {
+    public Ward get(int id) throws SQLException {
         Ward ward = null;
-        ResultSet rs = context.executeQuery(String.format(QUERY.WARD.GET_ITEM_BY_ID, id));
-        try {
-            if (!rs.isBeforeFirst() && rs.getRow() == 0) {
-                return null;
-            }
-            if (rs.next()) {
-                String name = rs.getString("name");
-                String prefix = rs.getString("prefix");
-                int districtId = rs.getInt("district_id");
-                ward = new Ward(id, name, prefix, districtDAO.get(districtId));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY.WARD.GET_ITEM_BY_ID);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        if (!rs.isBeforeFirst() && rs.getRow() == 0) return null;
+        if (rs.next()) {
+            String name = rs.getString("name");
+            String prefix = rs.getString("prefix");
+            int districtId = rs.getInt("district_id");
+            ward = new Ward(id, name, prefix, districtDAO.get(districtId));
         }
+        connectionPool.releaseConnection(connection);
         return ward;
     }
 

@@ -1,34 +1,16 @@
-<%@ page import="vn.edu.hcmuaf.fit.dto.Address" %>
-<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Huỳnh Văn Hữu Ân
-  Date: 12/4/2021
-  Time: 9:17 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <c:import url="../import/admin/data/head.jsp"/>
+    <c:import url="../import/admin/management/head.jsp"/>
     <title>Quản lý | Thương hiệu</title>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-    <!-- Preloader -->
-    <%--    <c:import url="../import/admin/preloader.jsp"/>--%>
-    <!-- Navbar -->
     <c:import url="../import/admin/navbar.jsp"/>
-    <!-- /.navbar -->
-    <!-- Main Sidebar Container -->
     <c:import url="../import/admin/sidebar.jsp"/>
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <c:import url="../import/admin/header.jsp"/>
-        <!-- /.content-header -->
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -88,12 +70,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.card-body -->
                         </div>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
-            <%-- Create modal --%>
+            </div>
             <div class="modal fade" id="create-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content card card-success">
@@ -103,22 +83,12 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/trademark/create" method="POST" id="create" novalidate="novalidate">
+                        <form action="admin/trademark?action=create" method="POST" id="create" novalidate="novalidate">
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Tên thương hiệu</label>
                                     <input type="text" name="name" class="form-control" placeholder="VD: LTW"/>
                                 </div>
-                                <%--<div class="form-group">
-                                    <label>Địa chỉ</label>&ensp;
-                                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#add-address-modal"
-                                            onclick="addAddress()">
-                                        Nhấn để thêm
-                                    </button>
-                                    <input type="hidden" name="address-count" value="0"><br>
-                                    <span class="address-error text-danger" style="display: none;">Vui lòng thêm ít nhất 1 địa chỉ</span>
-                                    <ul class="add-address-list"></ul>
-                                </div>--%>
                                 <div class="form-group">
                                     <label>Website</label>
                                     <input type="text" name="website" class="form-control" placeholder="VD: https://ltw.com/"/>
@@ -130,12 +100,8 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
-            <%-- Update modal --%>
             <div class="modal fade" id="update-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content card card-warning">
@@ -145,23 +111,13 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/trademark/update" method="POST" id="update" novalidate="novalidate">
+                        <form action="admin/trademark?action=update" method="POST" id="update" novalidate="novalidate">
                             <input type="hidden" name="id"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Tên thương hiệu</label>
                                     <input type="text" name="name" class="form-control" placeholder="VD: LTW"/>
                                 </div>
-                                <%--<div class="form-group">
-                                    <label>Địa chỉ</label>&ensp;
-                                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#add-address-modal"
-                                            onclick="addAddress()">
-                                        Nhấn để thêm
-                                    </button>
-                                    <input type="hidden" name="address-count" value="0"><br>
-                                    <span class="address-error text-danger" style="display: none;">Vui lòng thêm ít nhất 1 địa chỉ</span>
-                                    <ul class="add-address-list"></ul>
-                                </div>--%>
                                 <div class="form-group">
                                     <label>Website</label>
                                     <input type="text" name="website" class="form-control" placeholder="VD: https://ltw.com/"/>
@@ -173,11 +129,8 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
             <%-- Delete modal --%>
             <div class="modal fade" id="delete-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
@@ -188,7 +141,7 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/trademark/delete" method="POST">
+                        <form action="trademark/delete" method="POST">
                             <input type="hidden" name="id"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
@@ -201,11 +154,8 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
             <!-- Add address modal -->
             <div class="modal fade" id="add-address-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -222,7 +172,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
-                                                <select class="select2bs4" name="province" style="width: 100%;" autocomplete="on">
+                                                <select class="select2bs4" name="province" style="width: 100%;">
                                                     <option value="">Tỉnh / Thành phố</option>
                                                     <jsp:useBean id="provinces" scope="request" type="java.util.List"/>
                                                     <c:forEach items="${provinces}" var="province">
@@ -267,11 +217,8 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
             <!-- Update address modal -->
             <div class="modal fade" id="update-address-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -282,7 +229,7 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/trademark/update-address" method="POST" id="update-address" novalidate="novalidate">
+                        <form action="trademark/update-address" method="POST" id="update-address" novalidate="novalidate">
                             <div class="modal-body card-body">
                                 <div class="form-group address">
                                     <div class="row">
@@ -334,31 +281,21 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
     <c:import url="../import/admin/footer.jsp"/>
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+    <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
-<!-- ./wrapper -->
-<c:import url="../import/admin/data/script.jsp"/>
-<!-- Page specific script -->
+<c:import url="../import/admin/management/script.jsp"/>
 <script>
     const province$ = jQuery('select[name = "province"]');
     const district$ = jQuery('select[name = "district"]');
     const ward$ = jQuery('select[name = "ward"]');
     const street$ = jQuery('input[name = "street"]');
     const number$ = jQuery('input[name = "number"]');
+    let addressTitle$;
     let address = {
         number: null,
         street: null,
@@ -366,7 +303,6 @@
         district: null,
         province: null,
     }
-    let addressTitle$;
 
     function addAddress() {
         addressTitle$ = jQuery('#add-address-title');
@@ -412,7 +348,7 @@
     function getDistrictList(select) {
         $.ajax({
             type: "GET",
-            url: '<%=request.getContextPath()%>/api/province',
+            url: 'admin/address?action=getDistrictList',
             data: { id: select.value },
             dataType: "json",
             contentType: "application/json",
@@ -434,7 +370,7 @@
     function getWardList(select) {
         $.ajax({
             type: "GET",
-            url: '<%=request.getContextPath()%>/api/district',
+            url: 'admin/address?action=getWardList',
             data: { id: select.value },
             dataType: "json",
             contentType: "application/json",
@@ -533,12 +469,12 @@
     })
 
     jQuery(function () {
-        /* Create theme bootstrap for select2 */
+        // Select2
         jQuery('.select2bs4').select2({
             theme: 'bootstrap4'
         })
 
-        /* Setup datatables */
+        // Datatables
         jQuery("#trademark").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
@@ -549,7 +485,72 @@
             }]
         }).buttons().container().appendTo('#trademark_wrapper .col-md-6:eq(0)');
 
-        /* Create address validation function */
+        // Validator
+        jQuery('#create').validate({
+            rules: {
+                name: {
+                    required: true,
+                }
+            },
+            messages: {
+                name: "Vui lòng nhập tên thương hiệu"
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                jQuery(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                jQuery(element).removeClass('is-invalid');
+            }
+        });
+        jQuery('#update').validate({
+            rules: {
+                name: {
+                    required: true,
+                }
+            },
+            messages: {
+                name: "Vui lòng nhập tên thương hiệu"
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                jQuery(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                jQuery(element).removeClass('is-invalid');
+            }
+        });
+
+        jQuery('.delete').on('click', function() {
+            let id = jQuery(this).parent().find('input[name = "id"]').val();
+            jQuery('#delete-modal input[name = "id"]').val(id);
+        });
+
+        jQuery('.update').on('click', function() {
+            let id = jQuery(this).parent().find('input[name = "id"]').val();
+            $.ajax({
+                type: "GET",
+                url: '<%=request.getContextPath()%>/trademark/get',
+                data: { id: id },
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    jQuery('#update-modal input[name = "id"]').val(data.id);
+                    jQuery('#update-modal input[name = "name"]').val(data.name);
+                    jQuery('#update-modal input[name = "website"]').val(data.website);
+                }
+            })
+        });
+
+        // ADDRESS
         jQuery('#add-address').validate({
             rules: {
                 province: {
@@ -590,8 +591,6 @@
                 jQuery(element).removeClass('is-invalid');
             }
         })
-
-        /* Update Address validation function */
         jQuery('#update-address').validate({
             rules: {
                 province: {
@@ -633,53 +632,6 @@
             }
         })
 
-        /* Create trademark validation function */
-        jQuery('#create').validate({
-            rules: {
-                name: {
-                    required: true,
-                }
-            },
-            messages: {
-                name: "Vui lòng nhập tên thương hiệu"
-            },
-            errorElement: 'span',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element, errorClass, validClass) {
-                jQuery(element).addClass('is-invalid');
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                jQuery(element).removeClass('is-invalid');
-            }
-        });
-
-        /* Update trademark validtion function */
-        jQuery('#update').validate({
-            rules: {
-                name: {
-                    required: true,
-                }
-            },
-            messages: {
-                name: "Vui lòng nhập tên thương hiệu"
-            },
-            errorElement: 'span',
-            errorPlacement: function (error, element) {
-                error.addClass('invalid-feedback');
-                element.closest('.form-group').append(error);
-            },
-            highlight: function (element, errorClass, validClass) {
-                jQuery(element).addClass('is-invalid');
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                jQuery(element).removeClass('is-invalid');
-            }
-        });
-
-        /* Add address function */
         jQuery('#add').on('click', function() {
             // Get values
             let districtId = jQuery(this).closest('#add-address').find('select[name = "district"]').val();
@@ -740,29 +692,6 @@
                 })
             }
         })
-
-        /* Delete trademark function */
-        jQuery('.delete').on('click', function() {
-            let id = jQuery(this).parent().find('input[name = "id"]').val();
-            jQuery('#delete-modal input[name = "id"]').val(id);
-        });
-
-        /* Update trademark function */
-        jQuery('.update').on('click', function() {
-            let id = jQuery(this).parent().find('input[name = "id"]').val();
-            $.ajax({
-                type: "GET",
-                url: '<%=request.getContextPath()%>/trademark/get',
-                data: { id: id },
-                dataType: "json",
-                contentType: "application/json",
-                success: function (data) {
-                    jQuery('#update-modal input[name = "id"]').val(data.id);
-                    jQuery('#update-modal input[name = "name"]').val(data.name);
-                    jQuery('#update-modal input[name = "website"]').val(data.website);
-                }
-            })
-        });
     });
 </script>
 </body>
