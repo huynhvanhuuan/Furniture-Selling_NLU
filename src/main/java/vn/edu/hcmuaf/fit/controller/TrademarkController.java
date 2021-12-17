@@ -9,10 +9,8 @@ import vn.edu.hcmuaf.fit.model.Trademark;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "TrademarkController", value = "/admin/trademark")
@@ -83,7 +81,6 @@ public class TrademarkController extends HttpServlet {
     }
 
     private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
         Trademark trademark = trademarkDAO.get(id);
         PrintWriter out = response.getWriter();
@@ -95,20 +92,20 @@ public class TrademarkController extends HttpServlet {
         String name = request.getParameter("name");
         String website = request.getParameter("website");
         trademarkDAO.save(new Trademark(0, name, website));
-        response.sendRedirect(request.getContextPath() + request.getServletPath());
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
 
-    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String website = request.getParameter("website");
-        //trademarkDAO.save(new Trademark(id, name, website));
-        response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
+        trademarkDAO.save(new Trademark(id, name, website));
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
         trademarkDAO.delete(id);
-        response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
 }

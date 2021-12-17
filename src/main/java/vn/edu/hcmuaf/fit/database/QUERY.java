@@ -38,16 +38,20 @@ public class QUERY {
     }
 
     /* USER */
-
+    public static class USER {
+        public static final String GET_LIST = "select * from user";
+    }
 
     /* ADDRESS */
     public static class ADDRESS {
         public static final String GET_LIST_BY_TRADEMARK_ID = "select a.* from address a inner join trademark_address ta on a.id = ta.address_id where trademark_id = ?";
         public static final String GET_LIST_BY_USER_ID = "select a from address a inner join user_address ua on a.id = ua.address_id where user_id = ?";
+        public static final String GET_ITEM_BY_ID = "select * from address where id = ?";
         public static final String GET_ITEM_BY_PATH = "select * from address where path like ?";
         public static final String CREATE = "insert into address(number, street, ward_id, district_id, path) values(?, ?, ?, ?, ?)";
         public static final String UPDATE = "update address set number = ?, street = ?, ward_id = ?, district_id = ?, path = ? where id = ?";
         public static final String DELETE = "delete from address where id = ?";
+        public static final String GET_LAST_ID = "select id from address order by id desc limit 1";
     }
 
     /* TRADEMARK - ADDRESS */
