@@ -1,27 +1,27 @@
-package vn.edu.hcmuaf.fit.model;
+package vn.edu.hcmuaf.fit.dto.product;
 
 import java.io.Serializable;
 
 public class Material implements Serializable {
-    private int id;
+    private String sku;
     private String name;
 
     public Material() {
     }
 
-    public Material(int id, String name) {
-        this.id = id;
+    public Material(String sku, String name) {
+        this.sku = sku;
         this.name = name;
     }
-
-    public int getId() {
-        return id;
+    
+    public String getSku() {
+        return sku;
     }
-
-    public void setId(int id) {
-        this.id = id;
+    
+    public void setSku(String sku) {
+        this.sku = sku;
     }
-
+    
     public String getName() {
         return name;
     }

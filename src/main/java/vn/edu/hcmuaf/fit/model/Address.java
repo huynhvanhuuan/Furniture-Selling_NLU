@@ -1,8 +1,8 @@
-package vn.edu.hcmuaf.fit.dto;
+package vn.edu.hcmuaf.fit.model;
 
-import vn.edu.hcmuaf.fit.model.District;
-import vn.edu.hcmuaf.fit.model.Province;
-import vn.edu.hcmuaf.fit.model.Ward;
+import vn.edu.hcmuaf.fit.dto.address.District;
+import vn.edu.hcmuaf.fit.dto.address.Province;
+import vn.edu.hcmuaf.fit.dto.address.Ward;
 
 import java.io.Serializable;
 

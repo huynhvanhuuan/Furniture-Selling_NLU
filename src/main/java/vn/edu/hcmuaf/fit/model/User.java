@@ -2,9 +2,9 @@ package vn.edu.hcmuaf.fit.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class User implements Serializable {
-
     private int id;
     private String firstName;
     private String lastName;
@@ -16,6 +16,7 @@ public class User implements Serializable {
     private Date lastLoginDate;
     private boolean notLocked;
     private boolean active;
+    private List<Address> addresses;
 
     public User() {
     }
@@ -32,6 +33,21 @@ public class User implements Serializable {
         this.lastLoginDate = lastLoginDate;
         this.notLocked = notLocked;
         this.active = active;
+    }
+    
+    public User(int id, String firstName, String lastName, String username, String password, String email, String profileImageUrl, Date dateCreated, Date lastLoginDate, boolean notLocked, boolean active, List<Address> addresses) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.profileImageUrl = profileImageUrl;
+        this.dateCreated = dateCreated;
+        this.lastLoginDate = lastLoginDate;
+        this.notLocked = notLocked;
+        this.active = active;
+        this.addresses = addresses;
     }
 
     public int getId() {
@@ -120,5 +136,13 @@ public class User implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+    
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
     }
 }

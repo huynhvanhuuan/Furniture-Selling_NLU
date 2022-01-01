@@ -2,39 +2,48 @@ package vn.edu.hcmuaf.fit.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Product implements Serializable {
     private int id;
     private String name;
+    private String size;
     private String description;
     private Trademark trademark;
     private Category category;
     private Date dateCreated;
     private Date lastUpdated;
     private boolean active;
+    private List<ProductDetail> products;
 
     public Product() {
     }
 
-    public Product(int id, String name, String description, Trademark trademark, Category category, boolean active) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.trademark = trademark;
-        this.category = category;
-        this.active = active;
-    }
-
-    public Product(int id, String name, String description, Trademark trademark, Category category,
+    public Product(int id, String name, String size, String description, Trademark trademark, Category category,
                    Date dateCreated, Date lastUpdated, boolean active) {
         this.id = id;
         this.name = name;
+        this.size = size;
         this.description = description;
         this.category = category;
         this.trademark = trademark;
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         this.active = active;
+    }
+    
+    public Product(int id, String name, String size, String description, Trademark trademark, Category category,
+                   Date dateCreated, Date lastUpdated, boolean active, List<ProductDetail> products) {
+        this.id = id;
+        this.name = name;
+        this.size = size;
+        this.description = description;
+        this.category = category;
+        this.trademark = trademark;
+        this.dateCreated = dateCreated;
+        this.lastUpdated = lastUpdated;
+        this.active = active;
+        this.products = products;
     }
 
     public int getId() {
@@ -52,7 +61,15 @@ public class Product implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
+    
+    public String getSize() {
+        return size;
+    }
+    
+    public void setSize(String size) {
+        this.size = size;
+    }
+    
     public String getDescription() {
         return description;
     }

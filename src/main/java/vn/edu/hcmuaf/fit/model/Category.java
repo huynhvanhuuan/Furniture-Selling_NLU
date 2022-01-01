@@ -3,25 +3,17 @@ package vn.edu.hcmuaf.fit.model;
 import java.io.Serializable;
 
 public class Category implements Serializable {
-    private int id;
     private String sku;
     private String name;
+    private boolean active;
 
     public Category() {
     }
 
-    public Category(int id, String sku, String name) {
-        this.id = id;
+    public Category(String sku, String name, boolean active) {
         this.sku = sku;
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.active = active;
     }
 
     public String getSku() {
@@ -38,5 +30,13 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public boolean isActive() {
+        return active;
+    }
+    
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

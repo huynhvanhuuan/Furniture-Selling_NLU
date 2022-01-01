@@ -1,4 +1,6 @@
-package vn.edu.hcmuaf.fit.model;
+package vn.edu.hcmuaf.fit.dto.address;
+
+import vn.edu.hcmuaf.fit.dto.address.District;
 
 import java.io.Serializable;
 
