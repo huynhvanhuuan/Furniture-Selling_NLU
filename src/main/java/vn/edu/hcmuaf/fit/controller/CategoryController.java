@@ -1,9 +1,9 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.dao.CategoryDAO;
-import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.model.Category;
+import vn.edu.hcmuaf.fit.service.CategoryService;
+import vn.edu.hcmuaf.fit.service.CategoryServiceImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,14 +16,13 @@ import java.util.List;
 @WebServlet(name = "CategoryController", value = "/admin/category")
 public class CategoryController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private CategoryDAO categoryDAO;
-
+    private CategoryService categoryService;
+    
     @Override
     public void init() throws ServletException {
-        IConnectionPool connectionPool = (IConnectionPool) getServletContext().getAttribute("connectionPool");
-        categoryDAO = new CategoryDAO(connectionPool);
+        categoryService = new CategoryServiceImpl();
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -47,11 +46,11 @@ public class CategoryController extends HttpServlet {
                 case "get":
                     get(request, response);
                     break;
-                case "getAll":
-                    getAll(request, response);
-                    break;
                 case "delete":
                     delete(request, response);
+                    break;
+                case "changeActive":
+                    changeActive(request, response);
                     break;
                 default:
                     getMainPage(request, response);
@@ -63,52 +62,46 @@ public class CategoryController extends HttpServlet {
     }
 
     private void getMainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        /* Set title */
         request.setAttribute("title", "QUẢN LÝ THỂ LOẠI");
-
-        /* Database */
-        List<Category> categories = categoryDAO.getList();
+        List<Category> categories = categoryService.getList();
         request.setAttribute("categories", categories);
-
-        request.getRequestDispatcher("/view/category/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/view/admin/category.jsp").forward(request, response);
     }
 
-    private void getAll(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        response.setContentType("application/json");
-        List<Category> categories = categoryDAO.getList();
-        PrintWriter out = response.getWriter();
-        out.println(new Gson().toJson(categories));
-        out.close();
-    }
-
-    private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+    private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         String name = request.getParameter("name");
         String sku = request.getParameter("sku");
-        categoryDAO.save(new Category(0, sku, name));
-        response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
+        categoryService.create(new Category(sku, name, true));
+        getMainPage(request, response);
     }
 
-    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        int id = Integer.parseInt(request.getParameter("id"));
+    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         String sku = request.getParameter("sku");
         String name = request.getParameter("name");
-        Category category = new Category(id, sku, name);
-        categoryDAO.save(category);
-        response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
+        String active = request.getParameter("active");
+        Category category = new Category(sku, name, active.equals("1"));
+        categoryService.update(category);
+        getMainPage(request, response);
     }
 
     private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         response.setContentType("application/json");
-        int id = Integer.parseInt(request.getParameter("id"));
-        Category category = categoryDAO.get(id);
+        String sku = request.getParameter("sku");
+        Category category = categoryService.get(sku);
         PrintWriter out = response.getWriter();
         out.println(new Gson().toJson(category));
         out.close();
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        categoryDAO.delete(id);
-        response.sendRedirect(request.getContextPath() + request.getServletPath() + "/list");
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+        String sku = request.getParameter("sku");
+        categoryService.delete(sku);
+        getMainPage(request, response);
+    }
+    
+    private void changeActive(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+        String sku = request.getParameter("sku");
+        categoryService.changeActive(sku);
+        getMainPage(request, response);
     }
 }

@@ -42,8 +42,8 @@ public class QUERY {
         public static final String GET_CATEGORY_BY_SKU = "select * from category where sku like ?";
         public static final String CREATE = "insert into category(sku, name) values(?, ?)";
         public static final String UPDATE = "update category set name = ? where sku = ?";
-        public static final String CHANGE_ACTIVE = "update category set active = 0 where sku like = ?";
         public static final String DELETE = "delete from category where sku = ?";
+        public static final String CHANGE_ACTIVE = "update category set active = (case active when 1 then 0 when 0 then 1 end) where id = ?";
     }
 
     /* TRADEMARK */

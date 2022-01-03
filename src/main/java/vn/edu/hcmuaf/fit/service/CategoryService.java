@@ -1,11 +1,11 @@
-package vn.edu.hcmuaf.fit.dao;
+package vn.edu.hcmuaf.fit.service;
 
 import vn.edu.hcmuaf.fit.model.Category;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public interface CategoryDAO {
+public interface CategoryService {
 	List<Category> getList() throws SQLException;
 	Category get(String sku) throws SQLException;
 	void create(Category item) throws SQLException;
