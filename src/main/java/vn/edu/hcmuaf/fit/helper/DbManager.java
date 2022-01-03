@@ -10,7 +10,7 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class DbManager implements ServletContextListener {
 
-    private IConnectionPool connectionPool;
+    public static IConnectionPool connectionPool;
 
     public DbManager() {}
 
@@ -20,8 +20,7 @@ public class DbManager implements ServletContextListener {
         String pwd = sce.getServletContext().getInitParameter("pwd");
         String database = sce.getServletContext().getInitParameter("database");
         connectionPool = DbConnection.init(uid, pwd, database);
-        sce.getServletContext().setAttribute("connectionPool", connectionPool);
-        System.out.println("Database has been created!!!");
+         sce.getServletContext().setAttribute("connectionPool", connectionPool);
     }
 
     @Override

@@ -1,11 +1,12 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.dao.*;
-import vn.edu.hcmuaf.fit.database.IConnectionPool;
-import vn.edu.hcmuaf.fit.dto.Address;
-import vn.edu.hcmuaf.fit.model.District;
-import vn.edu.hcmuaf.fit.model.Ward;
+import vn.edu.hcmuaf.fit.dto.address.Province;
+import vn.edu.hcmuaf.fit.model.Address;
+import vn.edu.hcmuaf.fit.dto.address.District;
+import vn.edu.hcmuaf.fit.dto.address.Ward;
+import vn.edu.hcmuaf.fit.service.AddressService;
+import vn.edu.hcmuaf.fit.service.AddressServiceImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,16 +19,11 @@ import java.util.List;
 @WebServlet(name = "AddressController", value = "/admin/address")
 public class AddressController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private DistrictDAO districtDAO;
-    private WardDAO wardDAO;
-    private AddressDAO addressDAO;
-
+    private AddressService addressService;
+    
     @Override
     public void init() throws ServletException {
-        IConnectionPool connectionPool = (IConnectionPool) getServletContext().getAttribute("connectionPool");
-        districtDAO = new DistrictDAO(connectionPool);
-        wardDAO = new WardDAO(connectionPool);
-        addressDAO = new AddressDAO(connectionPool);
+        addressService = new AddressServiceImpl();
     }
 
     @Override
@@ -42,37 +38,51 @@ public class AddressController extends HttpServlet {
         try {
             String action = request.getParameter("action");
             switch (action) {
+                case "getProvinceList":
+                    getProvinceList(response);
+                    break;
                 case "getDistrictList":
                     getDistrictList(request, response);
                     break;
                 case "getWardList":
                     getWardList(request, response);
                     break;
-                case "create":
-                    create(request, response);
+                case "createTrademarkAddress":
+                    createTrademarkAddress(request, response);
+                    break;
+                case "createUserAddress":
+                    createUserAddress(request, response);
                     break;
                 case "update":
                     update(request, response);
                     break;
-                case "get":
-                    get(request, response);
+                case "getAddressById":
+                    getAddressById(request, response);
+                    break;
+                case "getAddressByPath":
+                    getAddressByPath(request, response);
                     break;
                 case "delete":
                     delete(request, response);
-                    break;
-                case "checkExistWithPath":
-                    checkExistWithPath(request, response);
                     break;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
+    
+    private void getProvinceList(HttpServletResponse response) throws IOException, SQLException {
+        response.setContentType("application/json");
+        List<Province> provinces = addressService.getProvinceList();
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(provinces));
+        out.close();
+    }
+    
     private void getDistrictList(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
-        List<District> districts = districtDAO.getListByProvinceId(id);
+        List<District> districts = addressService.getDistrictListByProvinceId(id);
         PrintWriter out = response.getWriter();
         out.println(new Gson().toJson(districts));
         out.close();
@@ -81,70 +91,90 @@ public class AddressController extends HttpServlet {
     private void getWardList(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
-        List<Ward> wards = wardDAO.getListByDistrictId(id);
+        List<Ward> wards = addressService.getWardListByDistrictId(id);
         PrintWriter out = response.getWriter();
         out.println(new Gson().toJson(wards));
         out.close();
     }
-
-    private void create(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        String url = request.getParameter("url");
-        int trademarkId = Integer.parseInt(request.getParameter("trademarkId"));
-        int districtId = Integer.parseInt(request.getParameter("district"));
-        String wardId = request.getParameter("ward");
-        String street = request.getParameter("street");
-        String number = request.getParameter("number");
-        if (number.equals("")) number = null;
-        if (wardId.equals("")) {
-            District district = districtDAO.get(districtId);
-            addressDAO.saveFromTrademark(trademarkId, new Address(0, number, street, district));
-        } else {
-            Ward ward = wardDAO.get(Integer.parseInt(wardId));
-            addressDAO.saveFromTrademark(trademarkId, new Address(0, number, street, ward, ward.getDistrict()));
-        }
-        response.sendRedirect(request.getContextPath() + url);
-    }
-
-    private void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        String url = request.getParameter("url");
-        int id = Integer.parseInt(request.getParameter("id"));
-        int districtId = Integer.parseInt(request.getParameter("district"));
-        String wardId = request.getParameter("ward");
-        String street = request.getParameter("street");
-        String number = request.getParameter("number");
-        if (number.equals("")) number = null;
-        if (wardId.equals("")) {
-            District district = districtDAO.get(districtId);
-            addressDAO.save(new Address(id, number, street, district));
-        } else {
-            Ward ward = wardDAO.get(Integer.parseInt(wardId));
-            addressDAO.save(new Address(id, number, street, ward, ward.getDistrict()));
-        }
-        response.sendRedirect(request.getContextPath() + url);
-    }
-
-    private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+    
+    private void getAddressById(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
-        Address address = addressDAO.get(id);
+        Address address = addressService.getAddress(id);
         PrintWriter pw = response.getWriter();
         pw.println(new Gson().toJson(address));
         pw.close();
+    }
+    
+    private void getAddressByPath(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        response.setContentType("application/json");
+        String path = request.getParameter("path");
+        Address address = addressService.getAddress(path);
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(address));
+        out.close();
+    }
+
+    private void createTrademarkAddress(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String url = request.getParameter("url");
+        int trademarkId = Integer.parseInt(request.getParameter("trademarkId"));
+        String path = request.getParameter("path");
+        int districtId = Integer.parseInt(request.getParameter("district"));
+        int wardId = Integer.parseInt(request.getParameter("ward"));
+        String street = request.getParameter("street");
+        String number = request.getParameter("number");
+        if (number.equals("")) number = null;
+        if (wardId == 0) {
+            District district = addressService.getDistrict(districtId);
+            addressService.createTrademarkAddress(trademarkId, new Address(0, number, street, null, district, path));
+        } else {
+            Ward ward = addressService.getWard(wardId);
+            addressService.createTrademarkAddress(trademarkId, new Address(0, number, street, ward, ward.getDistrict(), path));
+        }
+        response.sendRedirect(request.getContextPath() + url);
+    }
+    
+    private void createUserAddress(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+//        String url = request.getParameter("url");
+//        int trademarkId = Integer.parseInt(request.getParameter("trademarkId"));
+//        int districtId = Integer.parseInt(request.getParameter("district"));
+//        String wardId = request.getParameter("ward");
+//        String street = request.getParameter("street");
+//        String number = request.getParameter("number");
+//        if (number.equals("")) number = null;
+//        if (wardId.equals("")) {
+//            District district = addressService.getDistrict(districtId);
+//            addressService.createUserAddress(trademarkId, new Address(0, number, street, district));
+//        } else {
+//            Ward ward = addressService.getWard(Integer.parseInt(wardId));
+//            addressService.createTrademarkAddress(trademarkId, new Address(0, number, street, ward, ward.getDistrict()));
+//        }
+//        response.sendRedirect(request.getContextPath() + url);
+    }
+    
+    private void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String url = request.getParameter("url");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String path = request.getParameter("path");
+        int districtId = Integer.parseInt(request.getParameter("district"));
+        String wardId = request.getParameter("ward");
+        String street = request.getParameter("street");
+        String number = request.getParameter("number");
+        if (number.equals("")) number = null;
+        if (wardId.equals("")) {
+            District district = addressService.getDistrict(districtId);
+            addressService.update(new Address(id, number, street, null, district, path));
+        } else {
+            Ward ward = addressService.getWard(Integer.parseInt(wardId));
+            addressService.update(new Address(id, number, street, ward, ward.getDistrict(), path));
+        }
+        response.sendRedirect(request.getContextPath() + url);
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         String url = request.getParameter("url");
         int id = Integer.parseInt(request.getParameter("id"));
-        addressDAO.delete(id);
+        addressService.delete(id);
         response.sendRedirect(request.getContextPath() + url);
-    }
-
-    private void checkExistWithPath(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
-        response.setContentType("application/json");
-        String path = request.getParameter("path");
-        Address address = addressDAO.getItemByPath(path);
-        PrintWriter out = response.getWriter();
-        out.println(new Gson().toJson(address));
-        out.close();
     }
 }

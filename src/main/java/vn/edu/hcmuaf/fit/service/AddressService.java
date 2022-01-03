@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.dao;
+package vn.edu.hcmuaf.fit.service;
 
 import vn.edu.hcmuaf.fit.model.Address;
 import vn.edu.hcmuaf.fit.dto.address.District;
@@ -8,7 +8,7 @@ import vn.edu.hcmuaf.fit.dto.address.Ward;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface AddressDAO {
+public interface AddressService {
 	List<Address> getListByTrademarkId(int trademarkId) throws SQLException;
 	List<Address> getListByUserId(int userId) throws SQLException;
 	List<Province> getProvinceList() throws SQLException;
