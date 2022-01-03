@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Huỳnh Văn Hữu Ân
-  Date: 12/4/2021
-  Time: 9:17 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,8 +7,6 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-    <!-- Preloader -->
-<%--    <c:import url="../import/admin/preloader.jsp"/>--%>
     <!-- Navbar -->
     <c:import url="../import/admin/navbar.jsp"/>
     <!-- /.navbar -->
@@ -33,12 +24,18 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <table id="category" class="table table-bordered table-striped">
+                                <form action="" method="post">
+                                    <button type="button" class="btn btn-success mr-2 float-left"
+                                            data-toggle="modal" data-target="#create-modal" title="Thêm"><i class="fas fa-plus"></i></button>
+                                    <button type="submit" class="btn btn-danger font-weight-bolder float-left"
+                                            onclick="return confirm('Xác nhận xóa các thương hiệu đã chọn?')"><i class="fas fa-trash-alt"></i></button>
+                                    <table id="category" class="table table-bordered table-striped">
                                     <thead>
                                     <tr class="text-center">
-                                        <th class="align-middle">STT</th>
+                                        <th class="align-middle"><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th>
                                         <th class="align-middle">Mã thể loại</th>
                                         <th class="align-middle">Tên thể loại</th>
+                                        <th class="align-middle">Trạng thái</th>
                                         <th>
                                             <span class="d-none">Tác vụ</span>
                                             <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#create-modal"
@@ -52,27 +49,33 @@
                                     <jsp:useBean id="categories" scope="request" type="java.util.List"/>
                                     <c:forEach items="${categories}" var="category" varStatus="i">
                                         <tr>
-                                            <td class="text-center align-middle"><c:out value="${i.index + 1}"/></td>
-                                            <td class="text-center align-middle"><c:out value="${category.sku}"/></td>
-                                            <td class="align-middle"><c:out value="${category.name}"/></td>
+                                            <td class="text-center align-middle"><input type="checkbox" class="checkBoxId" name="id" value="${category.id}"></td>
+                                            <td class="text-center align-middle">${category.sku}</td>
+                                            <td class="align-middle">${category.name}</td>
+                                            <td class="text-center align-middle text-success">
+                                                Mở
+                                                <form action="<%=request.getContextPath()%>/admin/category?action=changeActive" method="POST" class="d-inline-block">
+                                                    <input type="hidden" name="sku" value="${category.sku}">
+                                                    <button type="submit" class="btn p-1 bg-transparent text-danger"><i class="fas fa-sync-alt"></i></button>
+                                                </form>
+                                            </td>
                                             <td class="d-flex justify-content-center">
-                                                <input type="hidden" name="id" value="<c:out value="${category.id}"/>"/>
+                                                <input type="hidden" name="sku" value="${category.sku}"/>
                                                 <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
                                                         data-target="#update-modal" title="Cập nhật"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-danger d-block w-100 ml-1 delete" data-toggle="modal"
-                                                        data-target="#delete-modal" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                                             </td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
                                 </table>
+                                </form>
                             </div>
                             <!-- /.card-body -->
                         </div>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
-            <%-- Create modal --%>
+            <!-- Create modal -->
             <div class="modal fade" id="create-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content card card-success">
@@ -82,7 +85,7 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/category/create" method="POST" id="create" novalidate="novalidate">
+                        <form action="<%=request.getContextPath()%>/admin/category?action=create" method="POST" id="create" novalidate="novalidate">
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Mã thể loại (In hoa)</label>
@@ -114,8 +117,8 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/category/update" method="POST" id="update" novalidate="novalidate">
-                            <input type="hidden" name="id"/>
+                        <form action="<%=request.getContextPath()%>/admin/category?action=update" method="POST" id="update" novalidate="novalidate">
+                            <input type="hidden" name="sku"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Mã thể loại (In hoa)</label>
@@ -147,11 +150,11 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/category/delete" method="POST">
-                            <input type="hidden" name="id"/>
+                        <form action="<%=request.getContextPath()%>/admin/category?action=delete" method="POST">
+                            <input type="hidden" name="sku[]"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
-                                    <span>Bạn có chắc muốn xóa sản phẩm này?</span>
+                                    <span>Xác nhận xóa sản phẩm đã chọn?</span>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
@@ -184,11 +187,18 @@
         jQuery("#category").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-            "columnDefs": [{
-                "targets"  : 3,
-                "orderable": false,
-                "width": "15%"
-            }]
+            "order": [[1, "asc"]],
+            "columnDefs": [
+                {
+                    "targets"  : 0,
+                    "orderable": false,
+                },
+                {
+                    "targets"  : 4,
+                    "orderable": false,
+                    "width": "15%"
+                }
+            ]
         }).buttons().container().appendTo('#category_wrapper .col-md-6:eq(0)');
         jQuery('#create').validate({
             rules: {
@@ -241,8 +251,15 @@
             }
         });
         jQuery('.delete').on('click', function() {
-           let id = jQuery(this).parent().find('input[name = "id"]').val();
-           jQuery('#delete-modal input[name = "id"]').val(id);
+            let skus = [];
+    
+            jQuery('input[name="sku"]').each(function () {
+                if (jQuery(this).is(':checked')) {
+                    skus.push(jQuery(this).val());
+                }
+            })
+            jQuery('#delete-modal input[name = "sku[]"]').val(skus);
+            console.log(jQuery('#delete-modal input[name = "sku[]"]').val());
         });
         jQuery('.update').on('click', function() {
             let id = jQuery(this).parent().find('input[name = "id"]').val();
@@ -259,6 +276,14 @@
                 }
             })
         });
+    
+        jQuery('#checkBoxAll').click(function () {
+            if (jQuery(this).is(':checked')) {
+                jQuery('.checkBoxId').prop('checked', true);
+            } else {
+                jQuery('.checkBoxId').prop('checked', false);
+            }
+        })
     });
 </script>
 </body>

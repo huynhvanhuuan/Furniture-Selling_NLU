@@ -1,13 +1,15 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.dao.CategoryDAO;
-import vn.edu.hcmuaf.fit.dao.ProductDAO;
-import vn.edu.hcmuaf.fit.dao.TrademarkDAO;
+import vn.edu.hcmuaf.fit.dao.CategoryDAOImpl;
+import vn.edu.hcmuaf.fit.dao.ProductDAOImpl;
+import vn.edu.hcmuaf.fit.dao.TrademarkDAOImpl;
 import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.model.Category;
 import vn.edu.hcmuaf.fit.model.Product;
 import vn.edu.hcmuaf.fit.model.Trademark;
+import vn.edu.hcmuaf.fit.service.ProductService;
+import vn.edu.hcmuaf.fit.service.ProductServiceImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -24,18 +26,13 @@ import java.util.List;
         maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class ProductController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private ProductDAO productDAO;
-    private TrademarkDAO trademarkDAO;
-    private CategoryDAO categoryDAO;
-
+    private ProductService productService;
+    
     @Override
     public void init() throws ServletException {
-        IConnectionPool connectionPool = (IConnectionPool) getServletContext().getAttribute("connectionPool");
-        productDAO = new ProductDAO(connectionPool);
-        trademarkDAO = new TrademarkDAO(connectionPool);
-        categoryDAO = new CategoryDAO(connectionPool);
+        productService = new ProductServiceImpl();
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
@@ -71,32 +68,35 @@ public class ProductController extends HttpServlet {
         }
     }
 
-    private void changeActive(HttpServletRequest request, HttpServletResponse response) {
-
+    private void changeActive(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        productService.changeActive(id);
+        response.sendRedirect(request.getContextPath() + "/admin/product");
     }
 
     private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         int trademarkId = Integer.parseInt(request.getParameter("trademark"));
-        int categoryId = Integer.parseInt(request.getParameter("category"));
+        String categorySku = request.getParameter("category");
         Trademark trademark = trademarkDAO.get(trademarkId);
-        Category category = categoryDAO.get(categoryId);
+        Category category = categoryDAO.get(categorySku);
         //productDAO.save(new Product(0, name, description, trademark, category, new Date(), new Date(), true));
-        response.sendRedirect(request.getContextPath() + request.getServletPath());
+        response.sendRedirect(request.getContextPath() + "/admin/product");
     }
 
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
+        String size = request.getParameter("size");
         String description = request.getParameter("description-content");
         int trademarkId = Integer.parseInt(request.getParameter("trademark"));
-        int categoryId = Integer.parseInt(request.getParameter("category"));
+        String categorySku = request.getParameter("category");
         Trademark trademark = trademarkDAO.get(trademarkId);
-        Category category = categoryDAO.get(categoryId);
+        Category category = categoryDAO.get(categorySku);
         //boolean active = Integer.parseInt(request.getParameter("active")) == 1;
-        productDAO.save(new Product(id, name, description, trademark, category, true));
-        response.sendRedirect(request.getContextPath() + request.getServletPath());
+        productDAO.update(new Product(id, name, size, description, trademark, category, true, null));
+        getMainPage(request, response);
         // Get part
         // Part part = request.getPart("image");
         // Get filename
@@ -110,7 +110,7 @@ public class ProductController extends HttpServlet {
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
         productDAO.delete(id);
-        response.sendRedirect(request.getContextPath() + request.getServletPath());
+        getMainPage(request, response);
     }
 
     private void getMainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -136,7 +136,6 @@ public class ProductController extends HttpServlet {
         response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = productDAO.get(id);
-        System.out.println(id);
         PrintWriter out = response.getWriter();
         out.println(new Gson().toJson(product));
         out.close();

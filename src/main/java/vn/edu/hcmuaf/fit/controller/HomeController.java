@@ -9,6 +9,7 @@ import java.io.IOException;
 
 @WebServlet(name = "HomeController", value = "/home")
 public class HomeController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void init() throws ServletException { }

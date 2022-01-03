@@ -1,35 +1,17 @@
-<%@ page import="vn.edu.hcmuaf.fit.model.Product" %>
-<%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Huỳnh Văn Hữu Ân
-  Date: 12/4/2021
-  Time: 9:17 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <c:import url="../import/admin/management/head.jsp"/>
-    <title>Admin | Sản phẩm</title>
+    <title>Quản lý | Sản phẩm</title>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-    <!-- Preloader -->
-<%--    <c:import url="../import/admin/preloader.jsp"/>--%>
-    <!-- Navbar -->
     <c:import url="../import/admin/navbar.jsp"/>
-    <!-- /.navbar -->
-    <!-- Main Sidebar Container -->
     <c:import url="../import/admin/sidebar.jsp"/>
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <c:import url="../import/admin/header.jsp"/>
-        <!-- /.content-header -->
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
@@ -78,7 +60,8 @@
                                                 <c:when test="${product.active}">
                                                     <td class="text-center text-success">
                                                         Đang mở bán
-                                                        <form id="active" action="<%=request.getContextPath()%>/admin/product?action=changeActive" method="POST" class="d-inline-block">
+                                                        <form action="<%=request.getContextPath()%>/admin/product?action=changeActive" method="POST" class="d-inline-block">
+                                                            <input type="hidden" name="id" value="${product.id}">
                                                             <button type="submit" class="btn p-1 bg-transparent text-danger"><i class="fas fa-sync-alt"></i></button>
                                                         </form>
                                                     </td>
@@ -86,7 +69,8 @@
                                                 <c:otherwise>
                                                     <td class="text-center text-danger">
                                                         Không mở bán
-                                                        <form id="active" action="<%=request.getContextPath()%>/admin/product?action=changeActive" method="POST" class="d-inline-block">
+                                                        <form action="<%=request.getContextPath()%>/admin/product?action=changeActive" method="POST" class="d-inline-block">
+                                                            <input type="hidden" name="id" value="${product.id}">
                                                             <button type="submit" class="btn p-1 bg-transparent text-success"><i class="fas fa-sync-alt"></i></button>
                                                         </form>
                                                     </td>
@@ -94,6 +78,8 @@
                                             </c:choose>
                                             <td class="d-flex justify-content-center">
                                                 <input type="hidden" name="id" value="${product.id}"/>
+                                                <button class="btn btn-dark d-block w-100 mr-1 create-detail" data-toggle="modal"
+                                                        data-target="#create-detail-modal" title="Thêm chi tiết sản phẩm"><i class="fas fa-plus"></i></button>
                                                 <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
                                                         data-target="#update-modal" title="Cập nhật"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-danger d-block w-100 ml-1 delete" data-toggle="modal"
@@ -104,12 +90,11 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.card-body -->
                         </div>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
-            <%-- Create modal --%>
+            </div>
+            <!-- Create modal -->
             <div class="modal fade" id="create-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content card card-success">
@@ -159,7 +144,7 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label>Mô tả chi tiết</label>
-                                            <textarea name="description" id="description"></textarea>
+                                            <textarea name="description"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -170,12 +155,52 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
-            <%-- Update modal --%>
+            <!-- Create detail modal -->
+            <div class="modal fade" id="create-detail-modal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content card card-success">
+                        <div class="modal-header card-header">
+                            <h5 class="modal-title font-weight-bolder">Thêm chi tiết sản phẩm</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <form id="create-detail" novalidate="novalidate">
+                            <div class="modal-body card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Màu sắc</label>
+                                            <button type="button" id="btnChoose">Chọn</button>
+                                            <input type="color" name="color">
+                                            <span id="choosedColor"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Vật liệu</label>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Kích thước</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Update modal -->
             <div class="modal fade" id="update-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content card card-warning">
@@ -236,11 +261,8 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
             <%-- Delete modal --%>
             <div class="modal fade" id="delete-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
@@ -264,12 +286,9 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
-            <%-- Description modal --%>
+            <!-- Description modal -->
             <div class="modal fade" id="description-modal" style="top: 15%; display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-md">
                     <div class="modal-content card bg-gradient-info">
@@ -280,41 +299,30 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="position-relative p-3 bg-white" style="height: 180px">
-                                        <%--Ribbon Default <br />--%>
                                         <h6 class="description-content text-dark"></h6>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
     <c:import url="../import/admin/footer.jsp"/>
-    <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
     </aside>
-    <!-- /.control-sidebar -->
 </div>
-<!-- ./wrapper -->
 <c:import url="../import/admin/management/script.jsp"/>
-<!-- Page specific script -->
 <script>
     jQuery(function () {
         const create$ = jQuery('#create');
         const update$ = jQuery('#update');
 
         // Switch
-        jQuery("input[data-bootstrap-switch]").each(function(){
-            jQuery(this).bootstrapSwitch('state', jQuery(this).prop('checked'));
-        })
+        // jQuery("input[data-bootstrap-switch]").each(function(){
+        //    jQuery(this).bootstrapSwitch('state', jQuery(this).prop('checked'));
+        // })
 
         // Summernote
         jQuery('textarea[name="description"]').summernote({
@@ -337,7 +345,7 @@
 
         // Datatables
         jQuery("#product").DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
+            "responsive": true, "lengthChange": false, "autoWidth": false, "pageLength" : 8,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
             "columnDefs": [
                 {
@@ -349,7 +357,34 @@
                     "orderable": false,
                     "width": "10%"
                 }
-            ]
+            ],
+            "drawCallback": function() {
+                jQuery('.delete').click(function() {
+                    let id = jQuery(this).parent().find('input[name="id"]').val();
+                    jQuery('#delete-modal input[name = "id"]').val(id);
+                });
+                jQuery('.update').click(function() {
+                    let id = jQuery(this).parent().find('input[name="id"]').val();
+                    console.log(id);
+                    $.ajax({
+                        type: "GET",
+                        url: '<%=request.getContextPath()%>/admin/product?action=get',
+                        data: { id: id },
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data) {
+                            jQuery('#update-modal input[name="id"]').val(data.id);
+                            jQuery('#update-modal input[name="name"]').val(data.name);
+                            jQuery('#update-modal select[name="trademark"]').val(data.trademark.id).trigger('change');
+                            jQuery('#update-modal select[name="category"]').val(data.category.id).trigger('change');
+                            jQuery('#update-modal textarea[name="description"]').summernote('code', data.description);
+                        }
+                    })
+                });
+                jQuery('.create-detail').click(function () {
+
+                })
+            }
         }).buttons().container().appendTo('#product_wrapper .col-md-6:eq(0)');
 
         // Validator
@@ -525,30 +560,6 @@
             return false;
             //jQuery(this).find('textarea[name="description-content"]').val();
         })
-
-        // Popup modal action
-        jQuery('.delete').on('click', function() {
-            let id = jQuery(this).parent().find('input[name="id"]').val();
-            jQuery('#delete-modal input[name = "id"]').val(id);
-        });
-        jQuery('.update').on('click', function() {
-            let id = jQuery(this).parent().find('input[name="id"]').val();
-            console.log(id);
-            $.ajax({
-                type: "GET",
-                url: '<%=request.getContextPath()%>/admin/product?action=get',
-                data: { id: id },
-                dataType: "json",
-                contentType: "application/json",
-                success: function (data) {
-                    jQuery('#update-modal input[name="id"]').val(data.id);
-                    jQuery('#update-modal input[name="name"]').val(data.name);
-                    jQuery('#update-modal select[name="trademark"]').val(data.trademark.id).trigger('change');
-                    jQuery('#update-modal select[name="category"]').val(data.category.id).trigger('change');
-                    jQuery('#update-modal textarea[name="description"]').summernote('code', data.description);
-                }
-            })
-        });
     });
 </script>
 <script>
@@ -557,6 +568,14 @@
         let description = jQuery(e).parent().find('input[name="description"]').val();
         jQuery('.description-content').html(description);
     }
+
+    // Choose color
+    jQuery('#btnChoose').click(function () {
+        let color = jQuery('input[name="color"]').val();
+        if (color.trim().length > 0) {
+            jQuery('#choosedColor').append(color);
+        }
+    })
 </script>
 </body>
 </html>

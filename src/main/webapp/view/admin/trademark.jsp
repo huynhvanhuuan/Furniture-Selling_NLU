@@ -554,7 +554,7 @@
                     "width" : "15%"
                 }
             ],
-            drawCallback: function () {
+            "drawCallback": function () {
                 jQuery('.delete').on('click', function() {
                     let id = jQuery(this).parent().find('input[name = "id"]').val();
                     jQuery('#delete-modal input[name = "id"]').val(id);

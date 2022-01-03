@@ -18,19 +18,6 @@ public class Product implements Serializable {
 
     public Product() {
     }
-
-    public Product(int id, String name, String size, String description, Trademark trademark, Category category,
-                   Date dateCreated, Date lastUpdated, boolean active) {
-        this.id = id;
-        this.name = name;
-        this.size = size;
-        this.description = description;
-        this.category = category;
-        this.trademark = trademark;
-        this.dateCreated = dateCreated;
-        this.lastUpdated = lastUpdated;
-        this.active = active;
-    }
     
     public Product(int id, String name, String size, String description, Trademark trademark, Category category,
                    Date dateCreated, Date lastUpdated, boolean active, List<ProductDetail> products) {
