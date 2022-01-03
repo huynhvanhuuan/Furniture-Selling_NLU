@@ -14,24 +14,22 @@ body {
 }
 
 .error-content h3 {
-    font-family: Sofia Pro, sans-serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 36px;
     line-height: 48px;
     text-align: center;
     margin-bottom: 0.2em;
-    color: #f51212;
+    color: #999;
 }
 
 .error-content span {
-    font-family: Sofia Pro, sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
     line-height: 20px;
     letter-spacing: 0.02em;
-    color: #5D5F5F;
+    color: #5d5f5f;
 }
 
 .error-content button {
@@ -58,10 +56,17 @@ body {
 
 .error-content button:hover {
     background: #236e47;
-    color: #FFFFFF;
+    color: #ffffff;
     -webkit-transition: color 0.2s ease-in-out;
     -moz-transition: color 0.2s ease-in-out;
     -ms-transition: color 0.2s ease-in-out;
     -o-transition: color 0.2s ease-in-out;
     transition: color 0.2s ease-in-out;
+}
+
+.flex-center {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

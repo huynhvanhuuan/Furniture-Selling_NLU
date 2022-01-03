@@ -25,17 +25,17 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1200px;
-    --font-family-sans-serif: Sofia Pro,sans-serif;
+    --font-family-sans-serif: Sofia Pro, sans-serif;
     --font-family-monospace: Sofia Pro, monospace;
 }
 
 body {
-    font-family: Sofia Pro, sans-serif;
+    font-family: 'Lato', Helvetica, Sofia Pro, sans-serif;
     font-style: normal;
     font-weight: bold;
     font-size: 14px;
     letter-spacing: 0.02em;
-    color: #5D5F5F;
+    color: #5d5f5f;
 }
 
 .w-25 {
@@ -135,7 +135,7 @@ body {
 }
 
 .text-light {
-    color: #FFFFFF !important;
+    color: #ffffff !important;
 }
 
 .text-dark {
