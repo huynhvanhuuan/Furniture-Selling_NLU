@@ -2,10 +2,9 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
-import vn.edu.hcmuaf.fit.helper.DbManager;
 import vn.edu.hcmuaf.fit.model.Category;
 import vn.edu.hcmuaf.fit.model.Product;
-import vn.edu.hcmuaf.fit.model.ProductDetail;
+import vn.edu.hcmuaf.fit.dto.product.ProductDetail;
 import vn.edu.hcmuaf.fit.model.Trademark;
 
 import java.sql.Connection;
@@ -31,7 +30,7 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public List<Product> getList() throws SQLException {
+    public List<Product> getList() throws SQLException, ParseException {
         List<Product> products = new ArrayList<>();
         connection = connectionPool.getConnection();
         ResultSet rs = connection.prepareStatement(QUERY.PRODUCT.GET_LIST).executeQuery();
@@ -41,14 +40,8 @@ public class ProductDAOImpl implements ProductDAO {
             String description = rs.getString("description");
             int trademarkId = rs.getInt("trademark_id");
             String categorySku = rs.getString("category_sku");
-            Date dateCreated = null;
-            Date lastUpdated = null;
-            try {
-                dateCreated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date_created"));
-                lastUpdated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("last_updated"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date dateCreated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date_created"));
+            Date lastUpdated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("last_updated"));
             boolean active = rs.getBoolean("active");
             Trademark trademark = trademarkDAO.get(trademarkId);
             Category category = categoryDAO.get(categorySku);

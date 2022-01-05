@@ -1,7 +1,6 @@
-package vn.edu.hcmuaf.fit.model;
+package vn.edu.hcmuaf.fit.dto.product;
 
-import vn.edu.hcmuaf.fit.dto.product.Color;
-import vn.edu.hcmuaf.fit.dto.product.Material;
+import vn.edu.hcmuaf.fit.model.Product;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,9 +8,10 @@ import java.util.Date;
 public class ProductDetail implements Serializable {
 	private String sku;
 	private Product product;
+	private String image;
 	private Color color;
 	private Material material;
-	private int unitPrice;
+	private long unitPrice;
 	private int unitInStock;
 	private int discount;
 	private Date dateCreated;
@@ -21,9 +21,10 @@ public class ProductDetail implements Serializable {
 	public ProductDetail() {
 	}
 	
-	public ProductDetail(String sku, Product product, String size, Color color, Material material, int unitPrice, int unitInStock, int discount, Date dateCreated, Date lastUpdated, boolean active) {
+	public ProductDetail(String sku, Product product, String image, Color color, Material material, long unitPrice, int unitInStock, int discount, Date dateCreated, Date lastUpdated, boolean active) {
 		this.sku = sku;
 		this.product = product;
+		this.image = image;
 		this.color = color;
 		this.material = material;
 		this.unitPrice = unitPrice;
@@ -50,6 +51,14 @@ public class ProductDetail implements Serializable {
 		this.product = product;
 	}
 	
+	public String getImage() {
+		return image;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	public Color getColor() {
 		return color;
 	}
@@ -66,11 +75,11 @@ public class ProductDetail implements Serializable {
 		this.material = material;
 	}
 	
-	public int getUnitPrice() {
+	public long getUnitPrice() {
 		return unitPrice;
 	}
 	
-	public void setUnitPrice(int unitPrice) {
+	public void setUnitPrice(long unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 	

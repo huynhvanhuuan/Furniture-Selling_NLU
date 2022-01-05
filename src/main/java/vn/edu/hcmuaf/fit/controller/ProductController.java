@@ -8,8 +8,7 @@ import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.model.Category;
 import vn.edu.hcmuaf.fit.model.Product;
 import vn.edu.hcmuaf.fit.model.Trademark;
-import vn.edu.hcmuaf.fit.service.ProductService;
-import vn.edu.hcmuaf.fit.service.ProductServiceImpl;
+import vn.edu.hcmuaf.fit.service.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @WebServlet(name = "ProductController", value = "/admin/product")
@@ -26,11 +27,16 @@ import java.util.List;
         maxRequestSize = 1024 * 1024 * 50) // 50MB
 public class ProductController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private ProductService productService;
+    private CategoryService categoryService;
+    private TrademarkService trademarkService;
     
     @Override
     public void init() throws ServletException {
         productService = new ProductServiceImpl();
+        categoryService = new CategoryServiceImpl();
+        trademarkService = new TrademarkServiceImpl();
     }
     
     @Override
@@ -63,7 +69,7 @@ public class ProductController extends HttpServlet {
                     changeActive(request, response);
                     break;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
     }
@@ -79,23 +85,25 @@ public class ProductController extends HttpServlet {
         String description = request.getParameter("description");
         int trademarkId = Integer.parseInt(request.getParameter("trademark"));
         String categorySku = request.getParameter("category");
-        Trademark trademark = trademarkDAO.get(trademarkId);
-        Category category = categoryDAO.get(categorySku);
+        Trademark trademark = trademarkService.get(trademarkId);
+        Category category = categoryService.get(categorySku);
         //productDAO.save(new Product(0, name, description, trademark, category, new Date(), new Date(), true));
         response.sendRedirect(request.getContextPath() + "/admin/product");
     }
 
-    private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String size = request.getParameter("size");
         String description = request.getParameter("description-content");
         int trademarkId = Integer.parseInt(request.getParameter("trademark"));
         String categorySku = request.getParameter("category");
-        Trademark trademark = trademarkDAO.get(trademarkId);
-        Category category = categoryDAO.get(categorySku);
+        Trademark trademark = trademarkService.get(trademarkId);
+        Category category = categoryService.get(categorySku);
+        String dateCreated = request.getParameter("dateCreated");
+        String lastUpdated = request.getParameter("lastUpdated");
         //boolean active = Integer.parseInt(request.getParameter("active")) == 1;
-        productDAO.update(new Product(id, name, size, description, trademark, category, true, null));
+        productService.update(new Product(id, name, size, description, trademark, category, dateFormat.parse(dateCreated), dateFormat.parse(lastUpdated), true, null));
         getMainPage(request, response);
         // Get part
         // Part part = request.getPart("image");
@@ -109,7 +117,7 @@ public class ProductController extends HttpServlet {
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
-        productDAO.delete(id);
+        productService.delete(id);
         getMainPage(request, response);
     }
 
@@ -118,15 +126,15 @@ public class ProductController extends HttpServlet {
         request.setAttribute("title", "PRODUCT MANAGEMENT");
 
         // Database
-        List<Product> products = productDAO.getList();
+        List<Product> products = productService.getList();
         request.setAttribute("products", products);
 
         // Get trademarks
-        List<Trademark> trademarks = trademarkDAO.getList();
+        List<Trademark> trademarks = trademarkService.getList();
         request.setAttribute("trademarks", trademarks);
 
         // Get categories
-        List<Category> categories = categoryDAO.getList();
+        List<Category> categories = categoryService.getList();
         request.setAttribute("categories", categories);
 
         request.getRequestDispatcher(request.getContextPath() + "/view/product/index.jsp").forward(request, response);
@@ -135,7 +143,7 @@ public class ProductController extends HttpServlet {
     private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = productDAO.get(id);
+        Product product = productService.get(id);
         PrintWriter out = response.getWriter();
         out.println(new Gson().toJson(product));
         out.close();
