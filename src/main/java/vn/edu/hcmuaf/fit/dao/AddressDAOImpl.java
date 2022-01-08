@@ -26,6 +26,7 @@ public class AddressDAOImpl implements AddressDAO {
     public List<Address> getListByTrademarkId(int trademarkId) throws SQLException {
         List<Address> addresses = new ArrayList<>();
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_ADDRESS_LIST_BY_TRADEMARK_ID);
         statement.setInt(1, trademarkId);
         ResultSet rs = statement.executeQuery();
@@ -44,7 +45,6 @@ public class AddressDAOImpl implements AddressDAO {
             }
             addresses.add(address);
         }
-        connectionPool.releaseConnection(connection);
         return addresses;
     }
     
@@ -52,6 +52,7 @@ public class AddressDAOImpl implements AddressDAO {
     public List<Address> getListByUserId(int userId) throws SQLException {
         List<Address> addresses = new ArrayList<>();
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_ADDRESS_LIST_BY_USER_ID);
         statement.setInt(1, userId);
         ResultSet rs = statement.executeQuery();
@@ -70,7 +71,6 @@ public class AddressDAOImpl implements AddressDAO {
             }
             addresses.add(address);
         }
-        connectionPool.releaseConnection(connection);
         return addresses;
     }
     
@@ -78,17 +78,16 @@ public class AddressDAOImpl implements AddressDAO {
     public List<Province> getProvinceList() throws SQLException {
         List<Province> provinces = new ArrayList<>();
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_PROVINCE_LIST);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
             String name = rs.getString("name");
             String prefix = rs.getString("prefix");
-            List<District> districts = getDistrictListByProvinceId(id);
-            Province province = new Province(id, name, prefix, districts);
+            Province province = new Province(id, name, prefix);
             provinces.add(province);
         }
-        connectionPool.releaseConnection(connection);
         return provinces;
     }
     
@@ -96,6 +95,7 @@ public class AddressDAOImpl implements AddressDAO {
     public List<District> getDistrictListByProvinceId(int provinceId) throws SQLException {
         List<District> districts = new ArrayList<>();
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_DISTRICT_LIST_BY_PROVINCE_ID);
         statement.setInt(1, provinceId);
         ResultSet rs = statement.executeQuery();
@@ -104,11 +104,9 @@ public class AddressDAOImpl implements AddressDAO {
             String name = rs.getString("name");
             String prefix = rs.getString("prefix");
             Province province = getProvince(provinceId);
-            List<Ward> wards = getWardListByDistrictId(id);
-            District district = new District(id, name, prefix, province, wards);
+            District district = new District(id, name, prefix, province);
             districts.add(district);
         }
-        connectionPool.releaseConnection(connection);
         return districts;
     }
     
@@ -116,6 +114,7 @@ public class AddressDAOImpl implements AddressDAO {
     public List<Ward> getWardListByDistrictId(int districtId) throws SQLException {
         List<Ward> wards = new ArrayList<>();
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_WARD_LIST_BY_DISTRICT_ID);
         statement.setInt(1, districtId);
         ResultSet rs = statement.executeQuery();
@@ -127,7 +126,6 @@ public class AddressDAOImpl implements AddressDAO {
             Ward ward = new Ward(id, name, prefix, district);
             wards.add(ward);
         }
-        connectionPool.releaseConnection(connection);
         return wards;
     }
     
@@ -135,6 +133,7 @@ public class AddressDAOImpl implements AddressDAO {
     public Address getAddress(int id) throws SQLException {
         Address address = null;
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_ADDRESS_BY_ID);
         statement.setInt(1, id);
         ResultSet rs = statement.executeQuery();
@@ -153,7 +152,6 @@ public class AddressDAOImpl implements AddressDAO {
                 address = new Address(id, number, street, ward, ward.getDistrict(), path);
             }
         }
-        connectionPool.releaseConnection(connection);
         return address;
     }
     
@@ -161,6 +159,7 @@ public class AddressDAOImpl implements AddressDAO {
     public Province getProvince(int id) throws SQLException {
         Province province = null;
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_PROVINCE);
         statement.setInt(1, id);
         ResultSet rs = statement.executeQuery();
@@ -168,12 +167,8 @@ public class AddressDAOImpl implements AddressDAO {
         if (rs.next()) {
             String name = rs.getString("name");
             String prefix = rs.getString("prefix");
-            List<District> districts = getDistrictListByProvinceId(id);
-            province = new Province(id, name, prefix, districts);
-            province.setName(name);
-            province.setPrefix(prefix);
+            province = new Province(id, name, prefix);
         }
-        connectionPool.releaseConnection(connection);
         return province;
     }
     
@@ -181,6 +176,7 @@ public class AddressDAOImpl implements AddressDAO {
     public District getDistrict(int id) throws SQLException {
         District district = null;
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_DISTRICT);
         statement.setInt(1, id);
         ResultSet rs = statement.executeQuery();
@@ -192,10 +188,8 @@ public class AddressDAOImpl implements AddressDAO {
             String prefix = rs.getString("prefix");
             int provinceId = rs.getInt("province_id");
             Province province = getProvince(provinceId);
-            List<Ward> wards = getWardListByDistrictId(id);
-            district = new District(id, name, prefix, province, wards);
+            district = new District(id, name, prefix, province);
         }
-        connectionPool.releaseConnection(connection);
         return district;
     }
     
@@ -203,6 +197,7 @@ public class AddressDAOImpl implements AddressDAO {
     public Ward getWard(int id) throws SQLException {
         Ward ward = null;
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_WARD);
         statement.setInt(1, id);
         ResultSet rs = statement.executeQuery();
@@ -214,7 +209,6 @@ public class AddressDAOImpl implements AddressDAO {
             District district = getDistrict(districtId);
             ward = new Ward(id, name, prefix, district);
         }
-        connectionPool.releaseConnection(connection);
         return ward;
     }
     
@@ -222,29 +216,29 @@ public class AddressDAOImpl implements AddressDAO {
     public void createTrademarkAddress(int trademarkId, Address address) throws SQLException {
         create(address);
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK_ADDRESS.CREATE);
         statement.setInt(1, trademarkId);
         statement.setInt(2, getLatestId());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     @Override
     public void createUserAddress(String userId, Address address) throws SQLException {
         create(address);
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.USER_ADDRESS.CREATE);
         statement.setString(1, userId);
         statement.setInt(2, getLatestId());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     @Override
     public void update(Address address) throws SQLException {
         connection = connectionPool.getConnection();
-        PreparedStatement statement;
-        statement = connection.prepareStatement(QUERY.ADDRESS.UPDATE);
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.UPDATE);
         statement.setString(1, address.getNumber());
         statement.setString(2, address.getStreet());
         statement.setInt(3, address.getWard() == null ? 0 : address.getWard().getId());
@@ -252,39 +246,35 @@ public class AddressDAOImpl implements AddressDAO {
         statement.setString(5, address.getPath());
         statement.setInt(6, address.getId());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     @Override
     public void delete(int id) throws SQLException {
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.DELETE);
         statement.setInt(1, id);
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     private void create(Address address) throws SQLException {
         connection = connectionPool.getConnection();
-        PreparedStatement statement;
-        statement = connection.prepareStatement(QUERY.ADDRESS.CREATE);
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.CREATE);
         statement.setString(1, address.getNumber());
         statement.setString(2, address.getStreet());
         statement.setInt(3, address.getWard() == null ? 0 : address.getWard().getId());
         statement.setInt(4, address.getDistrict().getId());
         statement.setString(5, address.getPath());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     private int getLatestId() throws SQLException {
         int id = 0;
         connection = connectionPool.getConnection();
-        ResultSet rs = connection.prepareStatement(QUERY.ADDRESS.GET_LAST_ID).executeQuery();
-        if (rs.next()) {
-            id = rs.getInt("id");
-        }
         connectionPool.releaseConnection(connection);
+        ResultSet rs = connection.prepareStatement(QUERY.ADDRESS.GET_LAST_ID).executeQuery();
+        if (rs.next()) id = rs.getInt("id");
         return id;
     }
 
@@ -292,6 +282,7 @@ public class AddressDAOImpl implements AddressDAO {
     public Address getAddress(String path) throws SQLException {
         Address address = null;
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_ADDRESS_BY_PATH);
         statement.setString(1, path);
         ResultSet rs = statement.executeQuery();
@@ -310,7 +301,6 @@ public class AddressDAOImpl implements AddressDAO {
                 address = new Address(id, number, street, ward, ward.getDistrict(), path);
             }
         }
-        connectionPool.releaseConnection(connection);
         return address;
     }
 }

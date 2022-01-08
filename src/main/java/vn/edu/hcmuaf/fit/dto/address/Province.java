@@ -14,11 +14,10 @@ public class Province implements Serializable {
     public Province() {
     }
 
-    public Province(int id, String name, String prefix, List<District> districts) {
+    public Province(int id, String name, String prefix) {
         this.id = id;
         this.name = name;
         this.prefix = prefix;
-        this.districts = districts;
     }
 
     public int getId() {

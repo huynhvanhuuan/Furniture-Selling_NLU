@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "AddressController", value = "/admin/address")
+@WebServlet(name = "AddressController", value = "/address")
 public class AddressController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private AddressService addressService;

@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface WarehouseDAO {
 	List<ProductDetail> getProductList() throws SQLException, ParseException;
+	List<ProductDetail> getProductList(int productId) throws SQLException, ParseException;
 	List<Color> getColorList() throws SQLException;
 	List<Material> getMaterialList() throws SQLException;
 	ProductDetail getProduct(String sku) throws SQLException, ParseException;

@@ -20,11 +20,13 @@ import java.util.List;
 public class ProductDAOImpl implements ProductDAO {
     private final IConnectionPool connectionPool;
     private Connection connection;
-    private final TrademarkDAOImpl trademarkDAO;
-    private final CategoryDAOImpl categoryDAO;
+    private final WarehouseDAO warehouseDAO;
+    private final TrademarkDAO trademarkDAO;
+    private final CategoryDAO categoryDAO;
 
     public ProductDAOImpl(IConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
+        warehouseDAO = new WarehouseDAOImpl(connectionPool);
         trademarkDAO = new TrademarkDAOImpl(connectionPool);
         categoryDAO = new CategoryDAOImpl(connectionPool);
     }
@@ -37,6 +39,7 @@ public class ProductDAOImpl implements ProductDAO {
         while (rs.next()) {
             int id = rs.getInt("id");
             String name = rs.getString("name");
+            String size = rs.getString("size");
             String description = rs.getString("description");
             int trademarkId = rs.getInt("trademark_id");
             String categorySku = rs.getString("category_sku");
@@ -45,8 +48,8 @@ public class ProductDAOImpl implements ProductDAO {
             boolean active = rs.getBoolean("active");
             Trademark trademark = trademarkDAO.get(trademarkId);
             Category category = categoryDAO.get(categorySku);
-            List<ProductDetail> productDetails = 
-            Product product = new Product(id, name, description, trademark, category, dateCreated, lastUpdated, active);
+            List<ProductDetail> productDetails = warehouseDAO.getProductList(id);
+            Product product = new Product(id, name, size, description, trademark, category, dateCreated, lastUpdated, active, productDetails);
             products.add(product);
         }
         connectionPool.releaseConnection(connection);
@@ -54,10 +57,10 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public Product get(int id) throws SQLException {
+    public Product get(int id) throws SQLException, ParseException {
         Product product = null;
         connection = connectionPool.getConnection();
-        PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.GET_ITEM_BY_ID);
+        PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.GET_PRODUCT_BY_ID);
         statement.setInt(1, id);
         ResultSet rs = statement.executeQuery();
         if (!rs.isBeforeFirst() && rs.getRow() == 0) {
@@ -65,21 +68,17 @@ public class ProductDAOImpl implements ProductDAO {
         }
         if (rs.next()) {
             String name = rs.getString("name");
+            String size = rs.getString("size");
             String description = rs.getString("description");
             int trademarkId = rs.getInt("trademark_id");
             String categorySku = rs.getString("category_sku");
-            Date dateCreated = null;
-            Date lastUpdated = null;
-            try {
-                dateCreated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date_created"));
-                lastUpdated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("last_updated"));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date dateCreated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date_created"));
+            Date lastUpdated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("last_updated"));
             boolean active = rs.getBoolean("active");
             Trademark trademark = trademarkDAO.get(trademarkId);
             Category category = categoryDAO.get(categorySku);
-            product = new Product(id, name, description, trademark, category, dateCreated, lastUpdated, active);
+            List<ProductDetail> productDetails = warehouseDAO.getProductList(id);
+            product = new Product(id, name, size, description, trademark, category, dateCreated, lastUpdated, active, productDetails);
         }
         connectionPool.releaseConnection(connection);
         return product;

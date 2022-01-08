@@ -76,7 +76,7 @@ public class TrademarkController extends HttpServlet {
         List<Province> provinces = addressService.getProvinceList();
         request.setAttribute("trademarks", trademarks);
         request.setAttribute("provinces", provinces);
-        request.getRequestDispatcher("/view/trademark/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/view/admin/trademark.jsp").forward(request, response);
     }
 
     private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {

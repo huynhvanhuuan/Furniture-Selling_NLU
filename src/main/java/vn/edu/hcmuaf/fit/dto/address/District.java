@@ -13,12 +13,11 @@ public class District implements Serializable {
     public District() {
     }
 
-    public District(int id, String name, String prefix, Province province, List<Ward> wards) {
+    public District(int id, String name, String prefix, Province province) {
         this.id = id;
         this.name = name;
         this.prefix = prefix;
         this.province = province;
-        this.wards = wards;
     }
 
     public int getId() {

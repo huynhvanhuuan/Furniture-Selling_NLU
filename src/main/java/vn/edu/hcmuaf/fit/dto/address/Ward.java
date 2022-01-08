@@ -1,7 +1,5 @@
 package vn.edu.hcmuaf.fit.dto.address;
 
-import vn.edu.hcmuaf.fit.dto.address.District;
-
 import java.io.Serializable;
 
 public class Ward implements Serializable {

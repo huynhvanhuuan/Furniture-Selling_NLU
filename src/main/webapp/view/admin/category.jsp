@@ -49,7 +49,7 @@
                                     <jsp:useBean id="categories" scope="request" type="java.util.List"/>
                                     <c:forEach items="${categories}" var="category" varStatus="i">
                                         <tr>
-                                            <td class="text-center align-middle"><input type="checkbox" class="checkBoxId" name="id" value="${category.id}"></td>
+                                            <td class="text-center align-middle"><input type="checkbox" class="checkBoxId" name="id" value="${category.sku}"></td>
                                             <td class="text-center align-middle">${category.sku}</td>
                                             <td class="align-middle">${category.name}</td>
                                             <td class="text-center align-middle text-success">

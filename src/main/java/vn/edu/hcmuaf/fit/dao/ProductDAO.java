@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductDAO {
 	List<Product> getList() throws SQLException, ParseException;
-	Product get(int id) throws SQLException;
+	Product get(int id) throws SQLException, ParseException;
 	void create(Product item) throws SQLException;
 	void update(Product item) throws SQLException;
 	void delete(int id) throws SQLException;

@@ -115,13 +115,13 @@ public class ProductController extends HttpServlet {
         //part.write(path);
     }
 
-    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
         int id = Integer.parseInt(request.getParameter("id"));
         productService.delete(id);
         getMainPage(request, response);
     }
 
-    private void getMainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void getMainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
         // Set title
         request.setAttribute("title", "PRODUCT MANAGEMENT");
 
@@ -140,7 +140,7 @@ public class ProductController extends HttpServlet {
         request.getRequestDispatcher(request.getContextPath() + "/view/product/index.jsp").forward(request, response);
     }
 
-    private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+    private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ParseException {
         response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
         Product product = productService.get(id);

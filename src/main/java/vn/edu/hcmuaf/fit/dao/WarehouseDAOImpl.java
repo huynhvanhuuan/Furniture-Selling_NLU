@@ -52,6 +52,30 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	}
 	
 	@Override
+	public List<ProductDetail> getProductList(int productId) throws SQLException, ParseException {
+		List<ProductDetail> list = new ArrayList<>();
+		connection = connectionPool.getConnection();
+		ResultSet rs = connection.prepareStatement(QUERY.WAREHOUSE.GET_PRODUCT_LIST).executeQuery();
+		while (rs.next()) {
+			String sku = rs.getString("sku");
+			Product product = productDAO.get(productId);
+			String image = rs.getString("image");
+			Color color = getColor(rs.getInt("color_id"));
+			Material material = getMaterial(rs.getString("material_sku"));
+			long unitPrice = rs.getLong("unit_price");
+			int unitInStock = rs.getInt("unit_in_stock");
+			int discount = rs.getInt("discount");
+			Date dateCreated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date_created"));
+			Date lastUpdated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("last_updated"));
+			boolean active = rs.getBoolean("active");
+			ProductDetail productDetail = new ProductDetail(sku, product, image, color, material, unitPrice, unitInStock, discount, dateCreated, lastUpdated, active);
+			list.add(productDetail);
+		}
+		connectionPool.releaseConnection(connection);
+		return list;
+	}
+	
+	@Override
 	public List<Color> getColorList() throws SQLException {
 		List<Color> list = new ArrayList<>();
 		connection = connectionPool.getConnection();

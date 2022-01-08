@@ -24,6 +24,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     public List<Category> getList() throws SQLException {
         List<Category> categories = new ArrayList<>();
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.GET_LIST);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
@@ -33,7 +34,6 @@ public class CategoryDAOImpl implements CategoryDAO {
             Category category = new Category(sku, name, active);
             categories.add(category);
         }
-        connectionPool.releaseConnection(connection);
         return categories;
     }
 
@@ -41,6 +41,7 @@ public class CategoryDAOImpl implements CategoryDAO {
     public Category get(String sku) throws SQLException {
         Category category = null;
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.GET_CATEGORY_BY_SKU);
         statement.setString(1, sku);
         ResultSet rs = statement.executeQuery();
@@ -50,47 +51,46 @@ public class CategoryDAOImpl implements CategoryDAO {
             boolean active = rs.getBoolean("active");
             category = new Category(sku, name, active);
         }
-        connectionPool.releaseConnection(connection);
         return category;
     }
 
     @Override
     public void create(Category item) throws SQLException {
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement;
         statement = connection.prepareStatement(QUERY.CATEGORY.CREATE);
         statement.setString(1, item.getSku());
         statement.setString(2, item.getName());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     @Override
     public void update(Category item) throws SQLException {
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement;
         statement = connection.prepareStatement(QUERY.CATEGORY.UPDATE);
         statement.setString(1, item.getName());
         statement.setString(2, item.getSku());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
 
     @Override
     public void delete(String sku) throws SQLException {
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.DELETE);
         statement.setString(1, sku);
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     @Override
     public void changeActive(String sku) throws SQLException {
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.CHANGE_ACTIVE);
         statement.setString(1, sku);
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
 }

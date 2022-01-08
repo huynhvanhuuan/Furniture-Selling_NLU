@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.helper.DbManager;
 import vn.edu.hcmuaf.fit.model.Product;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
@@ -16,12 +17,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public List<Product> getList() throws SQLException {
+	public List<Product> getList() throws SQLException, ParseException {
 		return productDAO.getList();
 	}
 	
 	@Override
-	public Product get(int id) throws SQLException {
+	public Product get(int id) throws SQLException, ParseException {
 		return productDAO.get(id);
 	}
 	

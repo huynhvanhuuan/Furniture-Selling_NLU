@@ -15,7 +15,7 @@ import java.util.List;
 public class TrademarkDAOImpl implements TrademarkDAO {
     private final IConnectionPool connectionPool;
     private Connection connection;
-    private final AddressDAOImpl addressDAO;
+    private final AddressDAO addressDAO;
 
     public TrademarkDAOImpl(IConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
@@ -26,6 +26,7 @@ public class TrademarkDAOImpl implements TrademarkDAO {
     public List<Trademark> getList() throws SQLException {
         List<Trademark> trademarks = new ArrayList<>();
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.GET_LIST);
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
@@ -36,7 +37,6 @@ public class TrademarkDAOImpl implements TrademarkDAO {
             Trademark trademark = new Trademark(id, name, website, addresses);
             trademarks.add(trademark);
         }
-        connectionPool.releaseConnection(connection);
         return trademarks;
     }
 
@@ -44,6 +44,7 @@ public class TrademarkDAOImpl implements TrademarkDAO {
     public Trademark get(int id) throws SQLException {
         Trademark trademark = null;
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.GET_TRADEMARK_BY_ID);
         statement.setInt(1, id);
         ResultSet rs = statement.executeQuery();
@@ -54,19 +55,17 @@ public class TrademarkDAOImpl implements TrademarkDAO {
             List<Address> addresses = addressDAO.getListByTrademarkId(id);
             trademark = new Trademark(id, name, website, addresses);
         }
-        connectionPool.releaseConnection(connection);
         return trademark;
     }
 
     @Override
     public void create(Trademark trademark) throws SQLException {
         connection = connectionPool.getConnection();
-        PreparedStatement statement;
-        statement = connection.prepareStatement(QUERY.TRADEMARK.CREATE);
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.CREATE);
         statement.setString(1, trademark.getName());
         statement.setString(2, trademark.getWebsite());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     @Override
@@ -77,32 +76,31 @@ public class TrademarkDAOImpl implements TrademarkDAO {
     @Override
     public void update(Trademark trademark) throws SQLException {
         connection = connectionPool.getConnection();
-        PreparedStatement statement;
-        statement = connection.prepareStatement(QUERY.TRADEMARK.UPDATE);
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.UPDATE);
         statement.setString(1, trademark.getName());
         statement.setString(2, trademark.getWebsite());
         statement.setInt(3, trademark.getId());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
 
     @Override
     public void delete(int id) throws SQLException {
         deleteAddress(id);
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.DELETE);
         statement.setInt(1, id);
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     private void deleteAddress(int id) throws SQLException {
         Trademark trademark = get(id);
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK_ADDRESS.DELETE_BY_TRADEMARK_ID);
         statement.setInt(1, id);
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
         for (Address address : trademark.getAddresses()) {
             addressDAO.delete(address.getId());
         }
@@ -111,9 +109,9 @@ public class TrademarkDAOImpl implements TrademarkDAO {
     @Override
     public void changeActive(int id) throws SQLException {
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.CHANGE_ACTIVE);
         statement.setInt(1, id);
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
 }
