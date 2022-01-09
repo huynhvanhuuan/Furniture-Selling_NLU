@@ -20,7 +20,7 @@ public class DbManager implements ServletContextListener {
         String pwd = sce.getServletContext().getInitParameter("pwd");
         String database = sce.getServletContext().getInitParameter("database");
         connectionPool = DbConnection.init(uid, pwd, database);
-         sce.getServletContext().setAttribute("connectionPool", connectionPool);
+        sce.getServletContext().setAttribute("connectionPool", connectionPool);
     }
 
     @Override

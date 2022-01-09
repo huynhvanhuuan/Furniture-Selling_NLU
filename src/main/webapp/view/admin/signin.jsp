@@ -1,33 +1,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Huỳnh Văn Hữu Ân
-  Date: 11/30/2021
-  Time: 9:45 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <c:import url="../import/admin/head.jsp"/>
-    <title>AdminLTE 3 | Log in</title>
+    <title>Quản lý | Đăng nhập</title>
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <span><b>Admin</b>LTE</span>
+        <span><b>ALC</b>FIT</span>
     </div>
     <!-- /.login-logo -->
     <div class="card">
         <div class="card-body login-card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-            <form class="needs-validation" action="<%=request.getContextPath()%>/admin/submit" method="POST" novalidate>
-
+            <p class="login-box-msg">Vui lòng đăng nhập đế tiếp tục</p>
+            <form class="needs-validation" action="<%=request.getContextPath()%>/admin/signin" method="POST" novalidate>
                 <div class="input-group mb-3">
                     <c:choose>
                         <c:when test="${sessionScope.get('email') == null}">
-                            <input type="email" name="email" class="form-control" placeholder="Email">
+                            <input type="email" name="email" class="form-control" placeholder="Tên tài khoản">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -35,7 +27,7 @@
                             </div>
                         </c:when>
                         <c:when test="${sessionScope.get('email') != null}">
-                            <input type="email" name="email" class="form-control is-invalid" placeholder="Email">
+                            <input type="email" name="email" class="form-control is-invalid" placeholder="Tên tài khoản">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -46,7 +38,7 @@
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <input type="email" name="email" class="form-control is-valid" placeholder="Email">
+                            <input type="email" name="email" class="form-control is-valid" placeholder="Tên tài khoản">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-envelope"></span>
@@ -57,7 +49,7 @@
                     </c:choose>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Password">
+                    <input type="password" name="password" class="form-control" placeholder="Mật khẩu">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>

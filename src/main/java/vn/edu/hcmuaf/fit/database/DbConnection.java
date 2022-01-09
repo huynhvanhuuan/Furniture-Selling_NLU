@@ -2,16 +2,16 @@ package vn.edu.hcmuaf.fit.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DbConnection implements IConnectionPool {
+    private static final int MAX_TIMEOUT = 30;
     private String uid;
     private String pwd;
     private String database;
-    private static final int MAX_POOL_SIZE = 10;
+    private static final int MAX_POOL_SIZE = 50;
     private List<Connection> connectionPool;
     private List<Connection> usedConnections = new ArrayList<>();
 
@@ -36,12 +36,11 @@ public class DbConnection implements IConnectionPool {
             if (usedConnections.size() < MAX_POOL_SIZE) {
                 connectionPool.add(createConnection(uid, pwd, database));
             } else {
-                throw new RuntimeException(
-                        "Maximum pool size reached, no available connections!");
+                throw new RuntimeException("Maximum pool size reached, no available connections!");
             }
         }
         Connection connection = connectionPool.remove(connectionPool.size() - 1);
-        if(!connection.isValid(30)){
+        if (!connection.isValid(MAX_TIMEOUT)) {
             connection = createConnection(uid, pwd, database);
         }
         usedConnections.add(connection);

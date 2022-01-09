@@ -1,10 +1,7 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.dao.CategoryDAO;
-import vn.edu.hcmuaf.fit.dao.CategoryDAOImpl;
-import vn.edu.hcmuaf.fit.dao.ProductDAO;
-import vn.edu.hcmuaf.fit.dao.TrademarkDAO;
+import vn.edu.hcmuaf.fit.dao.*;
 import vn.edu.hcmuaf.fit.database.DbConnection;
 import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.model.Product;
@@ -20,6 +17,7 @@ import java.util.Map;
 
 @WebServlet(name = "HomeController", value = "/home")
 public class HomeController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
 
     private ProductDAO productDAO;
     private TrademarkDAO trademarkDAO;
@@ -28,8 +26,8 @@ public class HomeController extends HttpServlet {
     @Override
     public void init() throws ServletException {
         IConnectionPool connectionPool = (IConnectionPool) getServletContext().getAttribute("connectionPool");
-        productDAO = new ProductDAO(connectionPool);
-        trademarkDAO = new TrademarkDAO(connectionPool);
+        productDAO = new ProductDAOImpl(connectionPool);
+        trademarkDAO = new TrademarkDAOImpl(connectionPool);
         categoryDAO = new CategoryDAOImpl(connectionPool);
     }
 

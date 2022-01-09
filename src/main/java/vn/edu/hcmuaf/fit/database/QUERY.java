@@ -40,9 +40,16 @@ public class QUERY {
 
     /* WAREHOUSE */
     public static class WAREHOUSE {
-        public static final String GET_LIST = "select * from warehouse";
-        public static final String CREATE = "insert into warehouse values(?,?,?,?,?,?,?,?)";
-        public static final String UPDATE = "update warehouse";
+        public static final String GET_PRODUCT_LIST = "select * from warehouse";
+        public static final String GET_COLOR_LIST = "select * from color";
+        public static final String GET_MATERIAL_LIST = "select * from material";
+        public static final String GET_PRODUCT = "select * from warehouse where sku = ?";
+        public static final String GET_COLOR = "select * from color where id = ?";
+        public static final String GET_MATERIAL = "select * from material where sku = ?";
+        public static final String CREATE = "insert into warehouse(sku, product_id, image, color_id, material_sku, unit_price, unit_in_stock, discount) values(?,?,?,?,?,?,?,?)";
+        public static final String UPDATE = "update warehouse set sku = ?, product_id = ?, image = ?, color_id = ?, material_sku = ?, unit_price = ?, unit_in_stock = ?, discount = ? where sku = ? and date_created = ?";
+        public static final String DELETE = "delete from warehouse where sku = ? and date_created = ?";
+        public static final String CHANGE_ACTIVE = "update warehouse set active = (case active when 1 then 0 when 0 then 1 end) where sku = ?";
     }
 
     /* CATEGORY */
@@ -58,11 +65,12 @@ public class QUERY {
     /* TRADEMARK */
     public static class TRADEMARK {
         public static final String GET_LIST = "select * from trademark";
-        //public static final String GET_TRADEMARK_BY_ID = "select * from trademark where id = ?";
+        public static final String GET_TRADEMARK_BY_ID = "select * from trademark where id = ?";
         public static final String CREATE = "insert into trademark(name, website) values(?, ?)";
         public static final String CREATE_TRADEMARK_ADDRESS = "insert into address(number, street, ward_id, district_id, path) values(?, ?, ?, ?, ?)";
         public static final String UPDATE = "update trademark set name = ?, website = ? where id = ?";
         public static final String DELETE = "delete from trademark where id = ?";
+        public static final String CHANGE_ACTIVE = "update trademark set active = (case active when 1 then 0 when 0 then 1 end) where id = ?";
     }
 
     /* USER */

@@ -9,9 +9,10 @@ import java.util.Date;
 public class Warehouse implements Serializable {
     private String sku;
     private Product product;
+    private String image;
     private Color color;
     private Material material;
-    private int unitPrice;
+    private long unitPrice;
     private int unitInStock;
     private int discount;
     private Date dateCreated;
@@ -21,9 +22,10 @@ public class Warehouse implements Serializable {
     public Warehouse() {
     }
 
-    public Warehouse(String sku, Product product, String size, Color color, Material material, int unitPrice, int unitInStock, int discount, Date dateCreated, Date lastUpdated, boolean active) {
+    public Warehouse(String sku, Product product, String image, Color color, Material material, long unitPrice, int unitInStock, int discount, Date dateCreated, Date lastUpdated, boolean active) {
         this.sku = sku;
         this.product = product;
+        this.image = image;
         this.color = color;
         this.material = material;
         this.unitPrice = unitPrice;
@@ -45,11 +47,19 @@ public class Warehouse implements Serializable {
     public Product getProduct() {
         return product;
     }
-
-    public void setProductId(Product product) {
+    
+    public void setProduct(Product product) {
         this.product = product;
     }
-
+    
+    public String getImage() {
+        return image;
+    }
+    
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
     public Color getColor() {
         return color;
     }
@@ -66,11 +76,11 @@ public class Warehouse implements Serializable {
         this.material = material;
     }
 
-    public int getUnitPrice() {
+    public long getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(long unitPrice) {
         this.unitPrice = unitPrice;
     }
 

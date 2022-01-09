@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "AddressController", value = "/admin/address")
+@WebServlet(name = "AddressController", value = "/address")
 public class AddressController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private AddressService addressService;
@@ -47,23 +47,11 @@ public class AddressController extends HttpServlet {
                 case "getWardList":
                     getWardList(request, response);
                     break;
-                case "createTrademarkAddress":
-                    createTrademarkAddress(request, response);
-                    break;
-                case "createUserAddress":
-                    createUserAddress(request, response);
-                    break;
-                case "update":
-                    update(request, response);
-                    break;
                 case "getAddressById":
                     getAddressById(request, response);
                     break;
                 case "getAddressByPath":
                     getAddressByPath(request, response);
-                    break;
-                case "delete":
-                    delete(request, response);
                     break;
             }
         } catch (SQLException e) {
@@ -114,25 +102,6 @@ public class AddressController extends HttpServlet {
         out.println(new Gson().toJson(address));
         out.close();
     }
-
-    private void createTrademarkAddress(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        String url = request.getParameter("url");
-        int trademarkId = Integer.parseInt(request.getParameter("trademarkId"));
-        String path = request.getParameter("path");
-        int districtId = Integer.parseInt(request.getParameter("district"));
-        int wardId = Integer.parseInt(request.getParameter("ward"));
-        String street = request.getParameter("street");
-        String number = request.getParameter("number");
-        if (number.equals("")) number = null;
-        if (wardId == 0) {
-            District district = addressService.getDistrict(districtId);
-            addressService.createTrademarkAddress(trademarkId, new Address(0, number, street, null, district, path));
-        } else {
-            Ward ward = addressService.getWard(wardId);
-            addressService.createTrademarkAddress(trademarkId, new Address(0, number, street, ward, ward.getDistrict(), path));
-        }
-        response.sendRedirect(request.getContextPath() + url);
-    }
     
     private void createUserAddress(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
 //        String url = request.getParameter("url");
@@ -168,13 +137,6 @@ public class AddressController extends HttpServlet {
             Ward ward = addressService.getWard(Integer.parseInt(wardId));
             addressService.update(new Address(id, number, street, ward, ward.getDistrict(), path));
         }
-        response.sendRedirect(request.getContextPath() + url);
-    }
-
-    private void delete(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        String url = request.getParameter("url");
-        int id = Integer.parseInt(request.getParameter("id"));
-        addressService.delete(id);
         response.sendRedirect(request.getContextPath() + url);
     }
 }

@@ -20,37 +20,36 @@ public class AdminController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getServletPath();
-        switch (action) {
-            case "/admin/signin":
-                getSignin(request, response);
+        String action = request.getParameter("action");
+        if (action == null) {
+            getDashboard(request, response);
+        } else switch (action) {
+            case "signin":
+                signin(request, response);
                 break;
-            case "/admin/signout":
+            case "signout":
                 signout(request, response);
                 break;
             default:
                 getDashboard(request, response);
         }
     }
-
-    /* Show dashboard page */
+    
     private void getDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        HttpSession session = request.getSession();
-//        if (session.isNew() || session.getAttribute("user_id") == null) {
-//            response.sendRedirect(request.getContextPath() + "/admin/signin");
+//        if (session.isNew() || session.getAttribute("user") == null) {
+//            getSigninPage(request, response);
 //        } else {
-            User user = new User();
-            request.setAttribute("title", "Chào mừng trở lại, " + user.getUsername());
+            //User user = (User) request.getSession().getAttribute("user");
+            //request.setAttribute("title", "Chào mừng trở lại, " + user.getUsername());
             request.getRequestDispatcher("/view/admin/index.jsp").forward(request, response);
 //        }
     }
 
-    /* Show sign in page */
-    private void getSignin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void getSigninPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/view/admin/signin.jsp").forward(request, response);
     }
 
-    /* Submit sign in */
     private void signin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -69,17 +68,17 @@ public class AdminController extends HttpServlet {
         if (errors.size() > 0) {
             errors.forEach(session::setAttribute);
             request.setAttribute("validate", "is-invalid");
-            response.sendRedirect(request.getServletPath() + request.getContextPath() + "/signin");
+            getSigninPage(request, response);
         } else {
+            // get user
             session.setAttribute("email", email);
-            response.sendRedirect( request.getServletPath() + request.getContextPath() + "/dashboard");
+            getDashboard(request, response);
         }
     }
 
-    /* Sign out */
     private void signout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.removeAttribute("email");
-        response.sendRedirect(request.getServletPath() + request.getContextPath() + "/signin");
+        session.removeAttribute("user");
+        getSigninPage(request, response);
     }
 }

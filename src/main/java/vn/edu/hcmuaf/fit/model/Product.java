@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.model;
 
+import vn.edu.hcmuaf.fit.dto.product.ProductDetail;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -17,19 +19,6 @@ public class Product implements Serializable {
     private List<ProductDetail> products;
 
     public Product() {
-    }
-
-    public Product(int id, String name, String size, String description, Trademark trademark, Category category,
-                   Date dateCreated, Date lastUpdated, boolean active) {
-        this.id = id;
-        this.name = name;
-        this.size = size;
-        this.description = description;
-        this.category = category;
-        this.trademark = trademark;
-        this.dateCreated = dateCreated;
-        this.lastUpdated = lastUpdated;
-        this.active = active;
     }
     
     public Product(int id, String name, String size, String description, Trademark trademark, Category category,

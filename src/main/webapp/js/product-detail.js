@@ -19,13 +19,13 @@ productImgs.forEach(img => {
     }
 })
 
-let btnAdd = document.querySelector('.btn-add')
-let btnMinus = document.querySelector('.btn-minus')
+const btnAdd = document.querySelector('.btn-add')
+const btnMinus = document.querySelector('.btn-minus')
 let quantity = document.querySelector('.quantity-count')
 
 btnMinus.onclick = () => {
     if (quantity.value > 1) {
-        quantity.setAttribute('value', +quantity.value - 1);
+        quantity.setAttribute('value', +quantity.value - 1)
     }
 }
 
@@ -33,14 +33,16 @@ btnAdd.onclick = () => {
     quantity.setAttribute('value', +quantity.value + 1)
 }
 
-let btnAddCart = document.querySelector('.btn-add-to-cart')
+const btnAddCart = document.querySelector('.btn-add-to-cart')
 
-let cartCount = document.querySelector('.cart-count')
+const cartCount = document.querySelector('.card-count')
+
+if (+cartCount.textContent < 1) cartCount.style.display = 'none'
+else cartCount.style.display = 'flex'
 
 btnAddCart.onclick = () => {
-    if (+cartCount.textContent + +quantity.value > 99 || cartCount.textContent === "99+") {
-        cartCount.innerHTML = "99+";
-    } else {
-        cartCount.innerHTML = +cartCount.textContent + +quantity.value;
-    }
+    let count = +document.querySelector('.quantity-count').value
+    cartCount.innerHTML = +cartCount.textContent + count
+    if (+cartCount.textContent < 1) cartCount.style.display = 'none'
+    else cartCount.style.display = 'flex'
 }
