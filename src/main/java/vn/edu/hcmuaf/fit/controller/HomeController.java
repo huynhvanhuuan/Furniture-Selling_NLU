@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,6 @@ import java.util.Map;
 @WebServlet(name = "HomeController", value = "/home")
 public class HomeController extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
     private ProductDAO productDAO;
     private TrademarkDAO trademarkDAO;
     private CategoryDAO categoryDAO;
@@ -56,12 +56,12 @@ public class HomeController extends HttpServlet {
                 default:
                     getHome(request, response);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
     }
 
-    private void getHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void getHome(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
         getListProductData(request, response, 8);
 
         getListNewNDiscount(request, response, 8);
@@ -70,7 +70,7 @@ public class HomeController extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void getProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void getProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
 //        String id = request.getParameter("id");
 //        if (id != null) {
 //            int productId = Integer.parseInt(id);
@@ -104,7 +104,7 @@ public class HomeController extends HttpServlet {
     }
 
     // for products page
-    private void getListProductData(HttpServletRequest request, HttpServletResponse response, int countProduct) throws SQLException {
+    private void getListProductData(HttpServletRequest request, HttpServletResponse response, int countProduct) throws SQLException, ParseException {
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("user_id");
 
