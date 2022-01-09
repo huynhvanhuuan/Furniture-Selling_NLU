@@ -12,9 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ProductDAO implements IGeneralDAO<Product> {
     private final IConnectionPool connectionPool;
@@ -118,5 +116,188 @@ public class ProductDAO implements IGeneralDAO<Product> {
         int result = statement.executeUpdate();
         connectionPool.releaseConnection(connection);
         return result == 1;
+    }
+
+    public Map<String, String> getProductsDiscount() throws SQLException {
+        Map<String, String> productsDiscount = new HashMap<String, String>();
+        connection = connectionPool.getConnection();
+        ResultSet rs = connection.prepareStatement(QUERY.PRODUCT_DETAIL.GET_PRODUCT_DISCOUNT).executeQuery();
+
+        while (rs.next()) {
+            productsDiscount.put(rs.getString(1), rs.getString(2));
+        }
+        connectionPool.releaseConnection(connection);
+        return productsDiscount;
+    }
+
+    public Map<Integer, Map<String, String>> getListData() throws SQLException {
+        // productID { {discount}, {price} }
+        Map<Integer, Map<String, String>> dataProducts = new HashMap<>();
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.GET_LIST);
+        ResultSet rs = statement.executeQuery();
+
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            Map<String, String> details = new HashMap<>();
+            PreparedStatement stm = connection.prepareStatement(QUERY.PRODUCT_DETAIL.GET_PRODUCT_DETAILS);
+            stm.setInt(1, id);
+            ResultSet dataProductSet = stm.executeQuery();
+
+            while (dataProductSet.next()) {
+                int discount = dataProductSet.getInt("discount");
+                int price = dataProductSet.getInt("unit_price");
+                String img = dataProductSet.getString("image");
+                details.put("discount", "" + discount);
+                details.put("price", "" + price);
+                details.put("image", img);
+                dataProducts.put(id, details);
+            }
+
+        }
+        connectionPool.releaseConnection(connection);
+        return dataProducts;
+    }
+
+    public Map<Integer, Map<String, String>> getListData(int countProduct) throws SQLException {
+        // productID { {discount}, {price}, {img} }
+
+        if (countProduct < 1)
+            return getListData();
+
+        int count = 0;
+        Map<Integer, Map<String, String>> dataProducts = new HashMap<>();
+        List<Product> products = new ArrayList<>();
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.GET_LIST);
+        ResultSet rs = statement.executeQuery();
+
+        while (rs.next()) {
+            if (count > countProduct)
+                break;
+
+            int id = rs.getInt("id");
+            Map<String, String> details = new HashMap<String, String>();
+            PreparedStatement stm = connection.prepareStatement(QUERY.PRODUCT_DETAIL.GET_PRODUCT_DETAILS);
+            stm.setInt(1, id);
+            ResultSet dataProductSet = stm.executeQuery();
+
+            while (dataProductSet.next()) {
+                int discount = dataProductSet.getInt("discount");
+                int price = dataProductSet.getInt("unit_price");
+                String img = dataProductSet.getString("image");
+                details.put("discount", "" + discount);
+                details.put("price", "" + price);
+                details.put("image", img);
+                dataProducts.put(id, details);
+            }
+
+            count++;
+        }
+        connectionPool.releaseConnection(connection);
+        return dataProducts;
+    }
+
+    public List<Product> getList(int countProduct) throws SQLException {
+
+        if (countProduct < 1)
+            return getList();
+
+        List<Product> products = new ArrayList<>();
+        int count = 0;
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.GET_LIST_BY_COUNT);
+        statement.setInt(1, countProduct);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            if (count > countProduct)
+                break;
+
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            String description = rs.getString("description");
+            int trademarkId = rs.getInt("trademark_id");
+            int categoryId = rs.getInt("category_id");
+            Date dateCreated = null;
+            Date lastUpdated = null;
+            try {
+                dateCreated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date_created"));
+                lastUpdated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("last_updated"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            boolean active = rs.getBoolean("active");
+            Trademark trademark = trademarkDAO.get(trademarkId);
+            Category category = categoryDAO.get("" + categoryId);
+            Product product = new Product(id, name, description, "", trademark, category, dateCreated, lastUpdated, active);
+            products.add(product);
+
+            count++;
+        }
+        connectionPool.releaseConnection(connection);
+        return products;
+    }
+
+    public Map<Integer, Map<String, String>> getCartOrWishlist(String userId, boolean getCart) throws SQLException {
+        Map<Integer, Map<String, String>> dataList = new HashMap<>();
+        Map<String, String> dataProduct = new HashMap<>();
+
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = null;
+        if (getCart)
+            statement = connection.prepareStatement(QUERY.PRODUCT_DETAIL.GET_CART_FROM_USER);
+        else
+            statement = connection.prepareStatement(QUERY.PRODUCT_DETAIL.GET_WISHLIST_FROM_USER);
+
+        statement.setString(1, userId);
+        ResultSet rs = statement.executeQuery();
+
+        while (rs.next()) {
+            String name = rs.getString("name");
+            int id = rs.getInt("id");
+            String img = rs.getString("image");
+            int price = rs.getInt("unit_price");
+
+            dataProduct.put("name", name);
+            dataProduct.put("img", img);
+            dataProduct.put("price", "" + price);
+
+            dataList.put(id, dataProduct);
+        }
+
+        connectionPool.releaseConnection(connection);
+        return dataList;
+    }
+
+    // if getNewProduct = false => get product which has discount
+    public Map<Integer, Map<String, String>> getListByCondition(boolean getNewProduct, int countProduct) throws SQLException {
+        Map<Integer, Map<String, String>> dataList = new HashMap<>();
+        Map<String, String> dataProduct = new HashMap<>();
+
+        connection = connectionPool.getConnection();
+        PreparedStatement statement = null;
+        if (getNewProduct)
+            statement = connection.prepareStatement(QUERY.PRODUCT.GET_LIST_NEW_BY_COUNT);
+        else
+            statement = connection.prepareStatement(QUERY.PRODUCT.GET_LIST_HAS_DISCOUNT);
+
+        statement.setInt(1, countProduct);
+        ResultSet rs = statement.executeQuery();
+
+        while (rs.next()) {
+            String name = rs.getString("name");
+            int id = rs.getInt("id");
+            String img = rs.getString("image");
+            int price = rs.getInt("unit_price");
+
+            dataProduct.put("name", name);
+            dataProduct.put("img", img);
+            dataProduct.put("price", "" + price);
+
+            dataList.put(id, dataProduct);
+        }
+
+        connectionPool.releaseConnection(connection);
+        return dataList;
     }
 }

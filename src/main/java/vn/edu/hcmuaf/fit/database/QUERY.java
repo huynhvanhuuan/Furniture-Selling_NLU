@@ -12,11 +12,20 @@ public class QUERY {
         public static final String UPDATE = "update product set name = ?, description = ?, trademark_id = ?, category_id = ?, active = ? where id = ?";
         public static final String DELETE = "delete from product where id = ?";
         public static final String CHANGE_ACTIVE = "update product set active = (case active when 1 then 0 when 0 then 1 end) where id = ?";
+        public static final String GET_LIST_BY_COUNT = "select * from product limit ?";
+        public static final String GET_LIST_HAS_DISCOUNT = "SELECT p.id, p.`name`, w.unit_price, w.image from product p " +
+                "join warehouse w on p.id = w.product_id WHERE w.discount > 0 limit ?";
+        public static final String GET_LIST_NEW_BY_COUNT = "SELECT p.id, p.`name`, w.unit_price, w.image from product p " +
+                "join warehouse w on p.id = w.product_id ORDER BY p.date_created DESC limit ?";
     }
     
     /* PRODUCT DETAIL */
     public static class PRODUCT_DETAIL {
-        
+        public static final String GET_PRODUCT_DETAILS = "select discount, unit_price from warehouse where product_id = ?";
+        public static final String GET_CART_FROM_USER = "SELECT p.`name`, p.id, w.image, w.unit_price " +
+                "FROM cart c JOIN warehouse w ON c.product_sku = w.sku JOIN product p ON w.product_id = p.id WHERE c.user_id = ?";
+        public static final String GET_WISHLIST_FROM_USER = "SELECT p.`name`, p.id, w.image, w.unit_price " +
+                "FROM cart wl JOIN warehouse w ON wl.product_sku = w.sku JOIN product p ON w.product_id = p.id WHERE wl.user_id = ?";
     }
 
     /* COLOR */
