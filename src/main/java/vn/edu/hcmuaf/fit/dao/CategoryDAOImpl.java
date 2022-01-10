@@ -55,24 +55,23 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
-    public void create(Category item) throws SQLException {
+    public void create(Category category) throws SQLException {
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
-        PreparedStatement statement;
-        statement = connection.prepareStatement(QUERY.CATEGORY.CREATE);
-        statement.setString(1, item.getSku());
-        statement.setString(2, item.getName());
+        PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.CREATE);
+        statement.setString(1, category.getSku());
+        statement.setString(2, category.getName());
         statement.executeUpdate();
     }
     
     @Override
-    public void update(Category item) throws SQLException {
+    public void update(String sku, Category category) throws SQLException {
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
-        PreparedStatement statement;
-        statement = connection.prepareStatement(QUERY.CATEGORY.UPDATE);
-        statement.setString(1, item.getName());
-        statement.setString(2, item.getSku());
+        PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.UPDATE);
+        statement.setString(1, category.getSku());
+        statement.setString(2, category.getName());
+        statement.setString(3, sku);
         statement.executeUpdate();
     }
 

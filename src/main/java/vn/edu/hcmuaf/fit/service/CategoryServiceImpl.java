@@ -31,8 +31,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
-	public void update(Category category) throws SQLException {
-		categoryDAO.update(category);
+	public void update(String sku, Category category) throws SQLException {
+		categoryDAO.update(sku, category);
 	}
 	
 	@Override

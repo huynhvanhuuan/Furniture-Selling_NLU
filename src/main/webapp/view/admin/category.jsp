@@ -5,51 +5,39 @@
     <c:import url="../import/admin/management/head.jsp"/>
     <title>Quản lý | Thể loại</title>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-footer-fixed layout-navbar-fixed">
 <div class="wrapper">
-    <!-- Navbar -->
     <c:import url="../import/admin/navbar.jsp"/>
-    <!-- /.navbar -->
-    <!-- Main Sidebar Container -->
     <c:import url="../import/admin/sidebar.jsp"/>
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <c:import url="../import/admin/header.jsp"/>
-        <!-- /.content-header -->
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="" method="post">
+                                <div class="btn-group float-left">
                                     <button type="button" class="btn btn-success mr-2 float-left"
                                             data-toggle="modal" data-target="#create-modal" title="Thêm"><i class="fas fa-plus"></i></button>
-                                    <button type="submit" class="btn btn-danger font-weight-bolder float-left"
-                                            onclick="return confirm('Xác nhận xóa các thương hiệu đã chọn?')"><i class="fas fa-trash-alt"></i></button>
-                                    <table id="category" class="table table-bordered table-striped">
+                                    <button type="button" class="btn btn-danger float-left"
+                                            data-toggle="modal" data-target="#delete-modal"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                                <table id="category" class="table table-bordered table-striped">
                                     <thead>
                                     <tr class="text-center">
                                         <th class="align-middle"><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th>
                                         <th class="align-middle">Mã thể loại</th>
                                         <th class="align-middle">Tên thể loại</th>
                                         <th class="align-middle">Trạng thái</th>
-                                        <th>
-                                            <span class="d-none">Tác vụ</span>
-                                            <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#create-modal"
-                                                    title="Thêm">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </th>
+                                        <th class="align-middle">Tác vụ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <jsp:useBean id="categories" scope="request" type="java.util.List"/>
                                     <c:forEach items="${categories}" var="category" varStatus="i">
                                         <tr>
-                                            <td class="text-center align-middle"><input type="checkbox" class="checkBoxId" name="id" value="${category.sku}"></td>
+                                            <td class="text-center align-middle"><input type="checkbox" class="checkBoxSku" name="sku" value="${category.sku}"></td>
                                             <td class="text-center align-middle">${category.sku}</td>
                                             <td class="align-middle">${category.name}</td>
                                             <td class="text-center align-middle text-success">
@@ -68,13 +56,11 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
-                                </form>
                             </div>
-                            <!-- /.card-body -->
                         </div>
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
             <!-- Create modal -->
             <div class="modal fade" id="create-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
@@ -102,12 +88,9 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
-            <%-- Update modal --%>
+            <!-- Update modal -->
             <div class="modal fade" id="update-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content card card-warning">
@@ -118,11 +101,12 @@
                             </button>
                         </div>
                         <form action="<%=request.getContextPath()%>/admin/category?action=update" method="POST" id="update" novalidate="novalidate">
+                            <input type="hidden" name="active"/>
                             <input type="hidden" name="sku"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Mã thể loại (In hoa)</label>
-                                    <input type="text" name="sku" class="form-control" style="text-transform:uppercase" placeholder="VD: G, GH, GHE"/>
+                                    <input type="text" name="new_sku" class="form-control" style="text-transform:uppercase" placeholder="VD: G, GH, GHE"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Tên thể loại</label>
@@ -135,12 +119,9 @@
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
-            <%-- Delete modal --%>
+            <!-- Delete modal -->
             <div class="modal fade" id="delete-modal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-sm">
                     <div class="modal-content card card-danger">
@@ -150,8 +131,7 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/admin/category?action=delete" method="POST">
-                            <input type="hidden" name="sku[]"/>
+                        <form method="POST">
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <span>Xác nhận xóa sản phẩm đã chọn?</span>
@@ -159,30 +139,61 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Đồng ý</button>
+                                <button type="button" onclick="deleteCategory();" class="btn btn-primary font-weight-bolder">Đồng ý</button>
                             </div>
                         </form>
                     </div>
-                    <!-- /.modal-content -->
                 </div>
-                <!-- /.modal-dialog -->
             </div>
-            <!-- /.modal -->
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
     <c:import url="../import/admin/footer.jsp"/>
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+    <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
-<!-- ./wrapper -->
 <c:import url="../import/admin/management/script.jsp"/>
-<!-- Page specific script -->
 <script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+    
+    function checkValid() {
+        
+    }
+    
+    function deleteCategory() {
+        let skus = []
+        jQuery('.checkBoxSku').each(function () {
+            if (jQuery(this).is(":checked")) {
+                skus.push(jQuery(this).val());
+            }
+        })
+    
+        $.ajax({
+            type: "POST",
+            url: '<%=request.getContextPath()%>/admin/category?action=delete',
+            data: { skus: JSON.stringify(skus) },
+            success: function (response) {
+                if (response.statusCode === 200) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: response.message,
+                    })
+                    setTimeout(function () {
+                        document.location.href = "<%=request.getContextPath()%>/admin/category";
+                    }, 1000);
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: response.message,
+                    })
+                }
+            }
+        })
+    }
+    
     jQuery(function () {
         jQuery("#category").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -250,38 +261,28 @@
                 jQuery(element).removeClass('is-invalid');
             }
         });
-        jQuery('.delete').on('click', function() {
-            let skus = [];
-    
-            jQuery('input[name="sku"]').each(function () {
-                if (jQuery(this).is(':checked')) {
-                    skus.push(jQuery(this).val());
-                }
-            })
-            jQuery('#delete-modal input[name = "sku[]"]').val(skus);
-            console.log(jQuery('#delete-modal input[name = "sku[]"]').val());
-        });
         jQuery('.update').on('click', function() {
-            let id = jQuery(this).parent().find('input[name = "id"]').val();
+            let sku = jQuery(this).parent().find('input[name = "sku"]').val();
             $.ajax({
                 type: "GET",
-                url: '<%=request.getContextPath()%>/category/get',
-                data: { id: id },
+                url: '<%=request.getContextPath()%>/admin/category?action=get',
+                data: { sku: sku },
                 dataType: "json",
                 contentType: "application/json",
                 success: function (data) {
-                    jQuery('#update-modal input[name = "id"]').val(data.id);
                     jQuery('#update-modal input[name = "sku"]').val(data.sku);
+                    jQuery('#update-modal input[name = "new_sku"]').val(data.sku);
                     jQuery('#update-modal input[name = "name"]').val(data.name);
+                    jQuery('#update-modal input[name = "active"]').val(data.active);
                 }
             })
         });
     
         jQuery('#checkBoxAll').click(function () {
             if (jQuery(this).is(':checked')) {
-                jQuery('.checkBoxId').prop('checked', true);
+                jQuery('.checkBoxSku').prop('checked', true);
             } else {
-                jQuery('.checkBoxId').prop('checked', false);
+                jQuery('.checkBoxSku').prop('checked', false);
             }
         })
     });
