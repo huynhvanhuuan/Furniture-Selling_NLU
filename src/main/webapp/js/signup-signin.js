@@ -1,18 +1,39 @@
 const btnSignin = document.querySelector('.sign-in')
+const btnSignup = document.querySelector('.sign-up')
 const boxPopup = document.querySelector('.box-signup-signin')
 const formPopup = document.querySelector('.signup-signin')
 const btnClose = document.querySelector('.popup-close')
+const boxSignIn = document.querySelector('.signin')
+const boxSignUp = document.querySelector('.signup')
+const swipeSignIn = document.querySelector('.swipe-to-signin')
+const swipeSignUp = document.querySelector('.swipe-to-signup')
 
 btnSignin.onclick = () => {
+    boxSignUp.style.marginRight = '90rem'
+    boxSignIn.style.marginLeft = '0rem'
     boxPopup.style.opacity = 1
     boxPopup.style.visibility = 'visible'
     formPopup.classList.toggle('show-popup')
+}
+
+btnSignup.onclick = () => {
+    btnSignin.click()
+    boxSignIn.style.marginLeft = '-90rem'
 }
 
 btnClose.onclick = () => {
     boxPopup.style.opacity = 0
     boxPopup.style.visibility = 'hidden'
     formPopup.classList.toggle('show-popup')
+}
+
+swipeSignUp.onclick = () => {
+    boxSignIn.style.marginLeft = '-90rem'
+}
+
+swipeSignIn.onclick = () => {
+    boxSignUp.style.marginRight = '90rem'
+    boxSignIn.style.marginLeft = '0rem'
 }
 
 // show hide password
@@ -50,19 +71,3 @@ function handleShowPassword(inputPass, iconShow) {
 handleShowPassword(inputPassSignin, iconShowSignin)
 handleShowPassword(inputPassSignup, iconShowSignup)
 handleShowPassword(inputPassComfirm, iconShowComfirm)
-
-// swipe to sign up
-const swipeSignUp = document.querySelector('.swipe-to-signup')
-const boxSignIn = document.querySelector('.signin')
-
-swipeSignUp.onclick = () => {
-    boxSignIn.style.marginLeft = '-90rem'
-}
-
-const swipeSignIn = document.querySelector('.swipe-to-signin')
-const boxSignUp = document.querySelector('.signup')
-swipeSignIn.onclick = () => {
-    boxSignUp.style.marginRight = '90rem'
-
-    boxSignIn.style.marginLeft = '0rem'
-}

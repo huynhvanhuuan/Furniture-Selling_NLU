@@ -11,23 +11,19 @@
                     </div>
                     <div class="info-item">
                         <p class="text-info">
-                            Noithatvippro là thương hiệu đến từ Việt Nam với hơn 35 năm
-                            kinh nghiệm trong việc sản xuất và xuất khẩu nội thất đạt
-                            chuẩn quốc tế.
+                            Amanda là thương hiệu đến từ Việt Nam với hơn 35 năm kinh nghiệm
+                            trong việc sản xuất và xuất khẩu nội thất đạt chuẩn quốc tế.
                         </p>
                     </div>
                     <div class="info-item">
-                        <p class="text-info">
-                            Địa chỉ: Khu phố 6, phường Linh Trung, Tp. Thủ Đức
-                        </p>
+                        <p class="text-info">Địa chỉ: Khu phố 6, phường Linh Trung, Tp. Thủ Đức</p>
                     </div>
                     <div class="info-item">
                         <p class="text-info">Điện thoại: 0123456789, 0987654321</p>
                     </div>
                     <div class="info-item">
-                        <p class="text-info">Email: noithatvippro@gmail.com</p>
+                        <p class="text-info">Email: info@gmail.com</p>
                     </div>
-
                     <div class="info-item">
                         <a href="#">
                             <i class="fab fa-facebook-f"></i>
@@ -39,7 +35,6 @@
                             <i class="fab fa-twitter"></i>
                         </a>
                     </div>
-
                     <div class="info-item">
                         <p class="text-info">Copyright &copy; All rights reserved.</p>
                     </div>
@@ -53,30 +48,23 @@
                     <div class="flex-col">
                         <div class="col-item">
                             <div class="info-item">
-                                <a class="text-info" href="#">Giới thiệu</a>
+                                <a class="text-info" href="">Trang chủ</a>
                             </div>
                             <div class="info-item">
-                                <a class="text-info" href="#">Sản phẩm</a>
+                                <a class="text-info" href="<%=request.getContextPath()%>/product">Sản phẩm</a>
                             </div>
                             <div class="info-item">
-                                <a class="text-info" href="#">Liên hệ</a>
-                            </div>
-                            <div class="info-item">
-                                <a class="text-info" href="#">Cộng tác</a>
+                                <a class="text-info" href="<%=request.getContextPath()%>/contact">Liên hệ</a>
                             </div>
                         </div>
                         <div class="col-item">
                             <div class="info-item">
-                                <a class="text-info" href="#">Giới thiệu</a>
+                                <a class="text-info" href="<%=request.getContextPath()%>/faqs">FAQS</a>
                             </div>
                             <div class="info-item">
-                                <a class="text-info" href="#">Sản phẩm</a>
-                            </div>
-                            <div class="info-item">
-                                <a class="text-info" href="#">Liên hệ</a>
-                            </div>
-                            <div class="info-item">
-                                <a class="text-info" href="#">Cộng tác</a>
+                                <a class="text-info" href="<%=request.getContextPath()%>/about">
+                                    Về chúng tôi
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -95,8 +83,7 @@
                     </div>
                     <div class="info-item footer-signup">
                         <form action="#" method="post">
-                            <label for="email"></label>
-                            <input class="input pos-abs" id="email" type="email" name="email" placeholder="Hãy nhập vào email"/>
+                            <input class="input pos-abs" type="email" name="email" id="email" placeholder="Hãy nhập vào email"/>
                             <a href="#" class="btn-signup pos-abs">
                                 <i class="fas fa-location-arrow"></i>
                             </a>
