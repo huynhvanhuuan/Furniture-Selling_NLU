@@ -1,18 +1,16 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.dao.CategoryDAOImpl;
-import vn.edu.hcmuaf.fit.dao.ProductDAOImpl;
-import vn.edu.hcmuaf.fit.dao.TrademarkDAOImpl;
-import vn.edu.hcmuaf.fit.database.IConnectionPool;
-import vn.edu.hcmuaf.fit.model.Category;
-import vn.edu.hcmuaf.fit.model.Product;
-import vn.edu.hcmuaf.fit.model.Trademark;
+import vn.edu.hcmuaf.fit.dto.cart.CartItem;
+import vn.edu.hcmuaf.fit.model.*;
 import vn.edu.hcmuaf.fit.service.*;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -73,11 +71,25 @@ public class ProductController extends HttpServlet {
             e.printStackTrace();
         }
     }
-
-    private void changeActive(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+    
+    private void getMainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
+        request.setAttribute("title", "PRODUCT MANAGEMENT");
+        List<Product> products = productService.getList();
+        request.setAttribute("products", products);
+        List<Trademark> trademarks = trademarkService.getList();
+        request.setAttribute("trademarks", trademarks);
+        List<Category> categories = categoryService.getList();
+        request.setAttribute("categories", categories);
+        request.getRequestDispatcher(request.getContextPath() + "/view/product.jsp").forward(request, response);
+    }
+    
+    private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ParseException {
+        response.setContentType("application/json");
         int id = Integer.parseInt(request.getParameter("id"));
-        productService.changeActive(id);
-        response.sendRedirect(request.getContextPath() + "/admin/product");
+        Product product = productService.get(id);
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(product));
+        out.close();
     }
 
     private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -120,35 +132,13 @@ public class ProductController extends HttpServlet {
         productService.delete(id);
         getMainPage(request, response);
     }
-
-    private void getMainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
-        // Set title
-        request.setAttribute("title", "PRODUCT MANAGEMENT");
-
-        // Database
-        List<Product> products = productService.getList();
-        request.setAttribute("products", products);
-
-        // Get trademarks
-        List<Trademark> trademarks = trademarkService.getList();
-        request.setAttribute("trademarks", trademarks);
-
-        // Get categories
-        List<Category> categories = categoryService.getList();
-        request.setAttribute("categories", categories);
-
-        request.getRequestDispatcher(request.getContextPath() + "/view/product/index.jsp").forward(request, response);
-    }
-
-    private void get(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ParseException {
-        response.setContentType("application/json");
+    
+    private void changeActive(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Product product = productService.get(id);
-        PrintWriter out = response.getWriter();
-        out.println(new Gson().toJson(product));
-        out.close();
+        productService.changeActive(id);
+        response.sendRedirect(request.getContextPath() + "/admin/product");
     }
-
+    
     public File getFolderUpload() {
         File folderUpload = new File(System.getProperty("user.home") + "/Furniture Selling/images/product");
         if (!folderUpload.exists()) {

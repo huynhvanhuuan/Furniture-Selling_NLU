@@ -1,6 +1,7 @@
-package vn.edu.hcmuaf.fit.dto.product;
+package vn.edu.hcmuaf.fit.model;
 
-import vn.edu.hcmuaf.fit.model.Product;
+import vn.edu.hcmuaf.fit.dto.product.Color;
+import vn.edu.hcmuaf.fit.dto.product.Material;
 
 import java.io.Serializable;
 import java.util.Date;

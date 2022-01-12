@@ -4,7 +4,7 @@ import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
 import vn.edu.hcmuaf.fit.dto.product.Color;
 import vn.edu.hcmuaf.fit.dto.product.Material;
-import vn.edu.hcmuaf.fit.dto.product.ProductDetail;
+import vn.edu.hcmuaf.fit.model.ProductDetail;
 import vn.edu.hcmuaf.fit.model.Product;
 
 import java.sql.Connection;
@@ -171,35 +171,35 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	}
 	
 	@Override
-	public void create(ProductDetail item) throws SQLException {
+	public void create(ProductDetail productDetail) throws SQLException {
 		connection = connectionPool.getConnection();
 		PreparedStatement statement = connection.prepareStatement(QUERY.WAREHOUSE.GET_MATERIAL);
-		statement.setString(1, item.getSku());
-		statement.setInt(2, item.getProduct().getId());
-		statement.setString(3, item.getImage());
-		statement.setInt(4, item.getColor().getId());
-		statement.setString(5, item.getMaterial().getSku());
-		statement.setLong(6, item.getUnitPrice());
-		statement.setInt(7, item.getUnitInStock());
-		statement.setInt(8, item.getDiscount());
+		statement.setString(1, productDetail.getSku());
+		statement.setInt(2, productDetail.getProduct().getId());
+		statement.setString(3, productDetail.getImage());
+		statement.setInt(4, productDetail.getColor().getId());
+		statement.setString(5, productDetail.getMaterial().getSku());
+		statement.setLong(6, productDetail.getUnitPrice());
+		statement.setInt(7, productDetail.getUnitInStock());
+		statement.setInt(8, productDetail.getDiscount());
 		statement.executeUpdate();
 		connectionPool.releaseConnection(connection);
 	}
 	
 	@Override
-	public void update(ProductDetail item) throws SQLException {
+	public void update(String sku, ProductDetail productDetail) throws SQLException {
 		connection = connectionPool.getConnection();
 		PreparedStatement statement = connection.prepareStatement(QUERY.WAREHOUSE.UPDATE);
-		statement.setString(1, item.getSku());
-		statement.setInt(2, item.getProduct().getId());
-		statement.setString(3, item.getImage());
-		statement.setInt(4, item.getColor().getId());
-		statement.setString(5, item.getMaterial().getSku());
-		statement.setLong(6, item.getUnitPrice());
-		statement.setInt(7, item.getUnitInStock());
-		statement.setInt(8, item.getDiscount());		statement.setString(1, item.getSku());
-		statement.setString(9, item.getSku());
-		statement.setString(10, new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(item.getDateCreated()));
+		statement.setString(1, productDetail.getSku());
+		statement.setInt(2, productDetail.getProduct().getId());
+		statement.setString(3, productDetail.getImage());
+		statement.setInt(4, productDetail.getColor().getId());
+		statement.setString(5, productDetail.getMaterial().getSku());
+		statement.setLong(6, productDetail.getUnitPrice());
+		statement.setInt(7, productDetail.getUnitInStock());
+		statement.setInt(8, productDetail.getDiscount());
+		statement.setString(9, sku);
+		statement.setString(10, new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(productDetail.getDateCreated()));
 		statement.executeUpdate();
 		connectionPool.releaseConnection(connection);
 	}

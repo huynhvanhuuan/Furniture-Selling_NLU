@@ -1,7 +1,5 @@
 package vn.edu.hcmuaf.fit.model;
 
-import vn.edu.hcmuaf.fit.dto.product.ProductDetail;
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

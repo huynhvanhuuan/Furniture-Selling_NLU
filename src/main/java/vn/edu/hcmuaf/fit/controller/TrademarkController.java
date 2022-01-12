@@ -56,6 +56,9 @@ public class TrademarkController extends HttpServlet {
                 case "delete":
                     delete(request, response);
                     break;
+                case "createAddress":
+                    createAddress(request, response);
+                    break;
                 case "deleteAddress":
                     deleteAddress(request, response);
                     break;
@@ -91,7 +94,21 @@ public class TrademarkController extends HttpServlet {
         String name = request.getParameter("name");
         String website = request.getParameter("website");
         trademarkService.create(new Trademark(0, name, website));
-        getMainPage(request, response);
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String website = request.getParameter("website");
+        trademarkService.update(new Trademark(id, name, website));
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        trademarkService.delete(id);
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
     
     private void createAddress(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
@@ -109,32 +126,18 @@ public class TrademarkController extends HttpServlet {
             Ward ward = addressService.getWard(wardId);
             addressService.createTrademarkAddress(trademarkId, new Address(0, number, street, ward, ward.getDistrict(), path));
         }
-        getMainPage(request, response);
-    }
-
-    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        String name = request.getParameter("name");
-        String website = request.getParameter("website");
-        trademarkService.update(new Trademark(id, name, website));
-        getMainPage(request, response);
-    }
-
-    private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        trademarkService.delete(id);
-        getMainPage(request, response);
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
     
     private void deleteAddress(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         addressService.delete(id);
-        getMainPage(request, response);
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
     
     private void changeActive(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         trademarkService.changeActive(id);
-        getMainPage(request, response);
+        response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
 }

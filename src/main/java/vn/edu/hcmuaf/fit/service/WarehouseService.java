@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.dao;
+package vn.edu.hcmuaf.fit.service;
 
 import vn.edu.hcmuaf.fit.dto.product.Color;
 import vn.edu.hcmuaf.fit.dto.product.Material;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
-public interface WarehouseDAO {
+public interface WarehouseService {
 	List<ProductDetail> getProductList() throws SQLException, ParseException;
 	List<ProductDetail> getProductList(int productId) throws SQLException, ParseException;
 	List<Color> getColorList() throws SQLException;

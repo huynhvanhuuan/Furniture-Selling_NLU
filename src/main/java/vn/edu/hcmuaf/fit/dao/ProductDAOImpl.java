@@ -4,7 +4,7 @@ import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
 import vn.edu.hcmuaf.fit.model.Category;
 import vn.edu.hcmuaf.fit.model.Product;
-import vn.edu.hcmuaf.fit.dto.product.ProductDetail;
+import vn.edu.hcmuaf.fit.model.ProductDetail;
 import vn.edu.hcmuaf.fit.model.Trademark;
 
 import java.sql.Connection;
@@ -14,9 +14,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class ProductDAOImpl implements ProductDAO {
     private final IConnectionPool connectionPool;
@@ -88,57 +85,45 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public void create(Product item) throws SQLException {
         connection = connectionPool.getConnection();
-        PreparedStatement statement;
-        if (item.getId() == 0) {
-            statement = connection.prepareStatement(QUERY.PRODUCT.CREATE);
-        } else {
-            statement = connection.prepareStatement(QUERY.PRODUCT.UPDATE);
-            statement.setBoolean(5, item.isActive());
-            statement.setInt(6, item.getId());
-        }
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.CREATE);
         statement.setString(1, item.getName());
         statement.setString(2, item.getDescription());
         statement.setInt(3, item.getTrademark().getId());
         statement.setString(4, item.getCategory().getSku());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
     
     @Override
     public void update(Product item) throws SQLException {
         connection = connectionPool.getConnection();
-        PreparedStatement statement;
-        if (item.getId() == 0) {
-            statement = connection.prepareStatement(QUERY.PRODUCT.CREATE);
-        } else {
-            statement = connection.prepareStatement(QUERY.PRODUCT.UPDATE);
-            statement.setBoolean(5, item.isActive());
-            statement.setInt(6, item.getId());
-        }
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.UPDATE);
         statement.setString(1, item.getName());
         statement.setString(2, item.getDescription());
         statement.setInt(3, item.getTrademark().getId());
         statement.setString(4, item.getCategory().getSku());
+        statement.setBoolean(5, item.isActive());
+        statement.setInt(6, item.getId());
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
 
     @Override
     public void delete(int id) throws SQLException {
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.DELETE);
         statement.setInt(1, id);
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
 
     @Override
     public void changeActive(int id) throws SQLException {
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.CHANGE_ACTIVE);
         statement.setInt(1, id);
         statement.executeUpdate();
-        connectionPool.releaseConnection(connection);
     }
 
 //    public Map<String, String> getProductsDiscount() throws SQLException {
