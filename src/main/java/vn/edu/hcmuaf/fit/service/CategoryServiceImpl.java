@@ -44,4 +44,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public void changeActive(String sku) throws SQLException {
 		categoryDAO.changeActive(sku);
 	}
+	
+	@Override
+	public boolean isExist(String sku, String name) throws SQLException {
+		return categoryDAO.isExist(sku, name);
+	}
 }

@@ -12,4 +12,5 @@ public interface CategoryService {
 	void update(String sku, Category category) throws SQLException;
 	void delete(String sku) throws SQLException;
 	void changeActive(String sku) throws SQLException;
+	boolean isExist(String sku, String name) throws SQLException;
 }

@@ -2,7 +2,6 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
-import vn.edu.hcmuaf.fit.helper.DbManager;
 import vn.edu.hcmuaf.fit.model.Category;
 
 import java.sql.Connection;
@@ -91,5 +90,16 @@ public class CategoryDAOImpl implements CategoryDAO {
         PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.CHANGE_ACTIVE);
         statement.setString(1, sku);
         statement.executeUpdate();
+    }
+    
+    @Override
+    public boolean isExist(String sku, String name) throws SQLException {
+        connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.FIND_BY_SKU_OR_NAME);
+        statement.setString(1, sku);
+        statement.setString(2, name);
+        ResultSet rs = statement.executeQuery();
+        return rs.next();
     }
 }

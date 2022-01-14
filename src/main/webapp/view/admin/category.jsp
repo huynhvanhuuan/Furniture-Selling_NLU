@@ -84,7 +84,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" onclick="checkValid('create');">Lưu</button>
                             </div>
                         </form>
                     </div>
@@ -102,11 +102,11 @@
                         </div>
                         <form action="<%=request.getContextPath()%>/admin/category?action=update" method="POST" id="update" novalidate="novalidate">
                             <input type="hidden" name="active"/>
-                            <input type="hidden" name="sku"/>
+                            <input type="hidden" name="old_sku"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Mã thể loại (In hoa)</label>
-                                    <input type="text" name="new_sku" class="form-control" style="text-transform:uppercase" placeholder="VD: G, GH, GHE"/>
+                                    <input type="text" name="sku" class="form-control" style="text-transform:uppercase" placeholder="VD: G, GH, GHE"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Tên thể loại</label>
@@ -115,7 +115,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" onclick="checkValid('update');">Lưu</button>
                             </div>
                         </form>
                     </div>
@@ -159,8 +159,39 @@
         timer: 3000
     });
     
-    function checkValid() {
-        
+    function checkValid(type) {
+        let valid, sku, oldSku, name;
+        if (type === 'create') {
+            valid = jQuery('#create').valid();
+            sku = jQuery('#create-modal input[name="sku"]').val();
+            name = jQuery('#create-modal input[name="name"]').val();
+        } else {
+            valid = jQuery('#update').valid();
+            oldSku = jQuery('#update-modal input[name="old_sku"]').val();
+            sku = jQuery('#update-modal input[name="sku"]').val();
+            name = jQuery('#update-modal input[name="name"]').val();
+        }
+        if (valid) {
+            if (type === 'update' && oldSku === sku) {
+                jQuery("#update").submit();
+            } else {
+                $.ajax({
+                    type: "GET",
+                    url: '<%=request.getContextPath()%>/admin/category?action=checkExist',
+                    data: {sku: sku, name: name},
+                    success: function (data) {
+                        if (data.statusCode === 1) {
+                            Toast.fire({
+                                icon: 'error',
+                                title: data.message,
+                            })
+                        } else {
+                            type === 'create' ? jQuery("#create").submit() : jQuery("#update").submit();
+                        }
+                    }
+                })
+            }
+        }
     }
     
     function deleteCategory() {
@@ -270,8 +301,8 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function (data) {
+                    jQuery('#update-modal input[name = "old_sku"]').val(data.sku);
                     jQuery('#update-modal input[name = "sku"]').val(data.sku);
-                    jQuery('#update-modal input[name = "new_sku"]').val(data.sku);
                     jQuery('#update-modal input[name = "name"]').val(data.name);
                     jQuery('#update-modal input[name = "active"]').val(data.active);
                 }
