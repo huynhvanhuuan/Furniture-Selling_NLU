@@ -1,10 +1,11 @@
 package vn.edu.hcmuaf.fit.controller;
 
-import vn.edu.hcmuaf.fit.model.User;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class AdminController extends HttpServlet {
 //            getSigninPage(request, response);
 //        } else {
             //User user = (User) request.getSession().getAttribute("user");
-            //request.setAttribute("title", "Chào mừng trở lại, " + user.getUsername());
+            request.setAttribute("title", "Chào mừng trở lại, " + "Huỳnh Văn Hữu Ân");
             request.getRequestDispatcher("/view/admin/index.jsp").forward(request, response);
 //        }
     }
