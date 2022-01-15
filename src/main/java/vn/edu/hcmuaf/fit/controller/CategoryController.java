@@ -56,6 +56,9 @@ public class CategoryController extends HttpServlet {
                 case "checkExist":
                     checkExist(request, response);
                     break;
+                case "getListSkuHasProduct":
+                    getListSkuHasProduct(request, response);
+                    break;
                 default:
                     getMainPage(request, response);
                     break;
@@ -122,9 +125,19 @@ public class CategoryController extends HttpServlet {
         String sku = request.getParameter("sku");
         String name = request.getParameter("name");
         PrintWriter out = response.getWriter();
-        if (categoryService.isExist(sku.toUpperCase(), name)) 
-            out.println(new Gson().toJson(new ResponseHandler(1, "Mã hoặc tên thể loại đã tồn tại.")));
-        else out.println(new Gson().toJson(new ResponseHandler(0, "Mã hoặc tên thể loại hợp lệ.")));
+        if (categoryService.isExist(sku.toUpperCase(), "")) 
+            out.println(new Gson().toJson(new ResponseHandler(1, "Mã thể loại đã tồn tại.")));
+        else if (categoryService.isExist("", name))
+            out.println(new Gson().toJson(new ResponseHandler(2, "Tên thể loại đã tồn tại.")));
+        else out.println(new Gson().toJson(new ResponseHandler(0, "Mã và tên thể loại hợp lệ.")));
+        out.close();
+    }
+    
+    private void getListSkuHasProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        response.setContentType("application/json");
+        List<String> skus = categoryService.getListSkuHasProduct();
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(skus));
         out.close();
     }
 }

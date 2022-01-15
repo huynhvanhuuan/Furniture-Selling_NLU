@@ -21,6 +21,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
+	public List<String> getListSkuHasProduct() throws SQLException {
+		return categoryDAO.getListSkuHasProduct();
+	}
+	
+	@Override
 	public Category get(String sku) throws SQLException {
 		return categoryDAO.get(sku);
 	}

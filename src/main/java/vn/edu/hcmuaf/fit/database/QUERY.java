@@ -7,9 +7,9 @@ public class QUERY {
         public static final String GET_LIST = "select * from product";
         public static final String GET_PRODUCT_BY_ID = "select * from product where id = ?";
         public static final String GET_LAST_PRODUCT = "select * from product order by id desc limit 1";
-        public static final String CREATE = "insert into product(name, description, trademark_id, category_id, date_created, last_updated) " +
+        public static final String CREATE = "insert into product(name, description, trademark_id, category_sku, date_created, last_updated) " +
                 "values(?,?,?,?,now(),now())";
-        public static final String UPDATE = "update product set name = ?, description = ?, trademark_id = ?, category_id = ?, active = ? where id = ?";
+        public static final String UPDATE = "update product set name = ?, description = ?, trademark_id = ?, category_sku = ?, active = ? where id = ?";
         public static final String DELETE = "delete from product where id = ?";
         public static final String CHANGE_ACTIVE = "update product set active = (case active when 1 then 0 when 0 then 1 end) where id = ?";
         public static final String GET_LIST_BY_COUNT = "select * from product limit ?";
@@ -55,6 +55,7 @@ public class QUERY {
     /* CATEGORY */
     public static class CATEGORY {
         public static final String GET_LIST = "select * from category";
+        public static final String GET_LIST_SKU_HAS_PRODUCT = "select distinct category_sku from product";
         public static final String GET_CATEGORY_BY_SKU = "select * from category where sku like ?";
         public static final String FIND_BY_SKU_OR_NAME = "select * from category where sku like ? or name like ?";
         public static final String CREATE = "insert into category(sku, name) values(?,?)";

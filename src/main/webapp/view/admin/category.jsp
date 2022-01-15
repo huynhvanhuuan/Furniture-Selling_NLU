@@ -103,6 +103,7 @@
                         <form action="<%=request.getContextPath()%>/admin/category?action=update" method="POST" id="update" novalidate="novalidate">
                             <input type="hidden" name="active"/>
                             <input type="hidden" name="old_sku"/>
+                            <input type="hidden" name="old_name"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Mã thể loại (In hoa)</label>
@@ -159,8 +160,18 @@
         timer: 3000
     });
     
+    function getListSkuHasProduct() {
+        return $.ajax({
+            type: "GET",
+            url: '<%=request.getContextPath()%>/admin/category?action=getListSkuHasProduct',
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
     function checkValid(type) {
-        let valid, sku, oldSku, name;
+        let valid, sku, oldSku, name, oldName;
         if (type === 'create') {
             valid = jQuery('#create').valid();
             sku = jQuery('#create-modal input[name="sku"]').val();
@@ -168,29 +179,59 @@
         } else {
             valid = jQuery('#update').valid();
             oldSku = jQuery('#update-modal input[name="old_sku"]').val();
+            oldName = jQuery('#update-modal input[name="old_name"]').val();
             sku = jQuery('#update-modal input[name="sku"]').val();
             name = jQuery('#update-modal input[name="name"]').val();
         }
         if (valid) {
-            if (type === 'update' && oldSku === sku) {
-                jQuery("#update").submit();
-            } else {
-                $.ajax({
-                    type: "GET",
-                    url: '<%=request.getContextPath()%>/admin/category?action=checkExist',
-                    data: {sku: sku, name: name},
-                    success: function (data) {
-                        if (data.statusCode === 1) {
+            $.ajax({
+                type: "GET",
+                url: '<%=request.getContextPath()%>/admin/category?action=checkExist',
+                data: { sku: sku, name: name },
+                success: function (data) {
+                    if (type === 'update' && oldSku === sku && oldName === name) {
+                        jQuery("#update").submit();
+                    } else if (data.statusCode === 1) {
+                        if (oldSku === sku) {
+                            $.ajax({
+                                type: "GET",
+                                url: '<%=request.getContextPath()%>/admin/category?action=checkExist',
+                                data: {sku: "", name: name},
+                                success: function (data) {
+                                    if (data.statusCode === 2) {
+                                        Toast.fire({
+                                            icon: 'error',
+                                            title: data.message,
+                                        })
+                                    } else jQuery("#update").submit();
+                                }
+                            })
+                        } else 
                             Toast.fire({
                                 icon: 'error',
                                 title: data.message,
                             })
+                    } else {
+                        if (type === 'create') {
+                            jQuery("#create").submit();
                         } else {
-                            type === 'create' ? jQuery("#create").submit() : jQuery("#update").submit();
+                            getListSkuHasProduct().done(function (data) {
+                                if (data.includes(oldSku) && confirm('Tồn tại sản phẩm chứa thể loại này.\nCập nhật sẽ làm thay đổi tất cả sản phẩm liên quan. Xác nhận tiếp tục?')) {
+                                    Toast.fire({
+                                        icon: 'error',
+                                        title: "Đã cập nhật thể loại các sản phẩm liên quan",
+                                    })
+                                    setTimeout(function () {
+                                        jQuery("#update").submit();
+                                    }, 1000);
+                                } else {
+                                    jQuery("#update").submit();
+                                }
+                            })
                         }
                     }
-                })
-            }
+                }
+            })
         }
     }
     
@@ -303,6 +344,7 @@
                 success: function (data) {
                     jQuery('#update-modal input[name = "old_sku"]').val(data.sku);
                     jQuery('#update-modal input[name = "sku"]').val(data.sku);
+                    jQuery('#update-modal input[name = "old_name"]').val(data.name);
                     jQuery('#update-modal input[name = "name"]').val(data.name);
                     jQuery('#update-modal input[name = "active"]').val(data.active);
                 }

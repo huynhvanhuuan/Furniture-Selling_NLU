@@ -37,6 +37,20 @@ public class CategoryDAOImpl implements CategoryDAO {
     }
 
     @Override
+    public List<String> getListSkuHasProduct() throws SQLException {
+        List<String> skus = new ArrayList<>();
+        connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.CATEGORY.GET_LIST_SKU_HAS_PRODUCT);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            String sku = rs.getString("category_sku");
+            skus.add(sku);
+        }
+        return skus;
+    }
+    
+    @Override
     public Category get(String sku) throws SQLException {
         Category category = null;
         connection = connectionPool.getConnection();
