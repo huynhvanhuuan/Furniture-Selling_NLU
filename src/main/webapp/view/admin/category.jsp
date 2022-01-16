@@ -35,7 +35,7 @@
                                     </thead>
                                     <tbody>
                                     <jsp:useBean id="categories" scope="request" type="java.util.List"/>
-                                    <c:forEach items="${categories}" var="category" varStatus="i">
+                                    <c:forEach items="${categories}" var="category">
                                         <tr>
                                             <td class="text-center align-middle"><input type="checkbox" class="checkBoxSku" name="sku" value="${category.sku}"></td>
                                             <td class="text-center align-middle">${category.sku}</td>
@@ -49,7 +49,7 @@
                                             </td>
                                             <td class="d-flex justify-content-center">
                                                 <input type="hidden" name="sku" value="${category.sku}"/>
-                                                <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
+                                                <button class="btn btn-warning d-block w-100 update" data-toggle="modal"
                                                         data-target="#update-modal" title="Cập nhật"><i class="fas fa-edit"></i></button>
                                             </td>
                                         </tr>
@@ -135,7 +135,7 @@
                         <form method="POST">
                             <div class="modal-body card-body">
                                 <div class="form-group">
-                                    <span>Xác nhận xóa sản phẩm đã chọn?</span>
+                                    <span>Xác nhận xóa thể loại đã chọn?</span>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
@@ -275,11 +275,12 @@
                 {
                     "targets"  : 0,
                     "orderable": false,
+                    "width": "5%"
                 },
                 {
                     "targets"  : 4,
                     "orderable": false,
-                    "width": "15%"
+                    "width": "10%"
                 }
             ]
         }).buttons().container().appendTo('#category_wrapper .col-md-6:eq(0)');
