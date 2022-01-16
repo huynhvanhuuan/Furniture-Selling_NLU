@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- Add -->
 <div class="modal fade" id="add-address-modal" style="display: none;" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -8,7 +10,7 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form action="<%=request.getContextPath()%>/admin/address?action=create&url=%2Fadmin%2Ftrademark" method="POST" id="add-address" novalidate="novalidate">
+			<form action="<%=request.getContextPath()%>/admin/trademark?action=createAddress&url=%2Fadmin%2Ftrademark" method="POST" id="add-address" novalidate="novalidate">
 				<input type="hidden" name="trademarkId">
 				<div class="modal-body card-body">
 					<div class="form-group address">

@@ -67,7 +67,9 @@ public class QUERY {
     /* TRADEMARK */
     public static class TRADEMARK {
         public static final String GET_LIST = "select * from trademark";
+        public static final String GET_LIST_NAME_HAS_PRODUCT = "select distinct trademark_id from product";
         public static final String GET_TRADEMARK_BY_ID = "select * from trademark where id = ?";
+        public static final String FIND_BY_NAME_OR_WEBSITE = "select * from trademark where name like ? or website like ?";
         public static final String CREATE = "insert into trademark(name, website) values(?,?)";
         public static final String CREATE_TRADEMARK_ADDRESS = "insert into address(number, street, ward_id, district_id, path) values(?,?,?,?,?)";
         public static final String UPDATE = "update trademark set name = ?, website = ? where id = ?";
@@ -86,35 +88,23 @@ public class QUERY {
     /* ADDRESS */
     public static class ADDRESS {
         public static final String GET_ADDRESS_LIST_BY_TRADEMARK_ID = "select a.* from address a inner join trademark_address ta on a.id = ta.address_id where trademark_id = ?";
-        public static final String GET_ADDRESS_LIST_BY_USER_ID = "select a from address a inner join user_address ua on a.id = ua.address_id where user_id = ?";
+        public static final String GET_ADDRESS_LIST_BY_USER_ID = "select a.* from address a inner join user_address ua on a.id = ua.address_id where user_id = ?";
         public static final String GET_PROVINCE_LIST = "select * from province";
         public static final String GET_DISTRICT_LIST_BY_PROVINCE_ID = "select * from district where province_id = ?";
         public static final String GET_WARD_LIST_BY_DISTRICT_ID = "select * from ward where district_id = ?";
         public static final String GET_ADDRESS_BY_ID = "select * from address where id = ?";
-        public static final String GET_ADDRESS_BY_PATH = "select * from address where id = ?";
+        public static final String GET_ADDRESS_BY_PATH = "select * from address where path like ?";
         public static final String GET_PROVINCE = "select * from province where id = ?";
         public static final String GET_DISTRICT = "select * from district where id = ?";
         public static final String GET_WARD = "select * from ward where id = ?";
         public static final String CREATE = "insert into address(number, street, ward_id, district_id, path) values(?,?,?,?,?)";
+        public static final String CREATE_TRADEMARK_ADDRESS = "insert into trademark_address(trademark_id, address_id) values(?,?)";
+        public static final String CREATE_USER_ADDRESS = "insert into user_address(user_id, address_id) values(?,?)";
         public static final String UPDATE = "update address set number = ?, street = ?, ward_id = ?, district_id = ?, path = ? where id = ?";
         public static final String DELETE = "delete from address where id = ?";
         public static final String GET_LAST_ID = "select id from address order by id desc limit 1";
     }
 
-    /* TRADEMARK - ADDRESS */
-    public static class TRADEMARK_ADDRESS {
-        public static final String CREATE = "insert into trademark_address(trademark_id, address_id) values(?,?)";
-        public static final String DELETE_BY_ADDRESS_ID = "delete from trademark_address where address_id = ?";
-        public static final String DELETE_BY_TRADEMARK_ID = "delete from trademark_address where trademark_id = ?";
-    }
-    
-    /* USER - ADDRESS */
-    public static class USER_ADDRESS {
-        public static final String CREATE = "insert into user_address(user_id, address_id) values(?,?)";
-        public static final String DELETE_BY_ADDRESS_ID = "delete from user_address where address_id = ?";
-        public static final String DELETE_BY_USER_ID = "delete from user_address where user_id = ?";
-    }
-    
     /* CART */
     public static class CART {
         public static final String GET_LIST = "select * from cart where user_id like ?";

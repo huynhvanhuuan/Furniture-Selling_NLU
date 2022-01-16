@@ -39,6 +39,20 @@ public class TrademarkDAOImpl implements TrademarkDAO {
         }
         return trademarks;
     }
+    
+    @Override
+    public List<String> getListNameHasProduct() throws SQLException {
+        List<String> names = new ArrayList<>();
+        connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.GET_LIST_NAME_HAS_PRODUCT);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+            Trademark trademark = get(rs.getInt("trademark_id"));
+            names.add(trademark.getName());
+        }
+        return names;
+    }
 
     @Override
     public Trademark get(int id) throws SQLException {
@@ -86,24 +100,11 @@ public class TrademarkDAOImpl implements TrademarkDAO {
 
     @Override
     public void delete(int id) throws SQLException {
-        deleteAddress(id);
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.DELETE);
         statement.setInt(1, id);
         statement.executeUpdate();
-    }
-    
-    private void deleteAddress(int id) throws SQLException {
-        Trademark trademark = get(id);
-        connection = connectionPool.getConnection();
-        connectionPool.releaseConnection(connection);
-        PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK_ADDRESS.DELETE_BY_TRADEMARK_ID);
-        statement.setInt(1, id);
-        statement.executeUpdate();
-        for (Address address : trademark.getAddresses()) {
-            addressDAO.delete(address.getId());
-        }
     }
     
     @Override
@@ -113,5 +114,16 @@ public class TrademarkDAOImpl implements TrademarkDAO {
         PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.CHANGE_ACTIVE);
         statement.setInt(1, id);
         statement.executeUpdate();
+    }
+    
+    @Override
+    public boolean isExist(String name, String website) throws SQLException {
+        connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK.FIND_BY_NAME_OR_WEBSITE);
+        statement.setString(1, name);
+        statement.setString(2, website);
+        ResultSet rs = statement.executeQuery();
+        return rs.next();
     }
 }
