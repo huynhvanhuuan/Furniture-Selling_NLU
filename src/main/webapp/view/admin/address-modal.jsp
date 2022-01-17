@@ -10,10 +10,9 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form action="<%=request.getContextPath()%>/admin/address" method="POST" id="add-address" novalidate="novalidate">
+			<form action="<%=request.getContextPath()%>/admin/address?action=createTrademarkAddress" method="POST" id="add-address" novalidate="novalidate">
 				<input type="hidden" name="trademarkId">
-				<input type="hidden" name="action">
-				<input type="hidden" name="redirect">
+				<input type="hidden" name="redirect" value="admin/trademark">
 				<div class="modal-body card-body">
 					<div class="form-group address">
 						<div class="row">
@@ -78,8 +77,8 @@
 			</div>
 			<form action="<%=request.getContextPath()%>/admin/address?action=update" method="POST" id="update-address" novalidate="novalidate">
 				<input type="hidden" name="id">
-				<input type="hidden" name="redirect">
 				<input type="hidden" name="old_path">
+				<input type="hidden" name="redirect" value="admin/trademark">
 				<div class="modal-body card-body">
 					<div class="form-group address">
 						<div class="row">
@@ -143,7 +142,7 @@
 			</div>
 			<form action="<%=request.getContextPath()%>/admin/address?action=delete" method="POST">
 				<input type="hidden" name="id"/>
-				<input type="hidden" name="redirect">
+				<input type="hidden" name="redirect" value="admin/trademark">
 				<div class="modal-body card-body">
 					<div class="form-group">
 						<span>Bạn có chắc muốn xóa địa chỉ này?</span>

@@ -158,6 +158,7 @@ public class AddressController extends HttpServlet {
     
     private void update(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         String redirect = request.getParameter("redirect");
+        System.out.println(redirect);
         int id = Integer.parseInt(request.getParameter("id"));
         String path = request.getParameter("path");
         int districtId = Integer.parseInt(request.getParameter("district"));

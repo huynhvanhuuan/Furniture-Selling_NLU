@@ -146,8 +146,7 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/admin/trademark?action=delete" method="POST">
-                            <input type="hidden" name="id"/>
+                        <form method="POST">
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <span>Xác nhận xóa thương hiệu đã chọn?</span>
@@ -155,7 +154,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Đồng ý</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" onclick="deleteTrademark()">Đồng ý</button>
                             </div>
                         </form>
                     </div>
@@ -186,13 +185,10 @@
     function addAddress(element) {
         let trademarkId = jQuery(element).next('input').val();
         jQuery('#add-address input[name="trademarkId"]').val(trademarkId);
-        jQuery('#add-address input[name="action"]').val('createTrademarkAddress');
-        jQuery('#add-address input[name="redirect"]').val('admin/trademark');
         addressTitle$ = jQuery('#add-address-title');
     }
 
     function updateAddress() {
-        jQuery('#update-address input[name="redirect"]').val('admin/trademark');
         addressTitle$ = jQuery('#update-address-title');
     }
 
@@ -215,20 +211,7 @@
     function showAddress() {
         addressTitle$.text(getAddress());
     }
-
-    <%--function removeAddress(id) {--%>
-    <%--    $.ajax({--%>
-    <%--        type: "POST",--%>
-    <%--        url: '<%=request.getContextPath()%>/admin/address?action=delete?id=' + id,--%>
-    <%--        success: function() {--%>
-    <%--            alert('Address removed successfully!');--%>
-    <%--        }--%>
-    <%--    })--%>
-    <%--}--%>
-
-    /*jQuery('.address-remove').click(function () {
-        jQuery(this).parent().closest('li').remove();
-    })*/
+    
     function getDistrictList(id) {
         $.ajax({
             type: "GET",
@@ -480,6 +463,36 @@
         }
     }
     
+    function deleteTrademark() {
+        let ids = [];
+        jQuery('.checkBoxId').each(function () {
+            if (jQuery(this).is(":checked")) {
+                ids.push(jQuery(this).val());
+            }
+        })
+        $.ajax({
+            type: "POST",
+            url: '<%=request.getContextPath()%>/admin/trademark?action=delete',
+            data: { ids: JSON.stringify(ids) },
+            success: function (response) {
+                if (response.statusCode === 200) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: response.message,
+                    })
+                    setTimeout(function () {
+                        document.location.href = "<%=request.getContextPath()%>/admin/trademark";
+                    }, 1000);
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: response.message,
+                    })
+                }
+            }
+        })
+    }
+    
     jQuery(function () {
         const create$ = jQuery('#create');
         const update$ = jQuery('#update');
@@ -534,10 +547,6 @@
                 }
             ],
             "drawCallback": function () {
-                jQuery('.delete').on('click', function() {
-                    let id = jQuery(this).parent().find('input[name = "id"]').val();
-                    jQuery('#delete-modal input[name = "id"]').val(id);
-                });
                 jQuery('.update').on('click', function() {
                     let id = jQuery(this).parent().find('input[name = "id"]').val();
                     $.ajax({
@@ -556,7 +565,7 @@
                     })
                 });
                 jQuery('.address-delete').on('click', function() {
-                    let id = jQuery(this).parent().find('input[name="id"]').val();
+                    let id = jQuery(this).parent().find('input[name="addressId"]').val();
                     jQuery('#delete-address-modal input[name ="id"]').val(id);
                 });
                 jQuery('.address-update').on('click', function() {

@@ -282,7 +282,26 @@
                     "orderable": false,
                     "width": "10%"
                 }
-            ]
+            ],
+            "drawCallback": function () {
+                jQuery('.update').on('click', function() {
+                    let sku = jQuery(this).parent().find('input[name = "sku"]').val();
+                    $.ajax({
+                        type: "GET",
+                        url: '<%=request.getContextPath()%>/admin/category?action=get',
+                        data: { sku: sku },
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data) {
+                            jQuery('#update-modal input[name = "old_sku"]').val(data.sku);
+                            jQuery('#update-modal input[name = "sku"]').val(data.sku);
+                            jQuery('#update-modal input[name = "old_name"]').val(data.name);
+                            jQuery('#update-modal input[name = "name"]').val(data.name);
+                            jQuery('#update-modal input[name = "active"]').val(data.active);
+                        }
+                    })
+                });
+            }
         }).buttons().container().appendTo('#category_wrapper .col-md-6:eq(0)');
         jQuery('#create').validate({
             rules: {
@@ -333,23 +352,6 @@
             unhighlight: function (element, errorClass, validClass) {
                 jQuery(element).removeClass('is-invalid');
             }
-        });
-        jQuery('.update').on('click', function() {
-            let sku = jQuery(this).parent().find('input[name = "sku"]').val();
-            $.ajax({
-                type: "GET",
-                url: '<%=request.getContextPath()%>/admin/category?action=get',
-                data: { sku: sku },
-                dataType: "json",
-                contentType: "application/json",
-                success: function (data) {
-                    jQuery('#update-modal input[name = "old_sku"]').val(data.sku);
-                    jQuery('#update-modal input[name = "sku"]').val(data.sku);
-                    jQuery('#update-modal input[name = "old_name"]').val(data.name);
-                    jQuery('#update-modal input[name = "name"]').val(data.name);
-                    jQuery('#update-modal input[name = "active"]').val(data.active);
-                }
-            })
         });
     
         jQuery('#checkBoxAll').click(function () {
