@@ -57,12 +57,6 @@ public class TrademarkController extends HttpServlet {
                 case "delete":
                     delete(request, response);
                     break;
-                case "createAddress":
-                    createAddress(request, response);
-                    break;
-                case "deleteAddress":
-                    deleteAddress(request, response);
-                    break;
                 case "changeActive":
                     changeActive(request, response);
                     break;

@@ -180,9 +180,7 @@ public class AddressDAOImpl implements AddressDAO {
         PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_DISTRICT);
         statement.setInt(1, id);
         ResultSet rs = statement.executeQuery();
-        if (!rs.isBeforeFirst() && rs.getRow() == 0) {
-            return null;
-        }
+        if (!rs.isBeforeFirst() && rs.getRow() == 0) return null;
         if (rs.next()) {
             String name = rs.getString("name");
             String prefix = rs.getString("prefix");
@@ -217,7 +215,7 @@ public class AddressDAOImpl implements AddressDAO {
         create(address);
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
-        PreparedStatement statement = connection.prepareStatement(QUERY.TRADEMARK_ADDRESS.CREATE);
+        PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.CREATE_TRADEMARK_ADDRESS);
         statement.setInt(1, trademarkId);
         statement.setInt(2, getLatestId());
         statement.executeUpdate();
@@ -228,7 +226,7 @@ public class AddressDAOImpl implements AddressDAO {
         create(address);
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
-        PreparedStatement statement = connection.prepareStatement(QUERY.USER_ADDRESS.CREATE);
+        PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.CREATE_USER_ADDRESS);
         statement.setString(1, userId);
         statement.setInt(2, getLatestId());
         statement.executeUpdate();
@@ -257,6 +255,16 @@ public class AddressDAOImpl implements AddressDAO {
         statement.executeUpdate();
     }
     
+    @Override
+    public boolean checkExist(String path) throws SQLException {
+        connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
+        PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.FIND_BY_PATH);
+        statement.setString(1, path);
+        ResultSet rs = statement.executeQuery();
+        return rs.next();
+    }
+    
     private void create(Address address) throws SQLException {
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
@@ -276,31 +284,5 @@ public class AddressDAOImpl implements AddressDAO {
         ResultSet rs = connection.prepareStatement(QUERY.ADDRESS.GET_LAST_ID).executeQuery();
         if (rs.next()) id = rs.getInt("id");
         return id;
-    }
-
-    @Override
-    public Address getAddress(String path) throws SQLException {
-        Address address = null;
-        connection = connectionPool.getConnection();
-        connectionPool.releaseConnection(connection);
-        PreparedStatement statement = connection.prepareStatement(QUERY.ADDRESS.GET_ADDRESS_BY_PATH);
-        statement.setString(1, path);
-        ResultSet rs = statement.executeQuery();
-        if (!rs.isBeforeFirst() && rs.getRow() == 0) return null;
-        if (rs.next()) {
-            int id = rs.getInt("id");
-            String number = rs.getString("number");
-            String street = rs.getString("street");
-            int wardId = rs.getInt("ward_id");
-            int districtId = rs.getInt("district_id");
-            if (wardId == 0) {
-                District district = getDistrict(districtId);
-                address = new Address(id, number, street, null, district, path);
-            } else {
-                Ward ward = getWard(wardId);
-                address = new Address(id, number, street, ward, ward.getDistrict(), path);
-            }
-        }
-        return address;
     }
 }

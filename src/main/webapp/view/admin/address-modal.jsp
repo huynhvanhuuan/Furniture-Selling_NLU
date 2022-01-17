@@ -10,8 +10,10 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form action="<%=request.getContextPath()%>/admin/trademark?action=createAddress&url=%2Fadmin%2Ftrademark" method="POST" id="add-address" novalidate="novalidate">
+			<form action="<%=request.getContextPath()%>/admin/address" method="POST" id="add-address" novalidate="novalidate">
 				<input type="hidden" name="trademarkId">
+				<input type="hidden" name="action">
+				<input type="hidden" name="redirect">
 				<div class="modal-body card-body">
 					<div class="form-group address">
 						<div class="row">
@@ -21,7 +23,7 @@
 										<option value="0">Tỉnh / Thành phố</option>
 										<jsp:useBean id="provinces" scope="request" type="java.util.List"/>
 										<c:forEach items="${provinces}" var="province">
-											<option value="<c:out value="${province.id}"/>"><c:out value="${province.prefix}"/> <c:out value="${province.name}"/></option>
+											<option value="${province.id}">${province.prefix} ${province.name}</option>
 										</c:forEach>
 									</select>
 								</div>
@@ -58,7 +60,7 @@
 				</div>
 				<div class="modal-footer justify-content-between">
 					<button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
-					<button type="submit" class="btn btn-primary font-weight-bolder">Thêm</button>
+					<button type="button" class="btn btn-primary font-weight-bolder" onclick="checkValidAddress('add-address')">Thêm</button>
 				</div>
 			</form>
 		</div>
@@ -74,8 +76,10 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form action="<%=request.getContextPath()%>/admin/address?action=update&url=%2Fadmin%2Ftrademark" method="POST" id="update-address" novalidate="novalidate">
+			<form action="<%=request.getContextPath()%>/admin/address?action=update" method="POST" id="update-address" novalidate="novalidate">
 				<input type="hidden" name="id">
+				<input type="hidden" name="redirect">
+				<input type="hidden" name="old_path">
 				<div class="modal-body card-body">
 					<div class="form-group address">
 						<div class="row">
@@ -84,9 +88,7 @@
 									<select class="select2bs4" name="province" style="width: 100%;">
 										<option value="0">Tỉnh / Thành phố</option>
 										<c:forEach items="${provinces}" var="province">
-											<option value="<c:out value="${province.id}"/>">
-												<c:out value="${province.prefix}"/> <c:out value="${province.name}"/>
-											</option>
+											<option value="${province.id}">${province.prefix} ${province.name}</option>
 										</c:forEach>
 									</select>
 								</div>
@@ -123,7 +125,7 @@
 				</div>
 				<div class="modal-footer justify-content-between">
 					<button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
-					<button type="submit" class="btn btn-primary font-weight-bolder">Cập nhật</button>
+					<button type="button" class="btn btn-primary font-weight-bolder" onclick="checkValidAddress('update-address')">Cập nhật</button>
 				</div>
 			</form>
 		</div>
@@ -139,8 +141,9 @@
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
-			<form action="<%=request.getContextPath()%>/admin/address?action=delete&url=%2Fadmin%2Ftrademark" method="POST">
+			<form action="<%=request.getContextPath()%>/admin/address?action=delete" method="POST">
 				<input type="hidden" name="id"/>
+				<input type="hidden" name="redirect">
 				<div class="modal-body card-body">
 					<div class="form-group">
 						<span>Bạn có chắc muốn xóa địa chỉ này?</span>

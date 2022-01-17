@@ -26,7 +26,7 @@ public class Address implements Serializable {
         this.path = path;
     }
 
-    /*public Address(int id, String number, String street, District district) {
+    public Address(int id, String number, String street, District district) {
         this.id = id;
         this.number = number;
         this.street = street;
@@ -47,7 +47,7 @@ public class Address implements Serializable {
         }
     }
 
-    public Address(int id, String number, String street, Ward ward, District district, ) {
+    public Address(int id, String number, String street, Ward ward, District district) {
         this.id = id;
         this.number = number;
         this.street = street;
@@ -61,7 +61,7 @@ public class Address implements Serializable {
             this.path = number + ", " + street + ", " + ward.getPrefix() + " " + ward.getName() + ", " + district.getPrefix() + " " +
                     district.getName() + ", " + province.getPrefix() + " " + province.getName();
         }
-    }*/
+    }
 
     public int getId() {
         return id;

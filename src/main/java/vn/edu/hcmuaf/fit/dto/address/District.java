@@ -1,14 +1,12 @@
 package vn.edu.hcmuaf.fit.dto.address;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class District implements Serializable {
     private int id;
     private String name;
     private String prefix;
     private Province province;
-    private List<Ward> wards;
 
     public District() {
     }
@@ -50,13 +48,5 @@ public class District implements Serializable {
 
     public void setProvince(Province province) {
         this.province = province;
-    }
-    
-    public List<Ward> getWards() {
-        return wards;
-    }
-    
-    public void setWards(List<Ward> wards) {
-        this.wards = wards;
     }
 }

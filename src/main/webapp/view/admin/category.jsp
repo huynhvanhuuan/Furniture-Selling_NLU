@@ -218,7 +218,7 @@
                             getListSkuHasProduct().done(function (data) {
                                 if (data.includes(oldSku) && confirm('Tồn tại sản phẩm chứa thể loại này.\nCập nhật sẽ làm thay đổi tất cả sản phẩm liên quan. Xác nhận tiếp tục?')) {
                                     Toast.fire({
-                                        icon: 'error',
+                                        icon: 'success',
                                         title: "Đã cập nhật thể loại các sản phẩm liên quan",
                                     })
                                     setTimeout(function () {

@@ -186,10 +186,13 @@
     function addAddress(element) {
         let trademarkId = jQuery(element).next('input').val();
         jQuery('#add-address input[name="trademarkId"]').val(trademarkId);
+        jQuery('#add-address input[name="action"]').val('createTrademarkAddress');
+        jQuery('#add-address input[name="redirect"]').val('admin/trademark');
         addressTitle$ = jQuery('#add-address-title');
     }
 
     function updateAddress() {
+        jQuery('#update-address input[name="redirect"]').val('admin/trademark');
         addressTitle$ = jQuery('#update-address-title');
     }
 
@@ -364,6 +367,7 @@
             }
         })
     }
+    
     function checkValid(type) {
         let valid, name, oldName, website, oldWebsite;
         if (type === 'create') {
@@ -412,7 +416,7 @@
                             getListNameHasProduct().done(function (data) {
                                 if (data.includes(oldName) && confirm('Tồn tại sản phẩm chứa thương hiệu này.\nCập nhật sẽ làm thay đổi tất cả sản phẩm liên quan. Xác nhận tiếp tục?')) {
                                     Toast.fire({
-                                        icon: 'error',
+                                        icon: 'success',
                                         title: "Đã cập nhật thương hiệu các sản phẩm liên quan",
                                     })
                                     setTimeout(function () {
@@ -422,6 +426,53 @@
                                     jQuery("#update").submit();
                                 }
                             })
+                        }
+                    }
+                }
+            })
+        }
+    }
+    
+    function checkValidAddress(type) {
+        let valid, path, oldPath;
+        if (type === 'add-address') {
+            valid = jQuery('#add-address').valid();
+            path = jQuery('#add-address-title').text();
+        } else {
+            valid = jQuery('#update-address').valid();
+            oldPath = jQuery('#update-address input[name="old_path"]').val();
+            path = jQuery('#update-address-title').text();
+        }
+        if (valid) {
+            $.ajax({
+                type: "GET",
+                url: '<%=request.getContextPath()%>/admin/address?action=checkExist',
+                data: { path: path },
+                success: function (data) {
+                    if (type === 'update-address' && path === oldPath) {
+                        jQuery("#update-address").submit();
+                    } else if (data.statusCode === 1) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.message,
+                        })
+                    } else {
+                        if (type === 'add-address') {
+                            Toast.fire({
+                                icon: 'success',
+                                title: "\tTạo địa chỉ thành công",
+                            })
+                            setTimeout(function () {
+                                jQuery("#add-address").submit();
+                            }, 1000);
+                        } else {
+                            Toast.fire({
+                                icon: 'success',
+                                title: "\tĐã cập nhật địa chỉ thành công",
+                            })
+                            setTimeout(function () {
+                                jQuery("#update-address").submit();
+                            }, 1000);
                         }
                     }
                 }
@@ -518,8 +569,6 @@
                         contentType: "application/json",
                         success: function (data) {
                             jQuery('#update-address-modal input[name="id"]').val(data.id);
-                            jQuery('#update-address-modal input[name="street"]').val(data.street);
-                            jQuery('#update-address-modal input[name="number"]').val(data.number);
                             jQuery('#update-address-modal select[name="province"]').val(data.district.province.id).trigger('change');
                             setTimeout(function() {
                                 jQuery('#update-address-modal select[name="district"]').val(data.district.id).trigger('change');
@@ -527,7 +576,12 @@
                             setTimeout(function() {
                                 jQuery('#update-address-modal select[name="ward"]').val(data.ward.id).trigger('change');
                             }, 100);
+                            jQuery('#update-address-modal input[name="street"]').val(data.street).trigger('keyup');
+                            jQuery('#update-address-modal input[name="number"]').val(data.number).trigger('keyup');
+                            jQuery('#update-address-modal input[name="old_path"]').val(data.path);
                         }
+                    }).done(function (data) {
+                        showAddress();
                     })
                 });
             }

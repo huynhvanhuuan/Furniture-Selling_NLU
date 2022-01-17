@@ -93,7 +93,7 @@ public class QUERY {
         public static final String GET_DISTRICT_LIST_BY_PROVINCE_ID = "select * from district where province_id = ?";
         public static final String GET_WARD_LIST_BY_DISTRICT_ID = "select * from ward where district_id = ?";
         public static final String GET_ADDRESS_BY_ID = "select * from address where id = ?";
-        public static final String GET_ADDRESS_BY_PATH = "select * from address where path like ?";
+        public static final String FIND_BY_PATH = "select * from address where path like ?";
         public static final String GET_PROVINCE = "select * from province where id = ?";
         public static final String GET_DISTRICT = "select * from district where id = ?";
         public static final String GET_WARD = "select * from ward where id = ?";
