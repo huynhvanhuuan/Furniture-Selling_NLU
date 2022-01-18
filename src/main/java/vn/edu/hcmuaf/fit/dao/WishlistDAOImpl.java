@@ -2,17 +2,15 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
+import vn.edu.hcmuaf.fit.dto.wishlist.Wishlist;
 import vn.edu.hcmuaf.fit.model.ProductDetail;
 import vn.edu.hcmuaf.fit.model.User;
-import vn.edu.hcmuaf.fit.model.Wishlist;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WishlistDAOImpl implements WishlistDAO {
     private final IConnectionPool connectionPool;
@@ -25,8 +23,9 @@ public class WishlistDAOImpl implements WishlistDAO {
     }
 
     @Override
-    public List<Wishlist> getList(User user) throws SQLException, ParseException {
-        List<Wishlist> list = new ArrayList<>();
+    public Wishlist getList(User user) throws SQLException, ParseException {
+        Wishlist wishlist = new Wishlist();
+        wishlist.setUser(user);
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.WISHLIST.GET_LIST);
@@ -34,34 +33,33 @@ public class WishlistDAOImpl implements WishlistDAO {
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             ProductDetail product = warehouseDAO.getProduct(rs.getString("product_sku"));
-            Wishlist item = new Wishlist(user, product);
-            list.add(item);
+            wishlist.addToWishlist(product);
         }
-        return list;
+        return wishlist;
     }
 
     @Override
-    public void addToWishlist(Wishlist item) throws SQLException {
+    public void add(String userId, String productSku) throws SQLException {
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.WISHLIST.ADD);
-        statement.setString(1, item.getUser().getId());
-        statement.setString(2, item.getProduct().getSku());
+        statement.setString(1, userId);
+        statement.setString(2, productSku);
         statement.executeUpdate();
     }
 
     @Override
-    public void removeFromWishlist(Wishlist item) throws SQLException {
+    public void remove(String userId, String productSku) throws SQLException {
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.WISHLIST.REMOVE);
-        statement.setString(1, item.getUser().getId());
-        statement.setString(2, item.getProduct().getSku());
+        statement.setString(1, userId);
+        statement.setString(2, productSku);
         statement.executeUpdate();
     }
 
     @Override
-    public void removeAllFromWishlist(String userId) throws SQLException {
+    public void removeAll(String userId) throws SQLException {
         connection = connectionPool.getConnection();
         connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.WISHLIST.REMOVE_ALL);
