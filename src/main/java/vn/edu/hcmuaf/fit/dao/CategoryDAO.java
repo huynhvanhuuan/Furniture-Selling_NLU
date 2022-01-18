@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface CategoryDAO {
 	List<Category> getList() throws SQLException;
+	List<String> getListSkuHasProduct() throws SQLException;
 	Category get(String sku) throws SQLException;
 	void create(Category category) throws SQLException;
 	void update(String sku, Category category) throws SQLException;
 	void delete(String sku) throws SQLException;
 	void changeActive(String sku) throws SQLException;
+	boolean isExist(String sku, String name) throws SQLException;
 }

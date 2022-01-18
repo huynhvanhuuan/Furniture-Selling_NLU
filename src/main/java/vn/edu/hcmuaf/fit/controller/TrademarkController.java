@@ -1,9 +1,8 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.dto.address.District;
 import vn.edu.hcmuaf.fit.dto.address.Province;
-import vn.edu.hcmuaf.fit.dto.address.Ward;
+import vn.edu.hcmuaf.fit.helper.ResponseHandler;
 import vn.edu.hcmuaf.fit.model.Address;
 import vn.edu.hcmuaf.fit.model.Trademark;
 import vn.edu.hcmuaf.fit.service.AddressService;
@@ -11,12 +10,16 @@ import vn.edu.hcmuaf.fit.service.AddressServiceImpl;
 import vn.edu.hcmuaf.fit.service.TrademarkService;
 import vn.edu.hcmuaf.fit.service.TrademarkServiceImpl;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
-import java.io.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @WebServlet(name = "TrademarkController", value = "/admin/trademark")
 public class TrademarkController extends HttpServlet {
@@ -56,14 +59,14 @@ public class TrademarkController extends HttpServlet {
                 case "delete":
                     delete(request, response);
                     break;
-                case "createAddress":
-                    createAddress(request, response);
-                    break;
-                case "deleteAddress":
-                    deleteAddress(request, response);
-                    break;
                 case "changeActive":
                     changeActive(request, response);
+                    break;
+                case "checkExist":
+                    checkExist(request, response);
+                    break;
+                case "getListNameHasProduct":
+                    getListNameHasProduct(request, response);
                     break;
                 default:
                     getMainPage(request, response);
@@ -93,7 +96,7 @@ public class TrademarkController extends HttpServlet {
     private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
         String name = request.getParameter("name");
         String website = request.getParameter("website");
-        trademarkService.create(new Trademark(0, name, website));
+        trademarkService.create(new Trademark(0, name.trim(), website.trim()));
         response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
 
@@ -101,43 +104,51 @@ public class TrademarkController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
         String website = request.getParameter("website");
-        trademarkService.update(new Trademark(id, name, website));
+        trademarkService.update(new Trademark(id, name.trim(), website.trim()));
         response.sendRedirect(request.getContextPath() + "/admin/trademark");
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        trademarkService.delete(id);
-        response.sendRedirect(request.getContextPath() + "/admin/trademark");
-    }
-    
-    private void createAddress(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
-        int trademarkId = Integer.parseInt(request.getParameter("trademarkId"));
-        String path = request.getParameter("path");
-        int districtId = Integer.parseInt(request.getParameter("district"));
-        int wardId = Integer.parseInt(request.getParameter("ward"));
-        String street = request.getParameter("street");
-        String number = request.getParameter("number");
-        if (number.equals("")) number = null;
-        if (wardId == 0) {
-            District district = addressService.getDistrict(districtId);
-            addressService.createTrademarkAddress(trademarkId, new Address(0, number, street, null, district, path));
-        } else {
-            Ward ward = addressService.getWard(wardId);
-            addressService.createTrademarkAddress(trademarkId, new Address(0, number, street, ward, ward.getDistrict(), path));
+        response.setContentType("application/json");
+        String ids = request.getParameter("ids");
+        StringTokenizer st = new StringTokenizer(ids, "[\",]");
+        while (st.hasMoreTokens()) {
+            int id = Integer.parseInt(st.nextToken());
+            List<Address> addresses = addressService.getListByTrademarkId(id);
+            for (Address address : addresses) {
+                addressService.delete(address.getId());
+            }
+            trademarkService.delete(id);
         }
-        response.sendRedirect(request.getContextPath() + "/admin/trademark");
+        PrintWriter pw = response.getWriter();
+        pw.println(new Gson().toJson(new ResponseHandler(200, "Xóa thành công.")));
+        pw.close();
     }
     
-    private void deleteAddress(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException, ServletException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        addressService.delete(id);
-        response.sendRedirect(request.getContextPath() + "/admin/trademark");
-    }
-    
-    private void changeActive(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+    private void changeActive(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         trademarkService.changeActive(id);
         response.sendRedirect(request.getContextPath() + "/admin/trademark");
+    }
+    
+    private void checkExist(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        response.setContentType("application/json");
+        String name = request.getParameter("name");
+        String website = request.getParameter("website");
+        PrintWriter out = response.getWriter();
+        if (trademarkService.isExist(name.equals("") ? null : name.trim(), null))
+            out.println(new Gson().toJson(new ResponseHandler(1, "Tên thương hiệu đã tồn tại.")));
+        else if (trademarkService.isExist(null, website.equals("") ? null : website.trim()))
+            out.println(new Gson().toJson(new ResponseHandler(2, "Website đã tồn tại.")));
+        else out.println(new Gson().toJson(new ResponseHandler(0, "Tên thương hiệu và website hợp lệ.")));
+        out.close();
+    }
+    
+    private void getListNameHasProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        response.setContentType("application/json");
+        List<String> names = trademarkService.getListNameHasProduct();
+        PrintWriter out = response.getWriter();
+        out.println(new Gson().toJson(names));
+        out.close();
     }
 }

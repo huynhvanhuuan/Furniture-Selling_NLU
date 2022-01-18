@@ -49,11 +49,6 @@ public class AddressServiceImpl implements AddressService {
 	}
 	
 	@Override
-	public Address getAddress(String path) throws SQLException {
-		return addressDAO.getAddress(path);
-	}
-	
-	@Override
 	public Province getProvince(int id) throws SQLException {
 		return addressDAO.getProvince(id);
 	}
@@ -86,5 +81,10 @@ public class AddressServiceImpl implements AddressService {
 	@Override
 	public void delete(int id) throws SQLException {
 		addressDAO.delete(id);
+	}
+	
+	@Override
+	public boolean checkExist(String path) throws SQLException {
+		return addressDAO.checkExist(path);
 	}
 }

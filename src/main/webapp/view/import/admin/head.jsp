@@ -10,8 +10,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
 <!-- iCheck -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-<!-- JQVMap -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/plugins/jqvmap/jqvmap.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/dist/css/adminlte.min.css">
 <!-- overlayScrollbars -->

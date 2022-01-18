@@ -35,7 +35,7 @@
                                     </thead>
                                     <tbody>
                                     <jsp:useBean id="categories" scope="request" type="java.util.List"/>
-                                    <c:forEach items="${categories}" var="category" varStatus="i">
+                                    <c:forEach items="${categories}" var="category">
                                         <tr>
                                             <td class="text-center align-middle"><input type="checkbox" class="checkBoxSku" name="sku" value="${category.sku}"></td>
                                             <td class="text-center align-middle">${category.sku}</td>
@@ -49,7 +49,7 @@
                                             </td>
                                             <td class="d-flex justify-content-center">
                                                 <input type="hidden" name="sku" value="${category.sku}"/>
-                                                <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
+                                                <button class="btn btn-warning d-block w-100 update" data-toggle="modal"
                                                         data-target="#update-modal" title="Cập nhật"><i class="fas fa-edit"></i></button>
                                             </td>
                                         </tr>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" onclick="checkValid('create');">Lưu</button>
                             </div>
                         </form>
                     </div>
@@ -102,11 +102,12 @@
                         </div>
                         <form action="<%=request.getContextPath()%>/admin/category?action=update" method="POST" id="update" novalidate="novalidate">
                             <input type="hidden" name="active"/>
-                            <input type="hidden" name="sku"/>
+                            <input type="hidden" name="old_sku"/>
+                            <input type="hidden" name="old_name"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Mã thể loại (In hoa)</label>
-                                    <input type="text" name="new_sku" class="form-control" style="text-transform:uppercase" placeholder="VD: G, GH, GHE"/>
+                                    <input type="text" name="sku" class="form-control" style="text-transform:uppercase" placeholder="VD: G, GH, GHE"/>
                                 </div>
                                 <div class="form-group">
                                     <label>Tên thể loại</label>
@@ -115,7 +116,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" onclick="checkValid('update');">Lưu</button>
                             </div>
                         </form>
                     </div>
@@ -134,7 +135,7 @@
                         <form method="POST">
                             <div class="modal-body card-body">
                                 <div class="form-group">
-                                    <span>Xác nhận xóa sản phẩm đã chọn?</span>
+                                    <span>Xác nhận xóa thể loại đã chọn?</span>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
@@ -159,8 +160,79 @@
         timer: 3000
     });
     
-    function checkValid() {
-        
+    function getListSkuHasProduct() {
+        return $.ajax({
+            type: "GET",
+            url: '<%=request.getContextPath()%>/admin/category?action=getListSkuHasProduct',
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function checkValid(type) {
+        let valid, sku, oldSku, name, oldName;
+        if (type === 'create') {
+            valid = jQuery('#create').valid();
+            sku = jQuery('#create-modal input[name="sku"]').val();
+            name = jQuery('#create-modal input[name="name"]').val();
+        } else {
+            valid = jQuery('#update').valid();
+            oldSku = jQuery('#update-modal input[name="old_sku"]').val();
+            oldName = jQuery('#update-modal input[name="old_name"]').val();
+            sku = jQuery('#update-modal input[name="sku"]').val();
+            name = jQuery('#update-modal input[name="name"]').val();
+        }
+        if (valid) {
+            $.ajax({
+                type: "GET",
+                url: '<%=request.getContextPath()%>/admin/category?action=checkExist',
+                data: { sku: sku, name: name },
+                success: function (data) {
+                    if (type === 'update' && oldSku === sku && oldName === name) {
+                        jQuery("#update").submit();
+                    } else if (data.statusCode === 1) {
+                        if (oldSku === sku) {
+                            $.ajax({
+                                type: "GET",
+                                url: '<%=request.getContextPath()%>/admin/category?action=checkExist',
+                                data: {sku: "", name: name},
+                                success: function (data) {
+                                    if (data.statusCode === 2) {
+                                        Toast.fire({
+                                            icon: 'error',
+                                            title: data.message,
+                                        })
+                                    } else jQuery("#update").submit();
+                                }
+                            })
+                        } else 
+                            Toast.fire({
+                                icon: 'error',
+                                title: data.message,
+                            })
+                    } else {
+                        if (type === 'create') {
+                            jQuery("#create").submit();
+                        } else {
+                            getListSkuHasProduct().done(function (data) {
+                                if (data.includes(oldSku) && confirm('Tồn tại sản phẩm chứa thể loại này.\nCập nhật sẽ làm thay đổi tất cả sản phẩm liên quan. Xác nhận tiếp tục?')) {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: "Đã cập nhật thể loại các sản phẩm liên quan",
+                                    })
+                                    setTimeout(function () {
+                                        jQuery("#update").submit();
+                                    }, 1000);
+                                } else {
+                                    jQuery("#update").submit();
+                                }
+                            })
+                        }
+                    }
+                }
+            })
+        }
     }
     
     function deleteCategory() {
@@ -203,13 +275,33 @@
                 {
                     "targets"  : 0,
                     "orderable": false,
+                    "width": "5%"
                 },
                 {
                     "targets"  : 4,
                     "orderable": false,
-                    "width": "15%"
+                    "width": "10%"
                 }
-            ]
+            ],
+            "drawCallback": function () {
+                jQuery('.update').on('click', function() {
+                    let sku = jQuery(this).parent().find('input[name = "sku"]').val();
+                    $.ajax({
+                        type: "GET",
+                        url: '<%=request.getContextPath()%>/admin/category?action=get',
+                        data: { sku: sku },
+                        dataType: "json",
+                        contentType: "application/json",
+                        success: function (data) {
+                            jQuery('#update-modal input[name = "old_sku"]').val(data.sku);
+                            jQuery('#update-modal input[name = "sku"]').val(data.sku);
+                            jQuery('#update-modal input[name = "old_name"]').val(data.name);
+                            jQuery('#update-modal input[name = "name"]').val(data.name);
+                            jQuery('#update-modal input[name = "active"]').val(data.active);
+                        }
+                    })
+                });
+            }
         }).buttons().container().appendTo('#category_wrapper .col-md-6:eq(0)');
         jQuery('#create').validate({
             rules: {
@@ -260,22 +352,6 @@
             unhighlight: function (element, errorClass, validClass) {
                 jQuery(element).removeClass('is-invalid');
             }
-        });
-        jQuery('.update').on('click', function() {
-            let sku = jQuery(this).parent().find('input[name = "sku"]').val();
-            $.ajax({
-                type: "GET",
-                url: '<%=request.getContextPath()%>/admin/category?action=get',
-                data: { sku: sku },
-                dataType: "json",
-                contentType: "application/json",
-                success: function (data) {
-                    jQuery('#update-modal input[name = "sku"]').val(data.sku);
-                    jQuery('#update-modal input[name = "new_sku"]').val(data.sku);
-                    jQuery('#update-modal input[name = "name"]').val(data.name);
-                    jQuery('#update-modal input[name = "active"]').val(data.active);
-                }
-            })
         });
     
         jQuery('#checkBoxAll').click(function () {

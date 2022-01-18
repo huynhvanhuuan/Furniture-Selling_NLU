@@ -21,6 +21,11 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
+	public List<String> getListSkuHasProduct() throws SQLException {
+		return categoryDAO.getListSkuHasProduct();
+	}
+	
+	@Override
 	public Category get(String sku) throws SQLException {
 		return categoryDAO.get(sku);
 	}
@@ -43,5 +48,10 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void changeActive(String sku) throws SQLException {
 		categoryDAO.changeActive(sku);
+	}
+	
+	@Override
+	public boolean isExist(String sku, String name) throws SQLException {
+		return categoryDAO.isExist(sku, name);
 	}
 }

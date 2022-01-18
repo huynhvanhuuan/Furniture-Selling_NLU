@@ -21,6 +21,11 @@ public class TrademarkServiceImpl implements TrademarkService {
 	}
 	
 	@Override
+	public List<String> getListNameHasProduct() throws SQLException {
+		return trademarkDAO.getListNameHasProduct();
+	}
+	
+	@Override
 	public Trademark get(int id) throws SQLException {
 		return trademarkDAO.get(id);
 	}
@@ -43,5 +48,10 @@ public class TrademarkServiceImpl implements TrademarkService {
 	@Override
 	public void changeActive(int id) throws SQLException {
 		trademarkDAO.changeActive(id);
+	}
+	
+	@Override
+	public boolean isExist(String name, String website) throws SQLException {
+		return trademarkDAO.isExist(name, website);
 	}
 }

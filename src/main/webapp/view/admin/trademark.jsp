@@ -17,27 +17,25 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                                <button type="button" class="btn btn-success mr-2 float-left"
+                                        data-toggle="modal" data-target="#create-modal" title="Thêm"><i class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-danger float-left"
+                                        data-toggle="modal" data-target="#delete-modal"><i class="fas fa-trash-alt"></i></button>
                                 <table id="trademark" class="table table-bordered table-striped">
                                     <thead>
                                     <tr class="text-center">
-                                        <th class="align-middle">STT</th>
+                                        <th class="align-middle"><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th>
                                         <th class="align-middle">Tên thương hiệu</th>
                                         <th class="align-middle">Địa chỉ</th>
                                         <th class="align-middle">Website</th>
-                                        <th>
-                                            <span class="d-none">Tác vụ</span>
-                                            <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#create-modal"
-                                                    title="Thêm">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </th>
+                                        <th class="align-middle">Tác vụ</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <jsp:useBean id="trademarks" scope="request" type="java.util.List"/>
-                                    <c:forEach items="${trademarks}" var="trademark" varStatus="i">
+                                    <c:forEach items="${trademarks}" var="trademark">
                                         <tr>
-                                            <td class="text-center"><c:out value="${i.index + 1}"/></td>
+                                            <td class="text-center"><input type="checkbox" class="checkBoxId" name="id" value="${trademark.id}"></td>
                                             <td><c:out value="${trademark.name}"/></td>
                                             <td>
                                                 <ul style="list-style-type: none; padding: 0">
@@ -65,10 +63,8 @@
                                             <td><c:out value="${trademark.website}"/></td>
                                             <td class="d-flex justify-content-center">
                                                 <input type="hidden" name="id" value="<c:out value="${trademark.id}"/>"/>
-                                                <button class="btn btn-warning d-block w-100 mr-1 update" data-toggle="modal"
+                                                <button class="btn btn-warning d-block w-100 update" data-toggle="modal"
                                                         data-target="#update-modal" title="Cập nhật"><i class="fas fa-edit"></i></button>
-                                                <button class="btn btn-danger d-block w-100 ml-1 delete" data-toggle="modal"
-                                                        data-target="#delete-modal" title="Xóa"><i class="fas fa-trash-alt"></i></button>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -102,7 +98,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" onclick="checkValid('create');">Lưu</button>
                             </div>
                         </form>
                     </div>
@@ -120,6 +116,8 @@
                         </div>
                         <form action="<%=request.getContextPath()%>/admin/trademark?action=update" method="POST" id="update" novalidate="novalidate">
                             <input type="hidden" name="id"/>
+                            <input type="hidden" name="old_name"/>
+                            <input type="hidden" name="old_website"/>
                             <div class="modal-body card-body">
                                 <div class="form-group">
                                     <label>Tên thương hiệu</label>
@@ -132,7 +130,7 @@
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Đóng</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Lưu</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" onclick="checkValid('update');">Lưu</button>
                             </div>
                         </form>
                     </div>
@@ -148,175 +146,21 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <form action="<%=request.getContextPath()%>/admin/trademark?action=delete" method="POST">
-                            <input type="hidden" name="id"/>
+                        <form method="POST">
                             <div class="modal-body card-body">
                                 <div class="form-group">
-                                    <span>Bạn có chắc muốn xóa thương hiệu này?</span>
+                                    <span>Xác nhận xóa thương hiệu đã chọn?</span>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Đồng ý</button>
+                                <button type="button" class="btn btn-primary font-weight-bolder" onclick="deleteTrademark()">Đồng ý</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <!-- Add address modal -->
-            <div class="modal fade" id="add-address-modal" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content card card-success">
-                        <div class="modal-header card-header">
-                            <h5 class="modal-title font-weight-bolder">Thêm địa chỉ</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <form action="<%=request.getContextPath()%>/admin/address?action=create&url=%2Fadmin%2Ftrademark" method="POST" id="add-address" novalidate="novalidate">
-                            <input type="hidden" name="trademarkId">
-                            <div class="modal-body card-body">
-                                <div class="form-group address">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <select class="select2bs4" name="province" style="width: 100%;">
-                                                    <option value="0">Tỉnh / Thành phố</option>
-                                                    <jsp:useBean id="provinces" scope="request" type="java.util.List"/>
-                                                    <c:forEach items="${provinces}" var="province">
-                                                        <option value="<c:out value="${province.id}"/>"><c:out value="${province.prefix}"/> <c:out value="${province.name}"/></option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <select class="select2bs4" name="district" style="width: 100%;">
-                                                    <option value="0">Quận / Huyện</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <select class="select2bs4" name="ward" style="width: 100%;">
-                                                    <option value="0">Phường / Xã</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <input type="text" name="street" class="form-control" placeholder="Đường. VD: Đường số 1"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <input type="text" name="number" class="form-control" placeholder="Số nhà, lô, kios,..."/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <label class="mb-0 mt-3">Hiển thị: <span id="add-address-title"></span></label>
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Thêm</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Update address modal -->
-            <div class="modal fade" id="update-address-modal" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content card card-success">
-                        <div class="modal-header card-header">
-                            <h5 class="modal-title font-weight-bolder">Thêm địa chỉ</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <form action="<%=request.getContextPath()%>/admin/address?action=update&url=%2Fadmin%2Ftrademark" method="POST" id="update-address" novalidate="novalidate">
-                            <input type="hidden" name="id">
-                            <div class="modal-body card-body">
-                                <div class="form-group address">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <select class="select2bs4" name="province" style="width: 100%;">
-                                                    <option value="0">Tỉnh / Thành phố</option>
-                                                    <c:forEach items="${provinces}" var="province">
-                                                        <option value="<c:out value="${province.id}"/>">
-                                                            <c:out value="${province.prefix}"/> <c:out value="${province.name}"/>
-                                                        </option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <select class="select2bs4" name="district" style="width: 100%;">
-                                                    <option value="0">Quận / Huyện</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <select class="select2bs4" name="ward" style="width: 100%;">
-                                                    <option value="0">Phường / Xã</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <input type="text" name="street" class="form-control" placeholder="Đường. VD: Đường số 1"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="form-group">
-                                                <input type="text" name="number" class="form-control" placeholder="Số nhà, lô, kios,..."/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <label class="mb-0 mt-3">Hiển thị: <span id="update-address-title"></span></label>
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Cập nhật</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Delete address modal -->
-            <div class="modal fade" id="delete-address-modal" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content card card-danger">
-                        <div class="modal-header card-header">
-                            <h5 class="modal-title font-weight-bolder">Xác nhận xóa</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <form action="<%=request.getContextPath()%>/admin/address?action=delete&url=%2Fadmin%2Ftrademark" method="POST">
-                            <input type="hidden" name="id"/>
-                            <div class="modal-body card-body">
-                                <div class="form-group">
-                                    <span>Bạn có chắc muốn xóa địa chỉ này?</span>
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-danger font-weight-bolder" data-dismiss="modal">Hủy</button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder">Đồng ý</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <c:import url="../admin/address-modal.jsp"/>
         </section>
     </div>
     <c:import url="../import/admin/footer.jsp"/>
@@ -367,20 +211,7 @@
     function showAddress() {
         addressTitle$.text(getAddress());
     }
-
-    <%--function removeAddress(id) {--%>
-    <%--    $.ajax({--%>
-    <%--        type: "POST",--%>
-    <%--        url: '<%=request.getContextPath()%>/admin/address?action=delete?id=' + id,--%>
-    <%--        success: function() {--%>
-    <%--            alert('Address removed successfully!');--%>
-    <%--        }--%>
-    <%--    })--%>
-    <%--}--%>
-
-    /*jQuery('.address-remove').click(function () {
-        jQuery(this).parent().closest('li').remove();
-    })*/
+    
     function getDistrictList(id) {
         $.ajax({
             type: "GET",
@@ -503,6 +334,165 @@
     })
 </script>
 <script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+    
+    function getListNameHasProduct() {
+        return $.ajax({
+            type: "GET",
+            url: '<%=request.getContextPath()%>/admin/trademark?action=getListNameHasProduct',
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+    
+    function checkValid(type) {
+        let valid, name, oldName, website, oldWebsite;
+        if (type === 'create') {
+            valid = jQuery('#create').valid();
+            name = jQuery('#create-modal input[name="name"]').val();
+            website = jQuery('#create-modal input[name="website"]').val();
+        } else {
+            valid = jQuery('#update').valid();
+            oldName = jQuery('#update-modal input[name="old_name"]').val();
+            oldWebsite = jQuery('#update-modal input[name="old_website"]').val();
+            name = jQuery('#update-modal input[name="name"]').val();
+            website = jQuery('#update-modal input[name="website"]').val();
+        }
+        if (valid) {
+            $.ajax({
+                type: "GET",
+                url: '<%=request.getContextPath()%>/admin/trademark?action=checkExist',
+                data: { name: name, website: website },
+                success: function (data) {
+                    if (type === 'update' && oldName === name && oldWebsite === website) {
+                        jQuery("#update").submit();
+                    } else if (data.statusCode === 1) {
+                        if (oldName === name) {
+                            $.ajax({
+                                type: "GET",
+                                url: '<%=request.getContextPath()%>/admin/trademark?action=checkExist',
+                                data: {name: "", website: website},
+                                success: function (data) {
+                                    if (data.statusCode === 2) {
+                                        Toast.fire({
+                                            icon: 'error',
+                                            title: data.message,
+                                        })
+                                    } else jQuery("#update").submit();
+                                }
+                            })
+                        } else
+                            Toast.fire({
+                                icon: 'error',
+                                title: data.message,
+                            })
+                    } else {
+                        if (type === 'create') {
+                            jQuery("#create").submit();
+                        } else {
+                            getListNameHasProduct().done(function (data) {
+                                if (data.includes(oldName) && confirm('Tồn tại sản phẩm chứa thương hiệu này.\nCập nhật sẽ làm thay đổi tất cả sản phẩm liên quan. Xác nhận tiếp tục?')) {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: "Đã cập nhật thương hiệu các sản phẩm liên quan",
+                                    })
+                                    setTimeout(function () {
+                                        jQuery("#update").submit();
+                                    }, 1000);
+                                } else {
+                                    jQuery("#update").submit();
+                                }
+                            })
+                        }
+                    }
+                }
+            })
+        }
+    }
+    
+    function checkValidAddress(type) {
+        let valid, path, oldPath;
+        if (type === 'add-address') {
+            valid = jQuery('#add-address').valid();
+            path = jQuery('#add-address-title').text();
+        } else {
+            valid = jQuery('#update-address').valid();
+            oldPath = jQuery('#update-address input[name="old_path"]').val();
+            path = jQuery('#update-address-title').text();
+        }
+        if (valid) {
+            $.ajax({
+                type: "GET",
+                url: '<%=request.getContextPath()%>/admin/address?action=checkExist',
+                data: { path: path },
+                success: function (data) {
+                    if (type === 'update-address' && path === oldPath) {
+                        jQuery("#update-address").submit();
+                    } else if (data.statusCode === 1) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.message,
+                        })
+                    } else {
+                        if (type === 'add-address') {
+                            Toast.fire({
+                                icon: 'success',
+                                title: "\tTạo địa chỉ thành công",
+                            })
+                            setTimeout(function () {
+                                jQuery("#add-address").submit();
+                            }, 1000);
+                        } else {
+                            Toast.fire({
+                                icon: 'success',
+                                title: "\tĐã cập nhật địa chỉ thành công",
+                            })
+                            setTimeout(function () {
+                                jQuery("#update-address").submit();
+                            }, 1000);
+                        }
+                    }
+                }
+            })
+        }
+    }
+    
+    function deleteTrademark() {
+        let ids = [];
+        jQuery('.checkBoxId').each(function () {
+            if (jQuery(this).is(":checked")) {
+                ids.push(jQuery(this).val());
+            }
+        })
+        $.ajax({
+            type: "POST",
+            url: '<%=request.getContextPath()%>/admin/trademark?action=delete',
+            data: { ids: JSON.stringify(ids) },
+            success: function (response) {
+                if (response.statusCode === 200) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: response.message,
+                    })
+                    setTimeout(function () {
+                        document.location.href = "<%=request.getContextPath()%>/admin/trademark";
+                    }, 1000);
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: response.message,
+                    })
+                }
+            }
+        })
+    }
+    
     jQuery(function () {
         const create$ = jQuery('#create');
         const update$ = jQuery('#update');
@@ -531,14 +521,16 @@
         jQuery("#trademark").DataTable({
             "responsive": true, "lengthChange": false, "autoWidth": false, "pageLength": 7,
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            "order": [[1, "asc"]],
             "columnDefs": [
                 {
                     "targets" : 0,
+                    "orderable" : false,
                     "width" : "5%"
                 },
                 {
                     "targets" : 1,
-                    "width" : "15%"
+                    "width" : "20%"
                 },
                 {
                     "targets" : 2,
@@ -546,19 +538,15 @@
                 },
                 {
                     "targets" : 3,
-                    "width" : "20%"
+                    "width" : "25%"
                 },
                 {
                     "targets" : 4,
                     "orderable" : false,
-                    "width" : "15%"
+                    "width" : "5%"
                 }
             ],
             "drawCallback": function () {
-                jQuery('.delete').on('click', function() {
-                    let id = jQuery(this).parent().find('input[name = "id"]').val();
-                    jQuery('#delete-modal input[name = "id"]').val(id);
-                });
                 jQuery('.update').on('click', function() {
                     let id = jQuery(this).parent().find('input[name = "id"]').val();
                     $.ajax({
@@ -570,12 +558,14 @@
                         success: function (data) {
                             jQuery('#update-modal input[name = "id"]').val(data.id);
                             jQuery('#update-modal input[name = "name"]').val(data.name);
+                            jQuery('#update-modal input[name = "old_name"]').val(data.name);
                             jQuery('#update-modal input[name = "website"]').val(data.website);
+                            jQuery('#update-modal input[name = "old_website"]').val(data.website);
                         }
                     })
                 });
                 jQuery('.address-delete').on('click', function() {
-                    let id = jQuery(this).parent().find('input[name="id"]').val();
+                    let id = jQuery(this).parent().find('input[name="addressId"]').val();
                     jQuery('#delete-address-modal input[name ="id"]').val(id);
                 });
                 jQuery('.address-update').on('click', function() {
@@ -588,8 +578,6 @@
                         contentType: "application/json",
                         success: function (data) {
                             jQuery('#update-address-modal input[name="id"]').val(data.id);
-                            jQuery('#update-address-modal input[name="street"]').val(data.street);
-                            jQuery('#update-address-modal input[name="number"]').val(data.number);
                             jQuery('#update-address-modal select[name="province"]').val(data.district.province.id).trigger('change');
                             setTimeout(function() {
                                 jQuery('#update-address-modal select[name="district"]').val(data.district.id).trigger('change');
@@ -597,7 +585,12 @@
                             setTimeout(function() {
                                 jQuery('#update-address-modal select[name="ward"]').val(data.ward.id).trigger('change');
                             }, 100);
+                            jQuery('#update-address-modal input[name="street"]').val(data.street).trigger('keyup');
+                            jQuery('#update-address-modal input[name="number"]').val(data.number).trigger('keyup');
+                            jQuery('#update-address-modal input[name="old_path"]').val(data.path);
                         }
+                    }).done(function (data) {
+                        showAddress();
                     })
                 });
             }
@@ -742,6 +735,14 @@
                         }
                     }
                 })
+            }
+        })
+    
+        jQuery('#checkBoxAll').click(function () {
+            if (jQuery(this).is(':checked')) {
+                jQuery('.checkBoxId').prop('checked', true);
+            } else {
+                jQuery('.checkBoxId').prop('checked', false);
             }
         })
     });

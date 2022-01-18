@@ -15,7 +15,6 @@ public interface AddressDAO {
 	List<District> getDistrictListByProvinceId(int provinceId) throws SQLException;
 	List<Ward> getWardListByDistrictId(int districtId) throws SQLException;
 	Address getAddress(int id) throws SQLException;
-	Address getAddress(String path) throws SQLException;
 	Province getProvince(int id) throws SQLException;
 	District getDistrict(int id) throws SQLException;
 	Ward getWard(int id) throws SQLException;
@@ -23,4 +22,5 @@ public interface AddressDAO {
 	void createUserAddress(String userId, Address address) throws SQLException;
 	void update(Address address) throws SQLException;
 	void delete(int id) throws SQLException;
+	boolean checkExist(String path) throws SQLException;
 }

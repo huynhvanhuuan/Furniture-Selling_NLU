@@ -8,25 +8,15 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-    <!-- Preloader -->
     <c:import url="../import/admin/preloader.jsp"/>
-    <!-- Navbar -->
     <c:import url="../import/admin/navbar.jsp"/>
-    <!-- /.navbar -->
-    <!-- Main Sidebar Container -->
     <c:import url="../import/admin/sidebar.jsp"/>
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <c:import url="../import/admin/header.jsp"/>
-        <!-- /.content-header -->
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
                 <div class="row">
                     <div class="col-lg-3 col-6">
-                        <!-- small box -->
                         <div class="small-box bg-success">
                             <div class="inner">
                                 <h3>1.350.000.000</h3>
@@ -38,9 +28,7 @@
                             <a href="<%=request.getContextPath()%>/admin/sale-report" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <!-- ./col -->
                     <div class="col-lg-3 col-6">
-                        <!-- small box -->
                         <div class="small-box bg-info">
                             <div class="inner">
                                 <h3>150</h3>
@@ -52,9 +40,7 @@
                             <a href="<%=request.getContextPath()%>/admin/order" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <!-- ./col -->
                     <div class="col-lg-3 col-6">
-                        <!-- small box -->
                         <div class="small-box bg-danger">
                             <div class="inner">
                                 <h3>339</h3>
@@ -66,9 +52,7 @@
                             <a href="<%=request.getContextPath()%>/admin/sale-report" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <!-- ./col -->
                     <div class="col-lg-3 col-6">
-                        <!-- small box -->
                         <div class="small-box bg-warning">
                             <div class="inner">
                                 <h3>440</h3>
@@ -80,12 +64,9 @@
                             <a href="<%=request.getContextPath()%>/admin/user?role=3" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
-                    <!-- ./col -->
                 </div>
-                <!-- /.row -->
                 <div class="row">
                     <div class="col-md-6">
-                        <!-- PIE CHART -->
                         <div class="card card-danger">
                             <div class="card-header">
                                 <h3 class="card-title">Thương hiệu bán chạy</h3>
@@ -101,12 +82,9 @@
                             <div class="card-body">
                                 <canvas id="pieChart" style="min-height: 260px; height: 260px; max-height: 260px; max-width: 100%;"></canvas>
                             </div>
-                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card -->
                     </div>
                     <div class="col-md-6">
-                        <!-- TABLE: LATEST ORDERS -->
                         <div class="card">
                             <div class="card-header bg-info border-transparent">
                                 <h3 class="card-title">Đơn hàng mới nhất</h3>
@@ -119,7 +97,6 @@
                                     </button>
                                 </div>
                             </div>
-                            <!-- /.card-header -->
                             <div class="card-body p-0">
                                 <div class="table-responsive">
                                     <table class="table m-0">
@@ -159,18 +136,13 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- /.table-responsive -->
                             </div>
-                            <!-- /.card-body -->
                             <div class="card-footer clearfix">
                                 <a href="<%=request.getContextPath()%>/admin/order" class="btn btn-sm btn-secondary float-right">Xem tất cả các đơn hàng</a>
                             </div>
-                            <!-- /.card-footer -->
                         </div>
-                        <!-- /.card -->
                     </div>
                 </div>
-                <!-- /.row -->
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
@@ -197,7 +169,6 @@
                                         <span class="text-muted">SẢN PHẨM BÁN RA</span>
                                     </p>
                                 </div>
-                                <!-- /.d-flex -->
                                 <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
                                     <p class="text-warning text-xl">
                                         <i class="ion ion-ios-cart-outline"></i>
@@ -209,7 +180,6 @@
                                         <span class="text-muted">ĐƠN HÀNG ĐÃ ĐẶT</span>
                                     </p>
                                 </div>
-                                <!-- /.d-flex -->
                                 <div class="d-flex justify-content-between align-items-center mb-0">
                                     <p class="text-danger text-xl">
                                         <i class="ion ion-ios-people-outline"></i>
@@ -221,7 +191,6 @@
                                         <span class="text-muted">LƯỢT ĐĂNG KÝ</span>
                                     </p>
                                 </div>
-                                <!-- /.d-flex -->
                             </div>
                         </div>
                     </div>
@@ -246,7 +215,6 @@
                                         <span class="text-muted">So với tháng trước</span>
                                     </p>
                                 </div>
-                                <!-- /.d-flex -->
                                 <div class="position-relative mb-4">
                                     <canvas id="sales-chart" height="200"></canvas>
                                 </div>
@@ -257,31 +225,19 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card -->
                     </div>
                 </div>
-            </div><!-- /.container-fluid -->
+            </div>
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
     <c:import url="../import/admin/footer.jsp"/>
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
+    <aside class="control-sidebar control-sidebar-dark"></aside>
 </div>
-<!-- ./wrapper -->
 <c:import url="../import/admin/script.jsp"/>
 <script>
     $(function () {
-        //-------------
-        //- PIE CHART -
-        //-------------
-        // Get context with jQuery - using jQuery's .get() method.
-        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-        var pieData = {
+        let pieChartCanvas = jQuery('#pieChart').get(0).getContext('2d')
+        let pieData = {
             labels: [
                 'Thương hiệu 1',
                 'Thương hiệu 2',
@@ -301,7 +257,7 @@
                 }
             ]
         };
-        var pieOptions = {
+        let pieOptions = {
             maintainAspectRatio: false,
             responsive: true,
             legend: {
@@ -310,8 +266,6 @@
                 align: 'center'
             },
         }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
         new Chart(pieChartCanvas, {
             type: 'pie',
             data: pieData,
