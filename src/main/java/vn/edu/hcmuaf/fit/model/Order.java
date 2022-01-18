@@ -1,8 +1,7 @@
 package vn.edu.hcmuaf.fit.model;
 
-import vn.edu.hcmuaf.fit.dto.order.OrderItem;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +9,7 @@ public class Order implements Serializable {
 	private String id;
 	private String uesrId;
 	private long totalPrice;
-	private String address;
+	private Address address;
 	private Date dateCreated;
 	private Date lastUpdated;
 	private List<OrderItem> orderItems;
@@ -18,7 +17,7 @@ public class Order implements Serializable {
 	public Order() {
 	}
 	
-	public Order(String id, String uesrId, long totalPrice, String address, Date dateCreated, Date lastUpdated, List<OrderItem> orderItems) {
+	public Order(String id, String uesrId, long totalPrice, Address address, Date dateCreated, Date lastUpdated, List<OrderItem> orderItems) {
 		this.id = id;
 		this.uesrId = uesrId;
 		this.totalPrice = totalPrice;
@@ -52,11 +51,11 @@ public class Order implements Serializable {
 		this.totalPrice = totalPrice;
 	}
 	
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 	
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 	
@@ -82,5 +81,11 @@ public class Order implements Serializable {
 	
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
+	}
+
+	public void addItem(OrderItem item) {
+		if (orderItems == null) orderItems = new ArrayList<>();
+		orderItems.add(item);
+		item.setOrder(this);
 	}
 }

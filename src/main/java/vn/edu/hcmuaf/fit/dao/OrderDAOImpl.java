@@ -2,7 +2,7 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
-import vn.edu.hcmuaf.fit.dto.order.OrderItem;
+import vn.edu.hcmuaf.fit.model.OrderItem;
 import vn.edu.hcmuaf.fit.model.Order;
 import vn.edu.hcmuaf.fit.model.ProductDetail;
 
@@ -53,6 +53,15 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
+    public void create(Order order) throws SQLException, ParseException {
+        
+    }
+    
+    @Override
+    public void update(Order order) throws SQLException, ParseException {
+        
+    }
+    
     public List<OrderItem> getListDetail(String orderId) throws SQLException, ParseException {
         List<OrderItem> list = new ArrayList<>();
         connection = connectionPool.getConnection();

@@ -1,12 +1,11 @@
-package vn.edu.hcmuaf.fit.dto.order;
-
-import vn.edu.hcmuaf.fit.model.ProductDetail;
+package vn.edu.hcmuaf.fit.model;
 
 import java.io.Serializable;
 
 public class OrderItem implements Serializable {
 	private ProductDetail product;
 	private int quantity;
+	private Order order;
 	
 	public OrderItem() {
 	}
@@ -30,5 +29,13 @@ public class OrderItem implements Serializable {
 	
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	
+	public Order getOrder() {
+		return order;
+	}
+	
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 }
