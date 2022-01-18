@@ -11,16 +11,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-            rel="stylesheet"
-            href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-            integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-            crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="../css/base.css" />
-    <link rel="stylesheet" href="../css/header.css" />
-    <link rel="stylesheet" href="../css/footer.css" />
-    <link rel="stylesheet" href="../css/cart.css" />
+    <c:import url="import/head.jsp"/>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/cart.css" />
     <title>Giỏ hàng</title>
 </head>
 <body>
@@ -474,125 +466,9 @@
     </div>
 </main>
 
-<footer class="footer">
-    <div class="container">
-        <div class="box">
-            <section class="col-1-3">
-                <div class="info">
-                    <div class="info-item">
-                        <div class="logo">
-                            <img
-                                    class="logo-img"
-                                    src="../images/logo.jpg"
-                                    alt="footer-logo"
-                            />
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <p class="text-info">
-                            Amanda là thương hiệu đến từ Việt Nam với hơn 35 năm kinh
-                            nghiệm trong việc sản xuất và xuất khẩu nội thất đạt chuẩn
-                            quốc tế.
-                        </p>
-                    </div>
-                    <div class="info-item">
-                        <p class="text-info">
-                            Địa chỉ: Khu phố 6, phường Linh Trung, Tp. Thủ Đức
-                        </p>
-                    </div>
-                    <div class="info-item">
-                        <p class="text-info">Điện thoại: 0123456789, 0987654321</p>
-                    </div>
-                    <div class="info-item">
-                        <p class="text-info">Email: info@gmail.com</p>
-                    </div>
-
-                    <div class="info-item">
-                        <a href="#">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </div>
-
-                    <div class="info-item">
-                        <p class="text-info">Copyright &copy; All rights reserved.</p>
-                    </div>
-                </div>
-            </section>
-            <section class="col-1-3">
-                <div class="info service">
-                    <div class="info-item">
-                        <h2 class="footer-title">Về chúng tôi</h2>
-                    </div>
-                    <div class="flex-col">
-                        <div class="col-item">
-                            <div class="info-item">
-                                <a class="text-info" href="index.jsp">Trang chủ</a>
-                            </div>
-                            <div class="info-item">
-                                <a class="text-info" href="products.jsp">Sản phẩm</a>
-                            </div>
-                            <div class="info-item">
-                                <a class="text-info" href="contact-us.jsp">Liên hệ</a>
-                            </div>
-                        </div>
-                        <div class="col-item">
-                            <div class="info-item">
-                                <a class="text-info" href="faqs.jsp">FAQS</a>
-                            </div>
-                            <div class="info-item">
-                                <a class="text-info" href="about-us.jsp">
-                                    Về chúng tôi
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="col-1-3">
-                <div class="info">
-                    <div class="info-item">
-                        <h2 class="footer-title">Tham gia ngay</h2>
-                    </div>
-                    <div class="info-item">
-                        <p class="text-info">
-                            Đăng ký ngay để nhận được nhiều thông tin, sự kiện và khuyến
-                            mãi từ chúng tôi!
-                        </p>
-                    </div>
-                    <div class="info-item footer-signup">
-                        <form action="#" method="post">
-                            <input
-                                    class="input pos-abs"
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    placeholder="Hãy nhập vào email"
-                            />
-                            <a href="#" class="btn-signup pos-abs">
-                                <i class="fas fa-location-arrow"></i>
-                            </a>
-                        </form>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-</footer>
+<c:import url="import/footer.jsp"/>
 
 <script src="../js/cart.js"></script>
-<script
-        type="module"
-        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-></script>
-<script
-        nomodule
-        src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-></script>
+<c:import url="import/script.jsp"/>
 </body>
 </html>

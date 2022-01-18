@@ -11,8 +11,11 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
+    private String phone;
+    private String gender;
     private String profileImageUrl;
     private Date dateCreated;
+    private String role;
     private Date lastLoginDate;
     private boolean notLocked;
     private boolean active;
@@ -33,6 +36,16 @@ public class User implements Serializable {
         this.lastLoginDate = lastLoginDate;
         this.notLocked = notLocked;
         this.active = active;
+    }
+
+    public User(String firstName, String lastName, String phone, String gender, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.gender = gender;
+        this.email = email;
+        this.password = password;
+        this.profileImageUrl = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
     }
 
     public String getId() {
@@ -129,5 +142,29 @@ public class User implements Serializable {
     
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

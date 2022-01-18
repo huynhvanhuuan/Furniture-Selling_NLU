@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.model.Product;
+import vn.edu.hcmuaf.fit.model.ProductDetail;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -20,4 +21,5 @@ public interface ProductDAO {
     List<Product> getList(int countProduct) throws SQLException, ParseException;
     Map<Integer, Map<String, String>> getCartOrWishlist(String userId, boolean getCart) throws SQLException;
     Map<Integer, Map<String, String>> getListByCondition(boolean getNewProduct, int countProduct) throws SQLException;
+
 }

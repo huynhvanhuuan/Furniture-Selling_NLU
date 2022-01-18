@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -23,6 +24,9 @@ public class HomeController extends HttpServlet {
     private CategoryService categoryService;
     private WarehouseService warehouseService;
     private CartService cartService;
+    private WishlistService wishlistService;
+    private AddressService addressService;
+    private OrderService orderService;
 
     @Override
     public void init() throws ServletException {
@@ -31,6 +35,9 @@ public class HomeController extends HttpServlet {
         categoryService = new CategoryServiceImpl();
         warehouseService = new WareHouseServiceImpl();
         cartService = new CartServiceImpl();
+        wishlistService = new WishlistServiceImpl();
+        addressService = new AddressServiceImpl();
+        orderService = new OrderServiceImpl();
     }
 
     @Override
@@ -87,19 +94,62 @@ public class HomeController extends HttpServlet {
         }
     }
     
-    private void getProfilePage(HttpServletRequest request, HttpServletResponse response) {
+    private void getProfilePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("auth");
+
+        List<Address> addresses = addressService.getListByUserId(Integer.parseInt(user.getId()));
+        request.setAttribute("addresses", addresses);
+
+        List<Order> orders = orderService.getListByUserId(user.getId());
+        request.setAttribute("orders", orders);
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/profile.jsp");
+        dispatcher.forward(request, response);
     }
     
-    private void getCartPage(HttpServletRequest request, HttpServletResponse response) {
+    private void getCartPage(HttpServletRequest request, HttpServletResponse response) throws SQLException, ParseException, ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("auth");
+        if (user != null) {
+            List<Wishlist> wishlists = wishlistService.getList(user);
+            request.setAttribute("wishlists", wishlists);
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/cart.jsp");
+        dispatcher.forward(request, response);
     }
     
-    private void getWishlistPage(HttpServletRequest request, HttpServletResponse response) {
+    private void getWishlistPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("auth");
+
+        if (user != null) {
+            List<CartItem> carts = cartService.getList(user);
+            request.setAttribute("carts", carts);
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/wishlist.jsp");
+        dispatcher.forward(request, response);
     }
     
     private void getHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
-        getListProductData(request, response, 8);
+        List<Product> products = productService.getList();
+        request.setAttribute("products", products);
 
-        getListNewNDiscount(request, response, 8);
+        List<ProductDetail> productDetails = warehouseService.getProductList();
+        request.setAttribute("product-details", productDetails);
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("auth");
+
+        if (user != null) {
+            List<CartItem> carts = cartService.getList(user);
+            request.setAttribute("carts", carts);
+
+            List<Wishlist> wishlists = wishlistService.getList(user);
+            request.setAttribute("wishlists", wishlists);
+        }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/index.jsp");
         dispatcher.forward(request, response);
@@ -108,11 +158,15 @@ public class HomeController extends HttpServlet {
     private void getProductPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
         List<Product> products = productService.getList();
         request.setAttribute("products", products);
+
+        List<ProductDetail> productDetails = warehouseService.getProductList();
+        request.setAttribute("product-details", productDetails);
+
         List<Trademark> trademarks = trademarkService.getList();
         request.setAttribute("trademarks", trademarks);
         List<Category> categories = categoryService.getList();
         request.setAttribute("categories", categories);
-        RequestDispatcher dispatcher = request.getRequestDispatcher(request.getContextPath() + "/view/product.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/product.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -132,7 +186,7 @@ public class HomeController extends HttpServlet {
     }
 
     private void getListProductData(HttpServletRequest request, HttpServletResponse response, int countProduct) throws SQLException, ParseException {
-        /*HttpSession session = request.getSession();
+        /* HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("user_id");
 
         // get list product;

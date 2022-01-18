@@ -5,16 +5,13 @@
   Time: 21:41
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <c:import url="import/head.jsp"/>
   <title>FAQs</title>
-  <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/faqs.css" />
-  <link rel="stylesheet" href="../css/header.css" />
   <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.css"
@@ -22,6 +19,7 @@
           crossorigin="anonymous"
           referrerpolicy="no-referrer"
   />
+  <c:import url="import/script.jsp" />
 </head>
 <body>
 <header class="header">

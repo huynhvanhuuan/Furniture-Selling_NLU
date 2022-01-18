@@ -110,7 +110,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public ProductDetail getProduct(String sku) throws SQLException, ParseException {
 		ProductDetail productDetail = null;
 		connection = connectionPool.getConnection();
-		PreparedStatement statement = connection.prepareStatement(QUERY.WAREHOUSE.GET_COLOR);
+		PreparedStatement statement = connection.prepareStatement(QUERY.WAREHOUSE.GET_PRODUCT);
 		statement.setString(1, sku);
 		ResultSet rs = statement.executeQuery();
 		if (!rs.isBeforeFirst() && rs.getRow() == 0) {

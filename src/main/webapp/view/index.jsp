@@ -678,7 +678,6 @@
 <c:import url="import/footer.jsp"/>
 <c:import url="import/signin-signup.jsp"/>
 <script src="../js/signup-signin.js"></script>
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<c:import url="import/script.jsp"/>
 </body>
 </html>

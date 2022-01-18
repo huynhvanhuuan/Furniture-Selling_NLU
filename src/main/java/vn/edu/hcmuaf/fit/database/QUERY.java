@@ -79,6 +79,11 @@ public class QUERY {
         public static final String GET_USER_BY_ID = "select * from user where id = ?";
         public static final String CREATE_ADDRESS = "insert into user_address(user_id, address_id) values(?,?)";
         public static final String DELETE_ADDRESS = "delete from trademark_address where address_id = ?";
+        public static final String DELETE = "delete from user where id = ?";
+        public static final String UPDATE = "update user set first_name = ?, last_name = ?, password = ?, email = ?, phone = ? where id = ?";
+        public static final String GET_USER_BY_EMAIL = "select * from user where email = ?";
+        public static final String GET_USER = "select * from user where email = ? and password = ?";
+        public static final String CREATE_USER = "insert into user(id, first_name, last_name, username, password, email, phone, female, profile_image_url, date_created, role) value(?,?,?,?,?,?,?,?,?,?,?)";
     }
 
     /* ADDRESS */
@@ -121,4 +126,19 @@ public class QUERY {
         public static final String REMOVE = "delete from cart where user_id like ? and product_sku like ?";
         public static final String REMOVE_ALL = "delete from cart where user_id like ?";
     }
+
+    /* WISHLIST */
+    public static class WISHLIST {
+        public static final String GET_LIST = "select * from wishlist where user_id like ?";
+        public static final String ADD = "insert into wishlist values(?,?)";
+        public static final String REMOVE = "delete from wishlist where user_id like ? and product_sku like ?";
+        public static final String REMOVE_ALL = "delete from wishlist where user_id like ?";
+    }
+
+    /* ORDER */
+    public static class ORDER {
+        public static final String GET_LIST = "select * from order where user_id like ?";
+        public static final String GET_DETAIL = "select * from order_detail where order_id like ?";
+    }
+
 }

@@ -11,4 +11,6 @@ public interface UserDAO {
 	void create(User item) throws SQLException;
 	void update(User item) throws SQLException;
 	void delete(String id) throws SQLException;
+	boolean checkUser(String email) throws SQLException;
+	User checkLogin(String email, String password) throws SQLException;
 }

@@ -8,7 +8,7 @@
             </div>
             <nav class="navigation">
                 <ul class="navigation-list">
-                    <li class="navigation-item"><a href="<%=request.getContextPath()%>/home">Trang chủ</a></li>
+                    <li class="navigation-item"><a href="<%=request.getContextPath()%>/">Trang chủ</a></li>
                     <li class="navigation-item"><a href="<%=request.getContextPath()%>/product">Sản phẩm</a></li>
                     <li class="navigation-item"><a href="<%=request.getContextPath()%>/contact">Liên hệ</a></li>
                     <li class="navigation-item"><a href="<%=request.getContextPath()%>/about-us">Về chúng tôi</a></li>
@@ -27,7 +27,7 @@
                         <a href="#"><ion-icon name="heart-outline"></ion-icon></a>
                     </li>
                     <li class="header-item">
-                        <a href="#" ><ion-icon name="cart-outline"></ion-icon><span class="cart-count">0</span></a>
+                        <a href="#" ><ion-icon name="cart-outline"></ion-icon></a>
                     </li>
                     <li class="header-item"><a role="button" class="sign-in">Đăng nhập</a></li>
                     <li class="header-item"><a role="button" class="sign-up">Đăng ký</a></li>
