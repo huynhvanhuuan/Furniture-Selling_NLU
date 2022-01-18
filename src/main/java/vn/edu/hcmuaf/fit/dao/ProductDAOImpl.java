@@ -2,8 +2,6 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
-import vn.edu.hcmuaf.fit.dto.product.Color;
-import vn.edu.hcmuaf.fit.dto.product.Material;
 import vn.edu.hcmuaf.fit.model.Category;
 import vn.edu.hcmuaf.fit.model.Product;
 import vn.edu.hcmuaf.fit.model.ProductDetail;

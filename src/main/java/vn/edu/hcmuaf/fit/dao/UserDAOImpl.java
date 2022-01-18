@@ -2,7 +2,6 @@ package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.database.IConnectionPool;
 import vn.edu.hcmuaf.fit.database.QUERY;
-import vn.edu.hcmuaf.fit.helper.DbManager;
 import vn.edu.hcmuaf.fit.model.User;
 
 import java.math.BigInteger;
@@ -14,15 +13,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
     private final IConnectionPool connectionPool;
     private Connection connection;
 
-    public UserDAOImpl() {
-        this.connectionPool = DbManager.connectionPool;
+    public UserDAOImpl(IConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
     }
 
     @Override

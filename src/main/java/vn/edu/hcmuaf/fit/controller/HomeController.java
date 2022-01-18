@@ -1,6 +1,9 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import vn.edu.hcmuaf.fit.dto.cart.CartItem;
+import vn.edu.hcmuaf.fit.model.Order;
+import vn.edu.hcmuaf.fit.dto.wishlist.Wishlist;
+import vn.edu.hcmuaf.fit.model.ProductDetail;
 import vn.edu.hcmuaf.fit.model.*;
 import vn.edu.hcmuaf.fit.service.*;
 
@@ -112,8 +115,8 @@ public class HomeController extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("auth");
         if (user != null) {
-            List<Wishlist> wishlists = wishlistService.getList(user);
-            request.setAttribute("wishlists", wishlists);
+            Wishlist wishlist = wishlistService.getList(user);
+            request.setAttribute("wishlist", wishlist);
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/cart.jsp");
@@ -147,8 +150,8 @@ public class HomeController extends HttpServlet {
             List<CartItem> carts = cartService.getList(user);
             request.setAttribute("carts", carts);
 
-            List<Wishlist> wishlists = wishlistService.getList(user);
-            request.setAttribute("wishlists", wishlists);
+            Wishlist wishlist = wishlistService.getList(user);
+            request.setAttribute("wishlist", wishlist);
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/index.jsp");

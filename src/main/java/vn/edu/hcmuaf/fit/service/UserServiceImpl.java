@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.service;
 
 import vn.edu.hcmuaf.fit.dao.UserDAO;
 import vn.edu.hcmuaf.fit.dao.UserDAOImpl;
+import vn.edu.hcmuaf.fit.helper.DbManager;
 import vn.edu.hcmuaf.fit.model.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
 
     public UserServiceImpl() {
-        this.userDAO = new UserDAOImpl();
+        this.userDAO = new UserDAOImpl(DbManager.connectionPool);
     }
 
     @Override

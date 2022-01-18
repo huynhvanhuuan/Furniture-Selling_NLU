@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.dao;
 
 import vn.edu.hcmuaf.fit.model.Product;
-import vn.edu.hcmuaf.fit.model.ProductDetail;
 
 import java.sql.SQLException;
 import java.text.ParseException;

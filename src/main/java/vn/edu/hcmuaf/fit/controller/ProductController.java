@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.dto.cart.CartItem;
 import vn.edu.hcmuaf.fit.model.*;
 import vn.edu.hcmuaf.fit.service.*;
 

@@ -17,7 +17,7 @@ import java.util.List;
 public class CartDAOImpl implements CartDAO {
 	private final IConnectionPool connectionPool;
 	private Connection connection;
-	private WarehouseDAO warehouseDAO;
+	private final WarehouseDAO warehouseDAO;
 	
 	public CartDAOImpl(IConnectionPool connectionPool) {
 		this.connectionPool = connectionPool;

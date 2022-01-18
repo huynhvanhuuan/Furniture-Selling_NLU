@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class User implements Serializable {
     private boolean notLocked;
     private boolean active;
     private List<Address> addresses;
+    private List<Order> orders;
 
     public User() {
     }
@@ -166,5 +168,23 @@ public class User implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    
+    public List<Order> getOrders() {
+        return orders;
+    }
+    
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+    
+    public void addAddress(Address address) {
+        if (addresses == null) addresses = new ArrayList<>();
+        addresses.add(address);
+    }
+    
+    public void addOrder(Order order) {
+        if (orders == null) orders = new ArrayList<>();
+        orders.add(order);
     }
 }

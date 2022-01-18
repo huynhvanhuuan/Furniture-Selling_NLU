@@ -18,10 +18,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                                <button type="button" class="btn btn-success mr-2 float-left"
+                                        data-toggle="modal" data-target="#create-modal" title="Thêm"><i class="fas fa-plus"></i></button>
+                                <button type="button" class="btn btn-danger float-left"
+                                        data-toggle="modal" data-target="#delete-modal"><i class="fas fa-trash-alt"></i></button>
                                 <table id="product" class="table table-bordered table-striped">
                                     <thead>
                                     <tr class="text-center">
-                                        <th class="align-middle">STT</th>
+                                        <th class="align-middle"><input type="checkbox" name="checkBoxAll" id="checkBoxAll"></th>
                                         <th class="align-middle">Tên</th>
                                         <th class="align-middle">Mô tả</th>
                                         <th class="align-middle">Thương hiệu</th>
@@ -29,13 +33,7 @@
                                         <th class="align-middle">Ngày tạo</th>
                                         <th class="align-middle">Ngày cập nhật</th>
                                         <th class="align-middle">Trạng thái</th>
-                                        <th>
-                                            <span class="d-none">Tác vụ</span>
-                                            <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#create-modal"
-                                                    title="Thêm">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </th>
+                                        <th class="align-middle">Tác vụ</th>
                                     </tr>
                                     </thead>
                                     <tbody>

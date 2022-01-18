@@ -1,4 +1,7 @@
-package vn.edu.hcmuaf.fit.model;
+package vn.edu.hcmuaf.fit.dto.cart;
+
+import vn.edu.hcmuaf.fit.model.Product;
+import vn.edu.hcmuaf.fit.model.User;
 
 import java.io.Serializable;
 

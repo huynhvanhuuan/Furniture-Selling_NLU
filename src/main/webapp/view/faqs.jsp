@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: tranv
-  Date: 03/01/2022
-  Time: 21:41
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
@@ -189,4 +182,3 @@
 </div>
 </body>
 </html>
-
