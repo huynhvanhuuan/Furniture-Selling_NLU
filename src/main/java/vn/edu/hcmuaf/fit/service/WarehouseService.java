@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.service;
 
 import vn.edu.hcmuaf.fit.dto.product.Color;
 import vn.edu.hcmuaf.fit.dto.product.Material;
+import vn.edu.hcmuaf.fit.model.Product;
 import vn.edu.hcmuaf.fit.model.ProductDetail;
 
 import java.sql.SQLException;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public interface WarehouseService {
 	List<ProductDetail> getProductList() throws SQLException, ParseException;
-	List<ProductDetail> getProductList(int productId) throws SQLException, ParseException;
+	List<ProductDetail> getProductList(Product product) throws SQLException, ParseException;
 	List<Color> getColorList() throws SQLException;
 	List<Material> getMaterialList() throws SQLException;
 	ProductDetail getProduct(String sku) throws SQLException, ParseException;

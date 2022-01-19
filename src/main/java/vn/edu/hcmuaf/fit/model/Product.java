@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class Product implements Serializable {
     }
     
     public Product(int id, String name, String size, String description, Trademark trademark, Category category,
-                   Date dateCreated, Date lastUpdated, boolean active, List<ProductDetail> products) {
+                   Date dateCreated, Date lastUpdated, boolean active) {
         this.id = id;
         this.name = name;
         this.size = size;
@@ -30,7 +31,6 @@ public class Product implements Serializable {
         this.dateCreated = dateCreated;
         this.lastUpdated = lastUpdated;
         this.active = active;
-        this.products = products;
     }
 
     public int getId() {
@@ -103,5 +103,18 @@ public class Product implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    public List<ProductDetail> getProducts() {
+        return products;
+    }
+    
+    public void setProducts(List<ProductDetail> products) {
+        this.products = products;
+    }
+    
+    public void addProduct(ProductDetail product) {
+        if (products == null) products = new ArrayList<>();
+        products.add(product);
     }
 }

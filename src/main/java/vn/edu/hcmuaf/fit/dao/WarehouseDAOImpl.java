@@ -31,6 +31,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public List<ProductDetail> getProductList() throws SQLException, ParseException {
 		List<ProductDetail> list = new ArrayList<>();
 		connection = connectionPool.getConnection();
+		connectionPool.releaseConnection(connection);
 		ResultSet rs = connection.prepareStatement(QUERY.WAREHOUSE.GET_PRODUCT_LIST).executeQuery();
 		while (rs.next()) {
 			String sku = rs.getString("sku");
@@ -47,18 +48,19 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 			ProductDetail productDetail = new ProductDetail(sku, product, image, color, material, unitPrice, unitInStock, discount, dateCreated, lastUpdated, active);
 			list.add(productDetail);
 		}
-		connectionPool.releaseConnection(connection);
 		return list;
 	}
 	
 	@Override
-	public List<ProductDetail> getProductList(int productId) throws SQLException, ParseException {
+	public List<ProductDetail> getProductList(Product product) throws SQLException, ParseException {
 		List<ProductDetail> list = new ArrayList<>();
 		connection = connectionPool.getConnection();
-		ResultSet rs = connection.prepareStatement(QUERY.WAREHOUSE.GET_PRODUCT_LIST).executeQuery();
+		connectionPool.releaseConnection(connection);
+		PreparedStatement statement = connection.prepareStatement(QUERY.WAREHOUSE.GET_PRODUCT_LIST_WITH_PRODUCT_ID);
+		statement.setInt(1, product.getId());
+		ResultSet rs = statement.executeQuery();
 		while (rs.next()) {
 			String sku = rs.getString("sku");
-			Product product = productDAO.get(productId);
 			String image = rs.getString("image");
 			Color color = getColor(rs.getInt("color_id"));
 			Material material = getMaterial(rs.getString("material_sku"));
@@ -71,7 +73,6 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 			ProductDetail productDetail = new ProductDetail(sku, product, image, color, material, unitPrice, unitInStock, discount, dateCreated, lastUpdated, active);
 			list.add(productDetail);
 		}
-		connectionPool.releaseConnection(connection);
 		return list;
 	}
 	
@@ -79,6 +80,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public List<Color> getColorList() throws SQLException {
 		List<Color> list = new ArrayList<>();
 		connection = connectionPool.getConnection();
+		connectionPool.releaseConnection(connection);
 		ResultSet rs = connection.prepareStatement(QUERY.WAREHOUSE.GET_COLOR_LIST).executeQuery();
 		while (rs.next()) {
 			int id = rs.getInt("id");
@@ -87,7 +89,6 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 			Color color = new Color(id, name, hex);
 			list.add(color);
 		}
-		connectionPool.releaseConnection(connection);
 		return list;
 	}
 	
@@ -95,6 +96,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public List<Material> getMaterialList() throws SQLException {
 		List<Material> list = new ArrayList<>();
 		connection = connectionPool.getConnection();
+		connectionPool.releaseConnection(connection);
 		ResultSet rs = connection.prepareStatement(QUERY.WAREHOUSE.GET_MATERIAL_LIST).executeQuery();
 		while (rs.next()) {
 			String sku = rs.getString("sku");
@@ -102,7 +104,6 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 			Material material = new Material(sku, name);
 			list.add(material);
 		}
-		connectionPool.releaseConnection(connection);
 		return list;
 	}
 	
@@ -110,6 +111,7 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 	public ProductDetail getProduct(String sku) throws SQLException, ParseException {
 		ProductDetail productDetail = null;
 		connection = connectionPool.getConnection();
+		connectionPool.releaseConnection(connection);
 		PreparedStatement statement = connection.prepareStatement(QUERY.WAREHOUSE.GET_PRODUCT);
 		statement.setString(1, sku);
 		ResultSet rs = statement.executeQuery();
@@ -129,7 +131,6 @@ public class WarehouseDAOImpl implements WarehouseDAO {
 			boolean active = rs.getBoolean("active");
 			productDetail = new ProductDetail(sku, product, image, color, material, unitPrice, unitInStock, discount, dateCreated, lastUpdated, active);
 		}
-		connectionPool.releaseConnection(connection);
 		return productDetail;
 	}
 	

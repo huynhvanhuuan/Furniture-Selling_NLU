@@ -18,13 +18,11 @@ import java.util.*;
 public class ProductDAOImpl implements ProductDAO {
     private final IConnectionPool connectionPool;
     private Connection connection;
-    private final WarehouseDAO warehouseDAO;
-    private final TrademarkDAO trademarkDAO;
-    private final CategoryDAO categoryDAO;
+    private TrademarkDAO trademarkDAO;
+    private CategoryDAO categoryDAO;
 
     public ProductDAOImpl(IConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
-        warehouseDAO = new WarehouseDAOImpl(connectionPool);
         trademarkDAO = new TrademarkDAOImpl(connectionPool);
         categoryDAO = new CategoryDAOImpl(connectionPool);
     }
@@ -33,6 +31,7 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getList() throws SQLException, ParseException {
         List<Product> products = new ArrayList<>();
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         ResultSet rs = connection.prepareStatement(QUERY.PRODUCT.GET_LIST).executeQuery();
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -46,11 +45,9 @@ public class ProductDAOImpl implements ProductDAO {
             boolean active = rs.getBoolean("active");
             Trademark trademark = trademarkDAO.get(trademarkId);
             Category category = categoryDAO.get(categorySku);
-            List<ProductDetail> productDetails = warehouseDAO.getProductList(id);
-            Product product = new Product(id, name, size, description, trademark, category, dateCreated, lastUpdated, active, productDetails);
+            Product product = new Product(id, name, size, description, trademark, category, dateCreated, lastUpdated, active);
             products.add(product);
         }
-        connectionPool.releaseConnection(connection);
         return products;
     }
 
@@ -58,6 +55,7 @@ public class ProductDAOImpl implements ProductDAO {
     public Product get(int id) throws SQLException, ParseException {
         Product product = null;
         connection = connectionPool.getConnection();
+        connectionPool.releaseConnection(connection);
         PreparedStatement statement = connection.prepareStatement(QUERY.PRODUCT.GET_PRODUCT_BY_ID);
         statement.setInt(1, id);
         ResultSet rs = statement.executeQuery();
@@ -75,10 +73,8 @@ public class ProductDAOImpl implements ProductDAO {
             boolean active = rs.getBoolean("active");
             Trademark trademark = trademarkDAO.get(trademarkId);
             Category category = categoryDAO.get(categorySku);
-            List<ProductDetail> productDetails = warehouseDAO.getProductList(id);
-            product = new Product(id, name, size, description, trademark, category, dateCreated, lastUpdated, active, productDetails);
+            product = new Product(id, name, size, description, trademark, category, dateCreated, lastUpdated, active);
         }
-        connectionPool.releaseConnection(connection);
         return product;
     }
 
@@ -232,10 +228,8 @@ public class ProductDAOImpl implements ProductDAO {
             boolean active = rs.getBoolean("active");
             Trademark trademark = trademarkDAO.get(trademarkId);
             Category category = categoryDAO.get(categorySku);
-            List<ProductDetail> productDetails = warehouseDAO.getProductList(id);
-            Product product = new Product(id, name, size, description, trademark, category, dateCreated, lastUpdated, active, productDetails);
+            Product product = new Product(id, name, size, description, trademark, category, dateCreated, lastUpdated, active);
             products.add(product);
-
             count++;
         }
         connectionPool.releaseConnection(connection);

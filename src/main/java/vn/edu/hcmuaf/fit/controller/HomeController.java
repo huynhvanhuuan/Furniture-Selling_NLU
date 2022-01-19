@@ -36,7 +36,7 @@ public class HomeController extends HttpServlet {
         productService = new ProductServiceImpl();
         trademarkService = new TrademarkServiceImpl();
         categoryService = new CategoryServiceImpl();
-        warehouseService = new WareHouseServiceImpl();
+        warehouseService = new WarehouseServiceImpl();
         cartService = new CartServiceImpl();
         wishlistService = new WishlistServiceImpl();
         addressService = new AddressServiceImpl();
@@ -53,19 +53,21 @@ public class HomeController extends HttpServlet {
         String path = request.getServletPath();
         String action = request.getParameter("action");
         try {
-            switch (action) {
-                case "addToCart":
-                    addToCart(request, response);
-                    break;
-                case "updateQuantity":
-                    updateQuantity(request, response);
-                    break;
-                case "removeFromCart":
-                    removeFromCart(request, response);
-                    break;
-                case "removeAllFromCart":
-                    removeAllFromCart(request, response);
-                    break;
+            if (action != null) {
+                switch (action) {
+                    case "addToCart":
+                        addToCart(request, response);
+                        break;
+                    case "updateQuantity":
+                        updateQuantity(request, response);
+                        break;
+                    case "removeFromCart":
+                        removeFromCart(request, response);
+                        break;
+                    case "removeAllFromCart":
+                        removeAllFromCart(request, response);
+                        break;
+                }
             }
             switch (path) {
                 case "/product":
@@ -80,14 +82,14 @@ public class HomeController extends HttpServlet {
                 case "/profile":
                     getProfilePage(request, response);
                     break;
-                case "/contact-us":
+                case "/contact":
                     getContactPage(request, response);
                     break;
-                case "/about-us":
+                case "/about":
                     getAboutPage(request, response);
                     break;
-                case "/faqs":
-                    getFAQsPage(request, response);
+                case "/faq":
+                    getFAQPage(request, response);
                     break;
                 default:
                     getHomePage(request, response);
@@ -95,6 +97,27 @@ public class HomeController extends HttpServlet {
         } catch (SQLException | ParseException e) {
             e.printStackTrace();
         }
+    }
+    
+    private void getHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
+//        List<Product> products = productService.getList();
+//        request.setAttribute("products", products);
+//        
+//        List<ProductDetail> productDetails = warehouseService.getProductList();
+//        request.setAttribute("product-details", productDetails);
+//        
+//        HttpSession session = request.getSession();
+//        User user = (User) session.getAttribute("auth");
+//        
+//        if (user != null) {
+//            List<CartItem> carts = cartService.getList(user);
+//            request.setAttribute("carts", carts);
+//            
+//            Wishlist wishlist = wishlistService.getList(user);
+//            request.setAttribute("wishlist", wishlist);
+//        }
+        
+        request.getRequestDispatcher("/view/index.jsp").forward(request, response);
     }
     
     private void getProfilePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
@@ -135,57 +158,24 @@ public class HomeController extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/wishlist.jsp");
         dispatcher.forward(request, response);
     }
-    
-    private void getHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
-        List<Product> products = productService.getList();
-        request.setAttribute("products", products);
-
-        List<ProductDetail> productDetails = warehouseService.getProductList();
-        request.setAttribute("product-details", productDetails);
-
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("auth");
-
-        if (user != null) {
-            List<CartItem> carts = cartService.getList(user);
-            request.setAttribute("carts", carts);
-
-            Wishlist wishlist = wishlistService.getList(user);
-            request.setAttribute("wishlist", wishlist);
-        }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/index.jsp");
-        dispatcher.forward(request, response);
-    }
 
     private void getProductPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ParseException {
-        List<Product> products = productService.getList();
+        List<ProductDetail> products = warehouseService.getProductList();
         request.setAttribute("products", products);
-
-        List<ProductDetail> productDetails = warehouseService.getProductList();
-        request.setAttribute("product-details", productDetails);
-
-        List<Trademark> trademarks = trademarkService.getList();
-        request.setAttribute("trademarks", trademarks);
-        List<Category> categories = categoryService.getList();
-        request.setAttribute("categories", categories);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/view/product.jsp");
         dispatcher.forward(request, response);
     }
 
     private void getContactPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/contact-us.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/view/contact-us.jsp").forward(request, response);
     }
 
     private void getAboutPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/about-us.jsp");
-        dispatcher.forward(request, response);
+        request.getRequestDispatcher("/view/about-us.jsp").forward(request, response);
     }
 
-    private void getFAQsPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/view/faqs.jsp");
-        dispatcher.forward(request, response);
+    private void getFAQPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/view/faqs.jsp").forward(request, response);
     }
 
     private void getListProductData(HttpServletRequest request, HttpServletResponse response, int countProduct) throws SQLException, ParseException {

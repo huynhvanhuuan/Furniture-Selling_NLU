@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
 <head>
@@ -143,442 +144,50 @@
                 </select>
             </div>
         </section>
-
         <section class="cards">
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">35% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a>
+            <jsp:useBean id="products" scope="request" type="java.util.List"/>
+            <c:forEach items="${products}" var="item">
+                <div class="card">
+                    <a href="product-detail.jsp" class="card-link"></a>
+                    <c:if test="${item.discount > 0}">
+                        <div class="card-discount">35% giảm</div>
+                    </c:if>
+                    <div class="card-img">
+                        <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
                     </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">129.000</span>
-                        <span class="card-original-price">199.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
+                    <div class="card-content">
+                        <div class="card-title">
+                            <a href="product-detail.jsp">${item.product.name}</a>
                         </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
+                        <div class="card-price">
+                            <fmt:setLocale value="vi_VN"/>
+                            <c:choose>
+                                <c:when test="${item.discount > 0}">
+                                    <c:set var="discountPrice" value="${item.unitPrice - item.unitPrice * item.discount / 100}"/>
+                                    <span class="card-promotion-price"><fmt:formatNumber value="${discountPrice}" type="currency"/></span>
+                                    <span class="card-original-price"><fmt:formatNumber value="${item.unitPrice}" type="currency"/></span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="card-promotion-price">
+                                        <fmt:formatNumber value="${item.unitPrice}" type="currency"/>
+                                    </span>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">20% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.html">Giường Ngủ Gỗ MOHO VLINE 601</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">4.632.000</span>
-                        <span class="card-original-price">5.790.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
+                        <div class="card-detail">
+                            <div class="card-rate">
+                                <ion-icon name="star-outline"></ion-icon>
+                                <ion-icon name="star"></ion-icon>
+                                <span>4.2</span>
+                            </div>
+                            <div class="card-wistlist">
+                                <ion-icon name="heart-outline"></ion-icon>
+                            </div>
                         </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
+                        <a href="" class="btn-add-card" onclick="addToCart(${item.sku});">Thêm vào giỏ hàng</a>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">20% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">
-                            Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao
-                        </a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">639.000</span>
-                        <span class="card-original-price">799.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <!-- <div class="card-discount">0% giảm</div> -->
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Tủ Kệ Tivi Gỗ</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">2.490.000</span>
-                        <span class="card-original-price">2490.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">35% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">129.000</span>
-                        <span class="card-original-price">199.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">20% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">639.000</span>
-                        <span class="card-original-price">799.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <!-- <div class="card-discount">0% giảm</div> -->
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Tủ Kệ Tivi Gỗ</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">2.490.000</span>
-                        <span class="card-original-price">2490.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.html" class="card-link"></a>
-                <div class="card-discount">20% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.html">Giường Ngủ Gỗ MOHO VLINE 601</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">4.632.000</span>
-                        <span class="card-original-price">5.790.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <!-- <div class="card-discount">0% giảm</div> -->
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.html">Tủ Kệ Tivi Gỗ</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">2.490.000</span>
-                        <span class="card-original-price">2490.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">35% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">129.000</span>
-                        <span class="card-original-price">199.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">20% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Giường Ngủ Gỗ MOHO VLINE 601</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">4.632.000</span>
-                        <span class="card-original-price">5.790.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">20% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">639.000</span>
-                        <span class="card-original-price">799.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">35% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">129.000</span>
-                        <span class="card-original-price">199.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">20% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.html">Giường Ngủ Gỗ MOHO VLINE 601</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">4.632.000</span>
-                        <span class="card-original-price">5.790.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <div class="card-discount">20% giảm</div>
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">639.000</span>
-                        <span class="card-original-price">799.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
-            <div class="card">
-                <a href="product-detail.jsp" class="card-link"></a>
-                <!-- <div class="card-discount">0% giảm</div> -->
-                <div class="card-img">
-                    <img class="card-img-item" src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg" alt="card image"/>
-                </div>
-                <div class="card-content">
-                    <div class="card-title">
-                        <a href="product-detail.jsp">Tủ Kệ Tivi Gỗ</a>
-                    </div>
-                    <div class="card-price">
-                        <span class="card-promotion-price">2.490.000</span>
-                        <span class="card-original-price">2490.000</span>
-                    </div>
-                    <div class="card-detail">
-                        <div class="card-rate">
-                            <ion-icon name="star-outline"></ion-icon>
-                            <ion-icon name="star"></ion-icon>
-                            <span>4.2</span>
-                        </div>
-                        <div class="card-wistlist">
-                            <ion-icon name="heart-outline"></ion-icon>
-                        </div>
-                    </div>
-                    <a href="/product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
-                </div>
-            </div>
+            </c:forEach>
         </section>
         <section class="pagination">
             <ul class="pagination-list">
@@ -598,8 +207,16 @@
 </main>
 <c:import url="import/footer.jsp"/>
 <c:import url="import/signin-signup.jsp"/>
+<c:import url="import/script.jsp"/>
 <script src="../js/signup-signin.js"></script>
 <script src="../js/products.js"></script>
-<c:import url="import/script.jsp"/>
+<script>
+    // Add to cart
+    function addToCart(sku) {
+        $.ajax({
+            
+        })
+    }
+</script>
 </body>
 </html>

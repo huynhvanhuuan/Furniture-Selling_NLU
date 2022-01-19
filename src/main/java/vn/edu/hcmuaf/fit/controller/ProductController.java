@@ -1,7 +1,9 @@
 package vn.edu.hcmuaf.fit.controller;
 
 import com.google.gson.Gson;
-import vn.edu.hcmuaf.fit.model.*;
+import vn.edu.hcmuaf.fit.model.Category;
+import vn.edu.hcmuaf.fit.model.Product;
+import vn.edu.hcmuaf.fit.model.Trademark;
 import vn.edu.hcmuaf.fit.service.*;
 
 import javax.servlet.ServletException;
@@ -114,7 +116,7 @@ public class ProductController extends HttpServlet {
         String dateCreated = request.getParameter("dateCreated");
         String lastUpdated = request.getParameter("lastUpdated");
         //boolean active = Integer.parseInt(request.getParameter("active")) == 1;
-        productService.update(new Product(id, name, size, description, trademark, category, dateFormat.parse(dateCreated), dateFormat.parse(lastUpdated), true, null));
+        productService.update(new Product(id, name, size, description, trademark, category, dateFormat.parse(dateCreated), dateFormat.parse(lastUpdated), true));
         getMainPage(request, response);
         // Get part
         // Part part = request.getPart("image");

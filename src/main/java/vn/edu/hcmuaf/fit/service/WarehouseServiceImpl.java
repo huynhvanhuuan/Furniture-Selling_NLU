@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.dao.WarehouseDAO;
 import vn.edu.hcmuaf.fit.dao.WarehouseDAOImpl;
 import vn.edu.hcmuaf.fit.dto.product.Color;
 import vn.edu.hcmuaf.fit.dto.product.Material;
+import vn.edu.hcmuaf.fit.model.Product;
 import vn.edu.hcmuaf.fit.model.ProductDetail;
 import vn.edu.hcmuaf.fit.helper.DbManager;
 
@@ -11,10 +12,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
-public class WareHouseServiceImpl implements WarehouseService {
+public class WarehouseServiceImpl implements WarehouseService {
 	private final WarehouseDAO warehouseDAO;
 	
-	public WareHouseServiceImpl() {
+	public WarehouseServiceImpl() {
 		this.warehouseDAO = new WarehouseDAOImpl(DbManager.connectionPool);
 	}
 	
@@ -24,8 +25,8 @@ public class WareHouseServiceImpl implements WarehouseService {
 	}
 	
 	@Override
-	public List<ProductDetail> getProductList(int productId) throws SQLException, ParseException {
-		return warehouseDAO.getProductList(productId);
+	public List<ProductDetail> getProductList(Product product) throws SQLException, ParseException {
+		return warehouseDAO.getProductList(product);
 	}
 	
 	@Override

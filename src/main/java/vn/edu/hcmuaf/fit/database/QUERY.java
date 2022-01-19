@@ -41,6 +41,7 @@ public class QUERY {
     /* WAREHOUSE */
     public static class WAREHOUSE {
         public static final String GET_PRODUCT_LIST = "select * from warehouse";
+        public static final String GET_PRODUCT_LIST_WITH_PRODUCT_ID = "select * from warehouse where product_id = ?";
         public static final String GET_COLOR_LIST = "select * from color";
         public static final String GET_MATERIAL_LIST = "select * from material";
         public static final String GET_PRODUCT = "select * from warehouse where sku = ?";
