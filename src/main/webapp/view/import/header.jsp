@@ -11,8 +11,8 @@
                     <li class="navigation-item"><a href="<%=request.getContextPath()%>/">Trang chủ</a></li>
                     <li class="navigation-item"><a href="<%=request.getContextPath()%>/product">Sản phẩm</a></li>
                     <li class="navigation-item"><a href="<%=request.getContextPath()%>/contact">Liên hệ</a></li>
-                    <li class="navigation-item"><a href="<%=request.getContextPath()%>/about-us">Về chúng tôi</a></li>
-                    <li class="navigation-item"><a href="<%=request.getContextPath()%>/faqs">FAQS</a></li>
+                    <li class="navigation-item"><a href="<%=request.getContextPath()%>/about">Về chúng tôi</a></li>
+                    <li class="navigation-item"><a href="<%=request.getContextPath()%>/faq">FAQS</a></li>
                 </ul>
             </nav>
             <div class="header-btn">

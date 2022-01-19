@@ -66,6 +66,17 @@
         <url-pattern>/about/</url-pattern>
     </servlet-mapping>
 
+    <!-- FAQ mapping -->
+    <servlet>
+        <servlet-name>faq</servlet-name>
+        <servlet-class>vn.edu.hcmuaf.fit.controller.HomeController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>faq</servlet-name>
+        <url-pattern>/faq</url-pattern>
+        <url-pattern>/faq/</url-pattern>
+    </servlet-mapping>
+
     <!-- Admin mapping -->
     <servlet>
         <servlet-name>admin</servlet-name>
