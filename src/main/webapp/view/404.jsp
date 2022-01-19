@@ -14,7 +14,7 @@
         <h3>Oops! Đã có lỗi xảy ra.</h3>
         <span>Trang mà bạn đang truy cập có thể đã bị xóa hoặc không còn truy cập được nữa.</span>
         <div class="flex-center">
-            <a href="/" class="btn-primary">Trở về trang chủ</a>
+            <a href="<%=request.getContextPath()%>/home" class="btn-primary">Trở về trang chủ</a>
         </div>
     </div>
 </section>
