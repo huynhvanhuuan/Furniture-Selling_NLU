@@ -28,146 +28,52 @@
                 <div class="filter-content">
                     <ul class="filter-list">
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-1"
-                                    value="Bàn Sofa - Bàn Cafe - Bàn Trà"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-1">
-                                Bàn Sofa - Bàn Cafe - Bàn Trà
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-1" value="Bàn Sofa - Bàn Cafe - Bàn Trà" name="type-filter"/>
+                            <label class="filter-text" for="data-type-1">Bàn Sofa - Bàn Cafe - Bàn Trà</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-2"
-                                    value="Bàn Ăn"
-                                    name="type-filter"
-                            />
+                            <input class="filter-input" type="checkbox" id="data-type-2" value="Bàn Ăn" name="type-filter"/>
                             <label class="filter-text" for="data-type-2">Bàn Ăn</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-3"
-                                    value="Bàn làm việc"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-3">
-                                Bàn làm việc
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-3" value="Bàn làm việc" name="type-filter"/>
+                            <label class="filter-text" for="data-type-3">Bàn làm việc</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-4"
-                                    value="Ghế Sofa"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-4">
-                                Ghế Sofa
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-4" value="Ghế Sofa" name="type-filter"/>
+                            <label class="filter-text" for="data-type-4">Ghế Sofa</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-5"
-                                    value="Bộ bàn ăn"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-5">
-                                Bộ bàn ăn
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-5" value="Bộ bàn ăn" name="type-filter"/>
+                            <label class="filter-text" for="data-type-5">Bộ bàn ăn</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-6"
-                                    value="Tủ đầu giường"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-6">
-                                Tủ đầu giường
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-6" value="Tủ đầu giường" name="type-filter"/>
+                            <label class="filter-text" for="data-type-6">Tủ đầu giường</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-7"
-                                    value="Tủ quần áo"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-7">
-                                Tủ quần áo
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-7" value="Tủ quần áo" name="type-filter"/>
+                            <label class="filter-text" for="data-type-7">Tủ quần áo</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-8"
-                                    value="Tủ & Kệ"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-8">
-                                Tủ & Kệ
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-8" value="Tủ & Kệ" name="type-filter"/>
+                            <label class="filter-text" for="data-type-8">Tủ & Kệ</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-9"
-                                    value="Ghế Ăn"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-9">
-                                Ghế Ăn
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-9" value="Ghế Ăn" name="type-filter"/>
+                            <label class="filter-text" for="data-type-9">Ghế Ăn</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-10"
-                                    value="Giường Ngủ"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-10">
-                                Giường Ngủ
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-10" value="Giường Ngủ" name="type-filter"/>
+                            <label class="filter-text" for="data-type-10">Giường Ngủ</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-11"
-                                    value="Tủ Kệ Tivi"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-11">
-                                Tủ Kệ Tivi
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-11" value="Tủ Kệ Tivi" name="type-filter"/>
+                            <label class="filter-text" for="data-type-11">Tủ Kệ Tivi</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-type-12"
-                                    value="Tủ Giày - Tủ Trang Trí"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-type-12">
-                                Tủ Giày - Tủ Trang Trí
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-type-12" value="Tủ Giày - Tủ Trang Trí" name="type-filter"/>
+                            <label class="filter-text" for="data-type-12">Tủ Giày - Tủ Trang Trí</label>
                         </li>
                     </ul>
                 </div>
@@ -178,64 +84,24 @@
                 <div class="filter-content">
                     <ul class="filter-list">
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-price-1"
-                                    value="Dưới 500.000đ"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-price-1">
-                                Dưới 500.000đ
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-price-1" value="Dưới 500.000đ" name="type-filter"/>
+                            <label class="filter-text" for="data-price-1">Dưới 500.000đ</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-price-2"
-                                    value="500.000đ - 1.500.000đ"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-price-2">
-                                500.000đ - 1.500.000đ
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-price-2" value="500.000đ - 1.500.000đ" name="type-filter"/>
+                            <label class="filter-text" for="data-price-2">500.000đ - 1.500.000đ</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-price-3"
-                                    value="1.500.000đ - 3.000.000đ"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-price-3">
-                                1.500.000đ - 3.000.000đ
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-price-3" value="1.500.000đ - 3.000.000đ" name="type-filter"/>
+                            <label class="filter-text" for="data-price-3">1.500.000đ - 3.000.000đ</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-price-4"
-                                    value="3.000.000đ - 5.000.000đ"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-price-4">
-                                3.000.000đ - 5.000.000đ
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-price-4" value="3.000.000đ - 5.000.000đ" name="type-filter"/>
+                            <label class="filter-text" for="data-price-4">3.000.000đ - 5.000.000đ</label>
                         </li>
                         <li class="filter-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-price-5"
-                                    value="Trên 5.000.000đ"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text" for="data-price-5">
-                                Trên 5.000.000đ
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-price-5" value="Trên 5.000.000đ" name="type-filter"/>
+                            <label class="filter-text" for="data-price-5">Trên 5.000.000đ</label>
                         </li>
                     </ul>
                 </div>
@@ -246,64 +112,24 @@
                 <div class="filter-content">
                     <ul class="filter-list filter-size">
                         <li class="filter-item filter-size-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-size-1"
-                                    value="90cm"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text-size" for="data-size-1">
-                                90cm
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-size-1" value="90cm" name="type-filter"/>
+                            <label class="filter-text-size" for="data-size-1">90cm</label>
                         </li>
                         <li class="filter-item filter-size-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-size-2"
-                                    value="1m2"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text-size" for="data-size-2">
-                                1m2
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-size-2" value="1m2" name="type-filter"/>
+                            <label class="filter-text-size" for="data-size-2">1m2</label>
                         </li>
                         <li class="filter-item filter-size-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-size-3"
-                                    value="1m4"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text-size" for="data-size-3">
-                                1m4
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-size-3" value="1m4" name="type-filter"/>
+                            <label class="filter-text-size" for="data-size-3">1m4</label>
                         </li>
                         <li class="filter-item filter-size-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-size-4"
-                                    value="1m6"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text-size" for="data-size-4">
-                                1m6
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-size-4" value="1m6" name="type-filter"/>
+                            <label class="filter-text-size" for="data-size-4">1m6</label>
                         </li>
                         <li class="filter-item filter-size-item">
-                            <input
-                                    class="filter-input"
-                                    type="checkbox"
-                                    id="data-size-5"
-                                    value="1m8"
-                                    name="type-filter"
-                            />
-                            <label class="filter-text-size" for="data-size-5">
-                                1m8
-                            </label>
+                            <input class="filter-input" type="checkbox" id="data-size-5" value="1m8" name="type-filter"/>
+                            <label class="filter-text-size" for="data-size-5">1m8</label>
                         </li>
                     </ul>
                 </div>
@@ -323,17 +149,11 @@
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">35% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/ngan_ghep_ke_sach/ke_sach.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
-                        <a href="product-detail.jsp"
-                        >Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a
-                        >
+                        <a href="product-detail.jsp">Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a>
                     </div>
                     <div class="card-price">
                         <span class="card-promotion-price">129.000</span>
@@ -349,20 +169,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">20% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -382,20 +196,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">20% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -417,20 +225,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <!-- <div class="card-discount">0% giảm</div> -->
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -450,26 +252,18 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">35% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/ngan_ghep_ke_sach/ke_sach.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
-                        <a href="product-detail.jsp"
-                        >Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a
-                        >
+                        <a href="product-detail.jsp">Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a>
                     </div>
                     <div class="card-price">
                         <span class="card-promotion-price">129.000</span>
@@ -485,27 +279,18 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
-
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">20% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
-                        <a href="product-detail.jsp">
-                            Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao
-                        </a>
+                        <a href="product-detail.jsp">Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao</a>
                     </div>
                     <div class="card-price">
                         <span class="card-promotion-price">639.000</span>
@@ -521,20 +306,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <!-- <div class="card-discount">0% giảm</div> -->
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -554,20 +333,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.html" class="card-link"></a>
                 <div class="card-discount">20% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -587,20 +360,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <!-- <div class="card-discount">0% giảm</div> -->
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -620,26 +387,18 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">35% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/ngan_ghep_ke_sach/ke_sach.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
-                        <a href="product-detail.jsp"
-                        >Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a
-                        >
+                        <a href="product-detail.jsp">Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a>
                     </div>
                     <div class="card-price">
                         <span class="card-promotion-price">129.000</span>
@@ -655,20 +414,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">20% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -688,26 +441,18 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">20% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
-                        <a href="product-detail.jsp">
-                            Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao
-                        </a>
+                        <a href="product-detail.jsp">Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao</a>
                     </div>
                     <div class="card-price">
                         <span class="card-promotion-price">639.000</span>
@@ -723,27 +468,18 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
-
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">35% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/ngan_ghep_ke_sach/ke_sach.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/ngan_ghep_ke_sach/ke_sach.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
-                        <a href="product-detail.jsp"
-                        >Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a
-                        >
+                        <a href="product-detail.jsp">Ngăn Trang Trí - Ngăn Ghép Kệ Sách</a>
                     </div>
                     <div class="card-price">
                         <span class="card-promotion-price">129.000</span>
@@ -759,20 +495,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">20% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/giuong-ngu-go-vline601/giuong-ngu-go-vline-1.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -792,26 +522,18 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <div class="card-discount">20% giảm</div>
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/ban-tra-tron-cao-go/ban-sofa-ban-cafe-ban-tra-tron-cao-go.png" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
-                        <a href="product-detail.jsp">
-                            Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao
-                        </a>
+                        <a href="product-detail.jsp">Bàn Sofa - Bàn Cafe - Bàn Trà Tròn Cao</a>
                     </div>
                     <div class="card-price">
                         <span class="card-promotion-price">639.000</span>
@@ -827,20 +549,14 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
             <div class="card">
                 <a href="product-detail.jsp" class="card-link"></a>
                 <!-- <div class="card-discount">0% giảm</div> -->
                 <div class="card-img">
-                    <img
-                            class="card-img-item"
-                            src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg"
-                            alt="card image"
-                    />
+                    <img class="card-img-item" src="../images/tu-ke-tivi-go/tu_ke_tu_tivi_go_1.jpg" alt="card image"/>
                 </div>
                 <div class="card-content">
                     <div class="card-title">
@@ -860,13 +576,10 @@
                             <ion-icon name="heart-outline"></ion-icon>
                         </div>
                     </div>
-                    <a href="/product-detail.jsp" class="btn-add-card"
-                    >Thêm vào giỏ hàng</a
-                    >
+                    <a href="/product-detail.jsp" class="btn-add-card">Thêm vào giỏ hàng</a>
                 </div>
             </div>
         </section>
-
         <section class="pagination">
             <ul class="pagination-list">
                 <!-- <li class="pagination-item">&larr;</li> -->
