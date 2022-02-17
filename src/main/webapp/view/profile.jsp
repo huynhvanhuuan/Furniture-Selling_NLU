@@ -1,24 +1,15 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 <head>
-
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" referrerpolicy="anonymous" />
-    <link
-            rel="stylesheet"
-            type="text/css"
-            href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
-    />
+    <c:import url="import/head.jsp"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" href="../css/header_signed_in.css" />
     <link rel="stylesheet" href="../css/user.css">
     <link rel="stylesheet" href="../css/root.css">
-    <c:import url="import/head.jsp"/>
     <title>Thông tin khách hàng</title>
 </head>
 <body>
-
-<!-- headerOfPage -->
-
 <header class="header">
     <div class="container">
         <div class="box">
@@ -87,9 +78,6 @@
         </div>
     </div>
 </header>
-
-<!-- bodyOfPage -->
-
 <main class="container-body">
     <section class="box-userr">
         <div class="circle-img-user">
@@ -138,16 +126,16 @@
                                     <p class="p_left">Giới tính :</p>
                                     <p class="p_right">Nam</p>
                                 </div></i>
-                                <i><div class="text">
-                                    <p class="p_left">Ngày sinh: </p>
-                                    <p class="p_right">25/03/2001</p>
-                                </div></i>
+                                <i>
+                                    <div class="text">
+                                        <p class="p_left">Ngày sinh: </p>
+                                        <p class="p_right">25/03/2001</p>
+                                    </div>
+                                </i>
                             </ul>
                         </div>
                         <div class="seen-btn">
-                            <div class="btn">
-                                <a  href="">Thay đổi hồ sơ</a>
-                            </div>
+                            <div class="btn"><a href="">Thay đổi hồ sơ</a></div>
                         </div>
                     </div>
                     <div class="btn-hide-part">
@@ -155,56 +143,38 @@
                             <ul>
                                 <i><div class="text">
                                     <p class="p_left">Tên đăng nhập :</p>
-                                    <div class="p_right"><input type="text" class="write"></input></div>
+                                    <div class="p_right"><input type="text" class="write"/></div>
                                 </div></i>
                                 <i><div class="text">
                                     <p class="p_left">Họ và tên :</p>
-                                    <div class="p_right"><input type="text" class="write"></input></div>
+                                    <div class="p_right"><input type="text" class="write"/></div>
                                 </div></i>
                                 <i><div class="text">
                                     <p class="p_left">Email :</p>
-                                    <div class="p_right"><input type="text" class="write"></input></div>
+                                    <div class="p_right"><input type="text" class="write"/></div>
                                 </div></i>
                                 <i><div class="text">
                                     <p class="p_left">Số điện thoại :</p>
-                                    <div class="p_right"><input type="text" class="write"></input></div>
+                                    <div class="p_right"><input type="text" class="write"/></div>
                                 </div></i>
                                 <i><div class="text">
                                     <p class="p_left">Giới tính</p>
                                     <div class="p_right list-sex">
                                         <div class="sex-item">
                                             <div class="check-sex">
-                                                <input
-                                                        type="radio"
-                                                        class="user__check-sex"
-                                                        id="check-sex__1"
-                                                        name="check-sex"
-                                                        checked
-                                                />
+                                                <input type="radio" class="user__check-sex" id="check-sex__1" name="check-sex" checked/>
                                             </div>
                                             <div class="sex-user-info">Nam</div>
                                         </div>
                                         <div class="sex-item">
                                             <div class="check-sex">
-                                                <input
-                                                        type="radio"
-                                                        class="user__check-sex"
-                                                        id="check-sex__1"
-                                                        name="check-sex"
-                                                        checked
-                                                />
+                                                <input type="radio" class="user__check-sex" id="check-sex__1" name="check-sex" checked/>
                                             </div>
                                             <div class="sex-user-info">Nữ</div>
                                         </div>
                                         <div class="sex-item">
                                             <div class="check-sex">
-                                                <input
-                                                        type="radio"
-                                                        class="user__check-sex"
-                                                        id="check-sex__1"
-                                                        name="check-sex"
-                                                        checked
-                                                />
+                                                <input type="radio" class="user__check-sex" id="check-sex__1" name="check-sex" checked/>
                                             </div>
                                             <div class="sex-user-info">Khác</div>
                                         </div>

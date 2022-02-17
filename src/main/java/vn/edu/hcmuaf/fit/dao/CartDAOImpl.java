@@ -42,14 +42,15 @@ public class CartDAOImpl implements CartDAO {
 	}
 	
 	@Override
-	public void addToCart(CartItem item) throws SQLException {
+	public boolean addToCart(CartItem item) throws SQLException {
 		connection = connectionPool.getConnection();
 		connectionPool.releaseConnection(connection);
 		PreparedStatement statement = connection.prepareStatement(QUERY.CART.ADD);
 		statement.setString(1, item.getUser().getId());
 		statement.setString(2, item.getProduct().getSku());
 		statement.setInt(3, item.getQuantity());
-		statement.executeUpdate();
+		int row = statement.executeUpdate();
+		return row > 0;
 	}
 	
 	@Override

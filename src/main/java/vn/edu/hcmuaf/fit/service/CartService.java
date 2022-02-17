@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CartService {
 	List<CartItem> getList(User user) throws SQLException, ParseException;
-	void addToCart(CartItem item) throws SQLException;
+	boolean addToCart(CartItem item) throws SQLException;
 	void updateQuantity(CartItem item) throws SQLException;
 	void removeFromCart(CartItem item) throws SQLException;
 	void removeAllFromCart(String userId) throws SQLException;

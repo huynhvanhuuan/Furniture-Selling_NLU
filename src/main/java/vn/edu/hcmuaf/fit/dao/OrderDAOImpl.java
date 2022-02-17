@@ -42,9 +42,7 @@ public class OrderDAOImpl implements OrderDAO {
             String address = rs.getString("address");
             Date dateCreated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date_created"));
             Date lastUpdated = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("last_updated"));
-
             List<OrderItem> listDetail = getListDetail(orderId);
-
             Order order = new Order(orderId, userId, totalPrice.intValue(), address, dateCreated, lastUpdated, listDetail);
             list.add(order);
         }

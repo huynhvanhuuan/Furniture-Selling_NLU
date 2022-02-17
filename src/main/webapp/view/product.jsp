@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/products.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/card.css" />
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/signup-signin.css" />
-    <title>Product - Furniture Selling</title>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/plugins/toastr/toastr.min.css">
+    <title>Amanda - Sản phẩm</title>
 </head>
 <body>
 <c:import url="import/header.jsp"/>
@@ -148,7 +150,7 @@
             <jsp:useBean id="products" scope="request" type="java.util.List"/>
             <c:forEach items="${products}" var="item">
                 <div class="card">
-                    <a href="product-detail.jsp" class="card-link"></a>
+                    <a href="<%=request.getContextPath()%>/product?id=${item.product.id}" class="card-link"></a>
                     <c:if test="${item.discount > 0}">
                         <div class="card-discount">35% giảm</div>
                     </c:if>
@@ -184,7 +186,7 @@
                                 <ion-icon name="heart-outline"></ion-icon>
                             </div>
                         </div>
-                        <a href="" class="btn-add-card" onclick="addToCart(${item.sku});">Thêm vào giỏ hàng</a>
+                        <a href="#" role="button" class="btn-add-card" onclick="return addToCart(${item.sku});">Thêm vào giỏ hàng</a>
                     </div>
                 </div>
             </c:forEach>
@@ -210,12 +212,36 @@
 <c:import url="import/script.jsp"/>
 <script src="../js/signup-signin.js"></script>
 <script src="../js/products.js"></script>
+<script src="<%=request.getContextPath()%>/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="<%=request.getContextPath()%>/plugins/toastr/toastr.min.js"></script>
 <script>
-    // Add to cart
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+    
     function addToCart(sku) {
         $.ajax({
-            
-        })
+            type: "POST",
+            url: '<%=request.getContextPath()%>/product?action=addToCart',
+            data: { sku: sku, quantity: 1 },
+            success: function (response) {
+                if (response.statusCode === 1) {
+                    Toast.fire({
+                        icon: 'success',
+                        title: response.message,
+                    })
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: response.message,
+                    })
+                }
+            }
+        });
+        return false;
     }
 </script>
 </body>

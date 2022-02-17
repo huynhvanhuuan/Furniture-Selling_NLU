@@ -16,11 +16,7 @@
         <div class="row">
             <div class="col">
                 <div class="d-flex justify-content-center" id="image-1">
-                    <img
-                            class="w-100 h-100"
-                            src="../images/about-us/about1.png"
-                            alt="Image 1"
-                    />
+                    <img class="w-100 h-100" src="../images/about-us/about1.png" alt="Image 1"/>
                 </div>
             </div>
             <div class="col">
@@ -77,7 +73,6 @@
     </div>
 </section>
 <c:import url="import/footer.jsp"/>
-
 <c:import url="import/signin-signup.jsp"/>
 <script src="../js/signup-signin.js"></script>
 <c:import url="import/script.jsp"/>

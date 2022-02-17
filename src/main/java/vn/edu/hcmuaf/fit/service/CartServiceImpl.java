@@ -23,8 +23,8 @@ public class CartServiceImpl implements CartService {
 	}
 	
 	@Override
-	public void addToCart(CartItem item) throws SQLException {
-		cartDAO.addToCart(item);
+	public boolean addToCart(CartItem item) throws SQLException {
+		return cartDAO.addToCart(item);
 	}
 	
 	@Override
